@@ -1,0 +1,1022 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>Training Details - Muthoot Appraisal System</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <!-- Google Fonts Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Custom Muthoot CSS -->
+    <link href="../static/css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <!-- Mobile Backdrop Overlay -->
+    <div class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-logo-container">
+                <img alt="Muthoot Finance Logo" class="brand-full-logo" src="../static/images/muthoot-logo.png" />
+                <img alt="Muthoot Finance Icon" class="brand-icon-logo" src="../static/images/muthoot-logo-toggle.png" />
+            </div>
+
+            <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+        </div>
+
+                <ul class="menu" id="sidebarMenu">
+            <div class="menu-section-header">HR Administration</div>
+            <li class="" onclick="window.location.href='hr_dashboard.html'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li class="" onclick="window.location.href='performance_results.html'"><i class="bi bi-award"></i> <span>Performance Results</span></li>
+            <li class="active" onclick="window.location.href='manage_training.html'"><i class="bi bi-mortarboard-fill"></i> <span>Manage Training</span></li>
+            <li class="" onclick="window.location.href='kra_management.html'"><i class="bi bi-bullseye"></i> <span>KRA Management</span></li>
+            <li class="" onclick="window.location.href='kpi_management.html'"><i class="bi bi-speedometer2"></i> <span>KPI Management</span></li>
+            <li class="" onclick="window.location.href='assign_kra.html'"><i class="bi bi-person-check"></i> <span>Assign KRA</span></li>
+            <li class="" onclick="window.location.href='assign_kpi.html'"><i class="bi bi-person-lines-fill"></i> <span>Assign KPI</span></li>
+            <li class="" onclick="window.location.href='kra_kpi_report.html'"><i class="bi bi-file-earmark-bar-graph"></i> <span>KRA / KPI Report</span></li>
+            <div class="menu-section-header">Account</div>
+            <li class="" onclick="window.location.href='profile.html'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
+            <li onclick="window.location.href='login.html'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
+        </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="content">
+
+        <!-- TOPBAR -->
+        <nav class="topbar">
+
+            <div class="topbar-left">
+
+                <button class="topbar-icon-btn d-lg-none" onclick="toggleSidebar()" title="Open Menu">
+                    <i class="bi bi-list"></i>
+                </button>
+
+                <h4>
+                    Welcome, Sunitha Varma
+                    <span class="text-muted fs-6 font-normal">(Head of HR)</span>
+                </h4>
+
+            </div>
+
+            <div class="topbar-right">
+
+                <div class="topbar-icons">
+
+                    <button class="topbar-icon-btn" data-bs-target="#notificationDrawer" data-bs-toggle="offcanvas"
+                        type="button">
+
+                        <i class="bi bi-bell"></i>
+                        <span class="notification-badge">4</span>
+
+                    </button>
+
+                    <button class="topbar-icon-btn" onclick="generatePDFReport('Training Details')">
+
+                        <i class="bi bi-file-earmark-pdf"></i>
+
+                    </button>
+
+                    <button class="topbar-icon-btn" onclick="generateExcelReport('Training_Details')">
+
+                        <i class="bi bi-file-earmark-excel"></i>
+
+                    </button>
+
+                </div>
+
+                <div class="user-badge">
+
+                    <img alt="Sunitha Varma"
+                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100" />
+
+                    <div class="user-badge-info">
+
+                        <span class="user-badge-name">
+                            Sunitha Varma
+                        </span>
+
+                        <span class="user-badge-role">
+                            Head Office
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+        <!-- PAGE CONTENT -->
+        <div class="dashboard-view active" id="training-details-view">
+
+            <!-- PAGE HEADER -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div>
+
+                    <h3 class="fw-bold">
+                        Training Details
+                    </h3>
+
+                    <p class="text-muted mb-0">
+                        View training information and monitor assigned employee progress.
+                    </p>
+
+                </div>
+
+                <a href="manage_training.html" class="btn btn-muthoot-outline">
+
+                    <i class="bi bi-arrow-left me-2"></i>
+                    Back to Training Management
+
+                </a>
+
+            </div>
+
+            <!-- TRAINING INFORMATION -->
+            <div class="card-muthoot mb-4">
+
+                <div class="card-title-muthoot">
+
+                    <span>
+                        <i class="bi bi-book me-2"></i>
+                        Training Information
+                    </span>
+
+                </div>
+
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label text-muted">
+                            Training ID
+                        </label>
+
+                        <div class="fw-semibold">
+                            TR001
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label text-muted">
+                            Training Name
+                        </label>
+
+                        <div class="fw-semibold">
+                            Python Basics
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label text-muted">
+                            Training Type
+                        </label>
+
+                        <div class="fw-semibold">
+                            Technical
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label text-muted">
+                            Trainer
+                        </label>
+
+                        <div class="fw-semibold">
+                            John Mathew
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label text-muted">
+                            Start Date
+                        </label>
+
+                        <div class="fw-semibold">
+                            01 August 2026
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label text-muted">
+                            End Date
+                        </label>
+
+                        <div class="fw-semibold">
+                            03 August 2026
+                        </div>
+
+                    </div>
+
+                    <div class="col-12">
+
+                        <label class="form-label text-muted">
+                            Description
+                        </label>
+
+                        <div class="text-muted">
+                            Introduction to Python programming concepts,
+                            syntax, functions, and basic application development.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ASSIGNED EMPLOYEES -->
+            <div class="card-muthoot">
+
+                <div class="card-title-muthoot d-flex justify-content-between align-items-center flex-wrap">
+
+                    <span>
+                        <i class="bi bi-people-fill me-2"></i>
+                        Assigned Employees
+                    </span>
+
+                    <span class="text-muted small">
+                        4 Employees Assigned
+                    </span>
+
+                </div>
+
+                <!-- FILTERS -->
+                <div class="row g-2 mb-3">
+
+                    <!-- Search -->
+                    <div class="col-md-4">
+
+                        <div class="input-group">
+
+                            <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+
+                            <input id="employeeSearch" class="form-control" placeholder="Search Employee" type="text" />
+
+                        </div>
+
+                    </div>
+
+                    <!-- Department -->
+                    <div class="col-md-3">
+
+                        <select id="departmentFilter" class="form-select">
+
+                            <option value="all">
+                                All Departments
+                            </option>
+
+                            <option value="Finance">
+                                Finance
+                            </option>
+
+                            <option value="HR">
+                                HR
+                            </option>
+
+                            <option value="Operations">
+                                Operations
+                            </option>
+
+                            <option value="IT">
+                                IT
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- Status -->
+                    <div class="col-md-3">
+
+                        <select id="employeeStatusFilter" class="form-select">
+
+                            <option value="all">
+                                All Status
+                            </option>
+
+                            <option value="Completed">
+                                Completed
+                            </option>
+
+                            <option value="In Progress">
+                                In Progress
+                            </option>
+
+                            <option value="Pending">
+                                Pending
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- Reset -->
+                    <div class="col-md-2">
+
+                        <button class="btn btn-muthoot-outline w-100" onclick="resetEmployeeFilters()">
+
+                            Reset
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- EMPLOYEE TABLE -->
+                <div class="table-responsive">
+
+                    <table class="table table-muthoot align-middle">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Employee ID</th>
+
+                                <th>Employee</th>
+
+                                <th>Department</th>
+
+                                <th>Status</th>
+
+                                <th>Score</th>
+
+                                <th>Certificate</th>
+
+                                <th>History</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="employeeTableBody">
+
+                            <!-- EMPLOYEE 1 -->
+                            <tr data-employee="Rahul Nair" data-department="Finance" data-status="Completed">
+
+                                <td>
+                                    EMP001
+                                </td>
+
+                                <td>
+                                    <span class="fw-semibold">
+                                        Rahul Nair
+                                    </span>
+                                </td>
+
+                                <td>
+                                    Finance
+                                </td>
+
+                                <td>
+
+                                    <span class="badge-muthoot completed">Completed</span>
+
+                                </td>
+
+                                <td>
+                                    <span class="fw-semibold">
+                                        92
+                                    </span>
+                                </td>
+
+                                <td>
+
+                                    <div class="d-flex gap-1">
+                                        <button class="btn btn-sm btn-outline-success"
+                                            onclick="viewCertificate('Rahul Nair')" title="View Certificate">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger"
+                                            onclick="removeCertificate('Rahul Nair')" title="Remove Certificate">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+
+                                </td>
+
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        onclick="viewTrainingHistory('Rahul Nair', 'EMP001', 'Finance')"
+                                        title="View Training History">
+                                        <i class="bi bi-clock-history me-1"></i>
+                                        History
+                                    </button>
+                                </td>
+
+                            </tr>
+
+                            <!-- EMPLOYEE 2 -->
+                            <tr data-employee="Anjali Thomas" data-department="HR" data-status="Pending">
+
+                                <td>
+                                    EMP002
+                                </td>
+
+                                <td>
+                                    <span class="fw-semibold">
+                                        Anjali Thomas
+                                    </span>
+                                </td>
+
+                                <td>
+                                    HR
+                                </td>
+
+                                <td>
+
+                                    <span class="badge-muthoot review">Pending</span>
+
+                                </td>
+
+                                <td>
+                                    —
+                                </td>
+
+                                <td>
+
+                                    <span class="text-muted small">—</span>
+
+                                </td>
+
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        onclick="viewTrainingHistory('Anjali Thomas', 'EMP002', 'HR')"
+                                        title="View Training History">
+                                        <i class="bi bi-clock-history me-1"></i>
+                                        History
+                                    </button>
+                                </td>
+
+                            </tr>
+
+                            <!-- EMPLOYEE 3 -->
+                            <tr data-employee="Arun Joseph" data-department="Operations" data-status="Completed">
+
+                                <td>
+                                    EMP003
+                                </td>
+
+                                <td>
+                                    <span class="fw-semibold">
+                                        Arun Joseph
+                                    </span>
+                                </td>
+
+                                <td>
+                                    Operations
+                                </td>
+
+                                <td>
+
+                                    <span class="badge-muthoot completed">Completed</span>
+
+                                </td>
+
+                                <td>
+                                    <span class="fw-semibold">
+                                        88
+                                    </span>
+                                </td>
+
+                                <td>
+
+                                    <button class="btn btn-sm btn-outline-primary"
+                                        onclick="openCertificateUpload('Arun Joseph')">
+                                        <i class="bi bi-upload me-1"></i>
+                                        Upload
+                                    </button>
+
+                                </td>
+
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        onclick="viewTrainingHistory('Arun Joseph', 'EMP003', 'Operations')"
+                                        title="View Training History">
+                                        <i class="bi bi-clock-history me-1"></i>
+                                        History
+                                    </button>
+                                </td>
+
+                            </tr>
+
+                            <!-- EMPLOYEE 4 -->
+                            <tr data-employee="Priya Menon" data-department="IT" data-status="In Progress">
+
+                                <td>
+                                    EMP004
+                                </td>
+
+                                <td>
+                                    <span class="fw-semibold">
+                                        Priya Menon
+                                    </span>
+                                </td>
+
+                                <td>
+                                    IT
+                                </td>
+
+                                <td>
+
+                                    <span class="badge bg-primary">
+                                        In Progress
+                                    </span>
+
+                                </td>
+
+                                <td>
+                                    —
+                                </td>
+
+                                <td>
+
+                                    <span class="text-muted small">—</span>
+
+                                </td>
+
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        onclick="viewTrainingHistory('Priya Menon', 'EMP004', 'IT')"
+                                        title="View Training History">
+                                        <i class="bi bi-clock-history me-1"></i>
+                                        History
+                                    </button>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <!-- EMPTY RESULT MESSAGE -->
+                <div id="noEmployeesMessage" class="text-center text-muted py-4 d-none">
+
+                    <i class="bi bi-search fs-4 d-block mb-2"></i>
+
+                    No employees found matching the selected filters.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- CERTIFICATE MODAL -->
+    <div class="modal fade" id="certificateModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white rounded-top-4">
+                    <h5 class="modal-title" id="certificateModalTitle">
+                        <i class="bi bi-file-earmark-text me-2"></i>
+                        Certificate
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="viewCertificateSection" class="text-center py-3">
+                        <i class="bi bi-file-earmark-pdf text-danger fs-1"></i>
+                        <h6 class="mt-3 mb-1" id="certificateEmployee">Rahul Nair</h6>
+                        <p class="text-muted mb-3">Python Basics Certificate</p>
+                        <div class="d-flex justify-content-center gap-2">
+                            <button type="button" class="btn btn-muthoot-outline">
+                                <i class="bi bi-eye me-2"></i>
+                                View Certificate
+                            </button>
+                            <button type="button" class="btn btn-outline-danger"
+                                onclick="removeCertificate(document.getElementById('certificateEmployee').textContent); bootstrap.Modal.getInstance(document.getElementById('certificateModal')).hide();">
+                                <i class="bi bi-trash me-2"></i>
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+                    <div id="uploadCertificateSection" class="d-none">
+                        <div class="mb-3">
+                            <label class="form-label">Employee</label>
+                            <div class="fw-semibold" id="uploadEmployeeName">Arun Joseph</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Training</label>
+                            <div class="fw-semibold">Python Basics</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Certificate File</label>
+                            <input type="file" class="form-control" id="certificateFile" accept=".pdf,.jpg,.jpeg,.png">
+                            <small class="text-muted">Accepted formats: PDF, JPG, JPEG, PNG</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-muthoot-outline px-4" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" id="uploadCertificateButton" class="btn btn-muthoot px-4 d-none"
+                        onclick="uploadCertificate()">
+                        <i class="bi bi-upload me-2"></i>
+                        Upload Certificate
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EMPLOYEE TRAINING HISTORY MODAL -->
+    <div class="modal fade" id="trainingHistoryModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white rounded-top-4">
+                    <div>
+                        <h5 class="modal-title">
+                            <i class="bi bi-clock-history me-2"></i>
+                            Employee Training History
+                        </h5>
+                        <small class="text-muted" id="historyEmployeeInfo"></small>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-muthoot align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Training</th>
+                                    <th>Training Type</th>
+                                    <th>Dates</th>
+                                    <th>Status</th>
+                                    <th>Score</th>
+                                    <th>Certificate</th>
+                                </tr>
+                            </thead>
+                            <tbody id="trainingHistoryTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-muthoot-outline px-4" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTIFICATIONS -->
+    <div class="offcanvas offcanvas-end" id="notificationDrawer" tabindex="-1">
+
+        <div class="offcanvas-header border-bottom">
+
+            <h5 class="offcanvas-title text-danger font-semibold">
+
+                <i class="bi bi-bell-fill me-2"></i>
+                HR System Notifications
+
+            </h5>
+
+            <button class="btn-close" data-bs-dismiss="offcanvas" type="button">
+            </button>
+
+        </div>
+
+        <div class="offcanvas-body">
+
+            <div id="notificationList"></div>
+
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="../static/js/dashboard.js"></script>
+
+    <script>
+        function filterEmployees() {
+            const searchValue = document.getElementById("employeeSearch").value.toLowerCase().trim();
+            const department = document.getElementById("departmentFilter").value;
+            const status = document.getElementById("employeeStatusFilter").value;
+            const rows = document.querySelectorAll("#employeeTableBody tr");
+            let visibleCount = 0;
+
+            rows.forEach(row => {
+                const employee = row.dataset.employee.toLowerCase();
+                const rowDepartment = row.dataset.department;
+                const rowStatus = row.dataset.status;
+                const matchesSearch = employee.includes(searchValue);
+                const matchesDepartment = department === "all" || rowDepartment === department;
+                const matchesStatus = status === "all" || rowStatus === status;
+
+                if (matchesSearch && matchesDepartment && matchesStatus) {
+                    row.style.display = "";
+                    visibleCount++;
+                } else {
+                    row.style.display = "none";
+                }
+            });
+
+            document.getElementById("noEmployeesMessage").classList.toggle("d-none", visibleCount !== 0);
+        }
+
+        document.getElementById("employeeSearch").addEventListener("input", filterEmployees);
+        document.getElementById("departmentFilter").addEventListener("change", filterEmployees);
+        document.getElementById("employeeStatusFilter").addEventListener("change", filterEmployees);
+
+        function resetEmployeeFilters() {
+            document.getElementById("employeeSearch").value = "";
+            document.getElementById("departmentFilter").value = "all";
+            document.getElementById("employeeStatusFilter").value = "all";
+            filterEmployees();
+        }
+
+        const trainingHistory = {
+            "Rahul Nair": [
+                {
+                    training: "Python Basics",
+                    type: "Technical",
+                    dates: "01 Aug - 03 Aug 2026",
+                    status: "Completed",
+                    score: "92",
+                    certificate: true
+                },
+                {
+                    training: "Cyber Security",
+                    type: "Compliance",
+                    dates: "10 Jul - 12 Jul 2026",
+                    status: "Completed",
+                    score: "88",
+                    certificate: true
+                },
+                {
+                    training: "Customer Handling",
+                    type: "Soft Skills",
+                    dates: "15 Jun - 17 Jun 2026",
+                    status: "Completed",
+                    score: "85",
+                    certificate: true
+                }
+            ],
+            "Anjali Thomas": [
+                {
+                    training: "Python Basics",
+                    type: "Technical",
+                    dates: "01 Aug - 03 Aug 2026",
+                    status: "Pending",
+                    score: "—",
+                    certificate: false
+                },
+                {
+                    training: "Workplace Communication",
+                    type: "Soft Skills",
+                    dates: "05 Jul - 06 Jul 2026",
+                    status: "Completed",
+                    score: "90",
+                    certificate: true
+                }
+            ],
+            "Arun Joseph": [
+                {
+                    training: "Python Basics",
+                    type: "Technical",
+                    dates: "01 Aug - 03 Aug 2026",
+                    status: "Completed",
+                    score: "88",
+                    certificate: false
+                },
+                {
+                    training: "Leadership Skills",
+                    type: "Soft Skills",
+                    dates: "18 Jun - 20 Jun 2026",
+                    status: "Completed",
+                    score: "84",
+                    certificate: true
+                }
+            ],
+            "Priya Menon": [
+                {
+                    training: "Python Basics",
+                    type: "Technical",
+                    dates: "01 Aug - 03 Aug 2026",
+                    status: "In Progress",
+                    score: "—",
+                    certificate: false
+                },
+                {
+                    training: "Data Security Awareness",
+                    type: "Compliance",
+                    dates: "08 Jul - 09 Jul 2026",
+                    status: "Completed",
+                    score: "91",
+                    certificate: true
+                }
+            ]
+        };
+
+        function viewTrainingHistory(employeeName, employeeId, department) {
+            const history = trainingHistory[employeeName] || [];
+            const tableBody = document.getElementById("trainingHistoryTableBody");
+
+            document.getElementById("historyEmployeeInfo").textContent =
+                `${employeeName} • ${employeeId} • ${department}`;
+
+            if (history.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center text-muted py-4">
+                            No training history available.
+                        </td>
+                    </tr>`;
+            } else {
+                tableBody.innerHTML = history.map(record => {
+                    const statusClass =
+                        record.status === "Completed"
+                            ? "bg-success"
+                            : record.status === "In Progress"
+                                ? "bg-primary"
+                                : "bg-warning text-dark";
+
+                    const certificate = record.certificate
+                        ? `<button type="button" class="btn btn-sm btn-outline-success"
+                            onclick="viewHistoryCertificate('${employeeName}')"
+                            title="View Certificate">
+                            <i class="bi bi-file-earmark-text me-1"></i>
+                            View
+                           </button>`
+                        : `<span class="text-muted small">—</span>`;
+
+                    return `
+                        <tr>
+                            <td class="fw-semibold">${record.training}</td>
+                            <td>${record.type}</td>
+                            <td>${record.dates}</td>
+                            <td><span class="badge ${statusClass}">${record.status}</span></td>
+                            <td>${record.score}</td>
+                            <td>${certificate}</td>
+                        </tr>`;
+                }).join("");
+            }
+
+            new bootstrap.Modal(document.getElementById("trainingHistoryModal")).show();
+        }
+
+        function showCertificateModal() {
+            new bootstrap.Modal(document.getElementById("certificateModal")).show();
+        }
+
+        function showCertificateModal() {
+            const certificateModal = new bootstrap.Modal(
+                document.getElementById("certificateModal")
+            );
+            certificateModal.show();
+        }
+
+        function viewCertificate(employeeName) {
+            const historyModalElement = document.getElementById("trainingHistoryModal");
+            const historyModal = bootstrap.Modal.getInstance(historyModalElement);
+
+            document.getElementById("certificateModalTitle").innerHTML =
+                '<i class="bi bi-file-earmark-text me-2"></i>Certificate';
+            document.getElementById("certificateEmployee").textContent = employeeName;
+            document.getElementById("viewCertificateSection").classList.remove("d-none");
+            document.getElementById("uploadCertificateSection").classList.add("d-none");
+            document.getElementById("uploadCertificateButton").classList.add("d-none");
+
+            if (historyModalElement.classList.contains("show") && historyModal) {
+                historyModalElement.addEventListener("hidden.bs.modal", showCertificateModal, { once: true });
+                historyModal.hide();
+            } else {
+                showCertificateModal();
+            }
+        }
+
+        function viewHistoryCertificate(employeeName) {
+            viewCertificate(employeeName);
+        }
+
+        function openCertificateUpload(employeeName) {
+            document.getElementById("certificateModalTitle").innerHTML =
+                '<i class="bi bi-upload me-2"></i>Upload Certificate';
+            document.getElementById("uploadEmployeeName").textContent = employeeName;
+            document.getElementById("certificateFile").value = "";
+            document.getElementById("viewCertificateSection").classList.add("d-none");
+            document.getElementById("uploadCertificateSection").classList.remove("d-none");
+            document.getElementById("uploadCertificateButton").classList.remove("d-none");
+            document.getElementById("uploadCertificateButton").dataset.employee = employeeName;
+            showCertificateModal();
+        }
+
+        function removeCertificate(employeeName) {
+            const confirmed = confirm(
+                "Are you sure you want to remove the certificate for " + employeeName + "?"
+            );
+
+            if (!confirmed) {
+                return;
+            }
+
+            document.querySelectorAll("#employeeTableBody tr").forEach(row => {
+                if (row.dataset.employee === employeeName) {
+                    row.children[5].innerHTML = `
+                        <button class="btn btn-sm btn-outline-primary"
+                            onclick="openCertificateUpload('${employeeName}')"
+                            title="Upload Certificate">
+                            <i class="bi bi-upload me-1"></i>
+                            Upload
+                        </button>`;
+                    row.dataset.certificate = "false";
+                }
+            });
+
+            if (typeof trainingHistory !== "undefined" && trainingHistory[employeeName]) {
+                trainingHistory[employeeName].forEach(record => {
+                    if (record.certificate === true) {
+                        record.certificate = false;
+                    }
+                });
+            }
+
+            alert("Certificate removed successfully.");
+        }
+
+        function uploadCertificate() {
+            const fileInput = document.getElementById("certificateFile");
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert("Please select a certificate file.");
+                return;
+            }
+
+            const allowedTypes = ["application/pdf", "image/jpeg", "image/png"];
+
+            if (!allowedTypes.includes(file.type)) {
+                alert("Please select a PDF, JPG, JPEG, or PNG certificate file.");
+                return;
+            }
+
+            const employeeName = document.getElementById("uploadCertificateButton").dataset.employee;
+
+            document.querySelectorAll("#employeeTableBody tr").forEach(row => {
+                if (row.dataset.employee === employeeName) {
+                    row.children[5].innerHTML = `
+                        <div class="d-flex gap-1">
+                            <button class="btn btn-sm btn-outline-success"
+                                onclick="viewCertificate('${employeeName}')"
+                                title="View Certificate">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger"
+                                onclick="removeCertificate('${employeeName}')"
+                                title="Remove Certificate">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>`;
+                    row.dataset.certificate = "true";
+                }
+            });
+
+            bootstrap.Modal.getInstance(document.getElementById("certificateModal")).hide();
+            alert("Certificate selected successfully: " + file.name);
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Request - Muthoot Employee Appraisal System</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom Muthoot Minimal CSS -->
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+
+    <!-- Mobile Backdrop Overlay -->
+    <div class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+
+    <!-- --- SIDEBAR WITH TOGGLE BUTTON INSIDE --- -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-logo-container">
+                <img src="../static/images/muthoot-logo.png" alt="Muthoot Finance Logo" class="brand-full-logo">
+                <img src="../static/images/muthoot-logo-toggle.png" alt="Muthoot Finance Icon" class="brand-icon-logo">
+            </div>
+            <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+        </div>
+        
+        <ul class="menu" id="sidebarMenu">
+            <div class="menu-section-header">Main Menu</div>
+            <li onclick="window.location.href='employee_dashboard.html'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li onclick="window.location.href='my_appraisals.html'"><i class="bi bi-clipboard-check"></i> <span>My Appraisals</span></li>
+            <li onclick="window.location.href='appraisal_form.html'"><i class="bi bi-file-earmark-text"></i> <span>Appraisal Form</span></li>
+            <li onclick="window.location.href='self_appraisal.html'"><i class="bi bi-person-badge"></i> <span>Self-Appraisal</span></li>
+            <li onclick="window.location.href='employee_goals.html'"><i class="bi bi-bullseye"></i> <span>Goals & KRAs</span></li>
+            <li onclick="window.location.href='employee_attendance.html'"><i class="bi bi-calendar-check"></i> <span>Attendance</span></li>
+            <li class="active" onclick="window.location.href='leave_request.html'"><i class="bi bi-calendar-plus"></i> <span>Leave Request</span></li>
+            <li onclick="window.location.href='employee_training.html'"><i class="bi bi-mortarboard"></i> <span>Training</span></li>
+            <div class="menu-section-header">Account</div>
+            <li onclick="window.location.href='profile.html'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
+            <li onclick="window.location.href='login.html'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
+        </ul>
+    </aside>
+
+    <!-- --- MAIN CONTENT WRAPPER --- -->
+    <main class="content">
+        
+        <!-- --- TOPBAR NAVBAR --- -->
+        <nav class="topbar">
+            <div class="topbar-left">
+                <button class="topbar-icon-btn d-lg-none" onclick="toggleSidebar()" title="Open Menu">
+                    <i class="bi bi-list"></i>
+                </button>
+                <h4>Leave Request Form <span class="text-muted fs-6 font-normal">(John Doe)</span></h4>
+            </div>
+            <div class="topbar-right">
+                <div class="topbar-icons">
+                    <button class="topbar-icon-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#notificationDrawer" title="Notifications">
+                        <i class="bi bi-bell"></i>
+                        <span class="notification-badge" id="unreadBadge">2</span>
+                    </button>
+                </div>
+                
+                <div class="user-badge" onclick="window.location.href='profile.html'" style="cursor: pointer;">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100" alt="John Doe">
+                    <div class="user-badge-info">
+                        <span class="user-badge-name">John Doe</span>
+                        <span class="user-badge-role">Loan Officer</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- --- LEAVE BALANCES ROW --- -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h6>Casual Leave Balance</h6>
+                        <h2>8 Days</h2>
+                    </div>
+                    <div class="stat-icon red-icon">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card gold-border">
+                    <div class="stat-info">
+                        <h6>Sick Leave Balance</h6>
+                        <h2>6 Days</h2>
+                    </div>
+                    <div class="stat-icon gold-icon">
+                        <i class="bi bi-hospital"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h6>Annual Privilege Leave</h6>
+                        <h2>12 Days</h2>
+                    </div>
+                    <div class="stat-icon red-icon">
+                        <i class="bi bi-airplane"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- --- LEAVE REQUEST FORM CARD --- -->
+        <div class="card-muthoot" id="leaveFormCard">
+            <div class="card-title-muthoot mb-4">
+                <span><i class="bi bi-calendar-plus-fill me-2"></i> Submit New Leave Request</span>
+            </div>
+
+            <form onsubmit="submitLeaveRequest(event)">
+                <div class="mb-3">
+                    <label class="form-label font-medium">Leave Category Type</label>
+                    <select class="form-select" id="leaveType" required>
+                        <option value="Casual Leave">Casual Leave (CL)</option>
+                        <option value="Sick Leave">Sick Leave (SL)</option>
+                        <option value="Annual Privilege Leave">Annual Privilege Leave (PL)</option>
+                    </select>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label font-medium">Start Date</label>
+                        <input type="date" class="form-control" id="startDate" required value="2026-08-20">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label font-medium">End Date</label>
+                        <input type="date" class="form-control" id="endDate" required value="2026-08-22">
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label font-medium">Reason for Leave</label>
+                    <textarea class="form-control" id="reason" rows="3" placeholder="Provide reason for leave request..." required>Personal family function and travel.</textarea>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2">
+                    <button type="button" class="btn btn-muthoot-outline" onclick="window.location.href='employee_attendance.html'">Cancel</button>
+                    <button type="submit" class="btn btn-muthoot"><i class="bi bi-send me-1"></i> Submit Leave Request</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- --- SUBMITTED SUCCESS CARD (HIDDEN BY DEFAULT) --- -->
+        <div class="card-muthoot" id="leaveSuccessCard" style="display: none;">
+            <div class="text-center py-4">
+                <div class="stat-icon red-icon fs-1 mx-auto mb-3" style="width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">
+                    <i class="bi bi-check-circle-fill text-danger"></i>
+                </div>
+                <h3 class="fw-bold text-danger mb-2">Leave Request Submitted!</h3>
+                <p class="text-muted mb-4">Your leave request has been sent to your branch manager for approval.</p>
+
+                <div class="table-responsive max-w-700 mx-auto border rounded-3 p-3 bg-light text-start mb-4">
+                    <table class="table table-sm table-borderless mb-0">
+                        <tr><th class="w-30">Leave Type:</th><td id="resLeaveType"></td></tr>
+                        <tr><th>Start Date:</th><td id="resStart"></td></tr>
+                        <tr><th>End Date:</th><td id="resEnd"></td></tr>
+                        <tr><th>Reason:</th><td id="resReason"></td></tr>
+                    </table>
+                </div>
+
+                <div class="d-flex justify-content-center gap-2">
+                    <a href="employee_attendance.html" class="btn btn-muthoot"><i class="bi bi-calendar-check me-1"></i> Back to Attendance Logs</a>
+                    <a href="employee_dashboard.html" class="btn btn-muthoot-outline"><i class="bi bi-grid-fill me-1"></i> Back to Dashboard</a>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- --- NOTIFICATIONS OFFCANVAS DRAWER --- -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="notificationDrawer">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="offcanvas-title text-danger font-semibold"><i class="bi bi-bell-fill me-2"></i> Notifications</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div id="notificationList"></div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/js/dashboard.js"></script>
+    <script>
+        function submitLeaveRequest(e) {
+            e.preventDefault();
+            document.getElementById('resLeaveType').innerText = document.getElementById('leaveType').value;
+            document.getElementById('resStart').innerText = document.getElementById('startDate').value;
+            document.getElementById('resEnd').innerText = document.getElementById('endDate').value;
+            document.getElementById('resReason').innerText = document.getElementById('reason').value;
+
+            document.getElementById('leaveFormCard').style.display = 'none';
+            document.getElementById('leaveSuccessCard').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

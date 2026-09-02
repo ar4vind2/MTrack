@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Muthoot Employee Appraisal System</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Font Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom Muthoot Minimal CSS -->
+    <link rel="stylesheet" href="../static/css/style.css">
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #FFFDF0 0%, #F4F6F8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 1000px;
+            min-height: 580px;
+            background: #FFFFFF;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            display: flex;
+            border: 1px solid #E5E7EB;
+        }
+
+        .login-left {
+            width: 50%;
+            background: linear-gradient(145deg, #C8102E, #9B0B22);
+            color: #FFFFFF;
+            padding: 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-left::before {
+            content: "";
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            top: -80px;
+            right: -80px;
+        }
+
+        .login-left::after {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.04);
+            bottom: -80px;
+            left: -80px;
+        }
+
+        .login-brand-logo {
+            max-width: 190px;
+            height: auto;
+            background: #FFFFFF;
+            padding: 8px 14px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome-title {
+            font-size: 30px;
+            font-weight: 700;
+            line-height: 1.3;
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome-text {
+            font-size: 14px;
+            line-height: 1.7;
+            opacity: 0.9;
+            margin-top: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-icon-box {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .login-right {
+            width: 50%;
+            padding: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-form-box {
+            width: 100%;
+            max-width: 380px;
+        }
+
+        .login-heading {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1F2937;
+            margin-bottom: 6px;
+        }
+
+        .login-subtitle {
+            font-size: 13px;
+            color: #6B7280;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 800px) {
+            .login-wrapper {
+                flex-direction: column;
+                min-height: auto;
+            }
+            .login-left {
+                width: 100%;
+                padding: 30px;
+            }
+            .login-right {
+                width: 100%;
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-wrapper">
+        <!-- LEFT BRAND SECTION -->
+        <div class="login-left">
+            <img src="../static/images/muthoot-logo.png" alt="Muthoot Finance Logo" class="login-brand-logo">
+            
+            <div class="welcome-title">Employee Appraisal System</div>
+            <div class="welcome-text">
+                Centralized platform for employee performance reviews, appraisal cycles, KPI achievements, 360 feedback, and career growth.
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon-box"><i class="bi bi-shield-check"></i></div>
+                <span class="fs-7">Role-Based Access Control (RBAC)</span>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon-box"><i class="bi bi-graph-up-arrow"></i></div>
+                <span class="fs-7">Real-Time Performance Analytics</span>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon-box"><i class="bi bi-chat-square-heart"></i></div>
+                <span class="fs-7">360° Feedback & Behaviour Rating</span>
+            </div>
+        </div>
+
+        <!-- RIGHT FORM SECTION -->
+        <div class="login-right">
+            <div class="login-form-box">
+                <div class="login-heading">Welcome Back</div>
+                <div class="login-subtitle">Sign in to access your Muthoot appraisal portal.</div>
+
+                <div id="errorMessage" class="alert alert-danger p-2 fs-7 mb-3" style="display: none;">
+                    <i class="bi bi-exclamation-circle me-1"></i> <span id="errorText">Invalid credentials.</span>
+                </div>
+
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="mb-3">
+                        <label class="form-label font-medium fs-7">Username / Employee ID</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 text-danger"><i class="bi bi-person"></i></span>
+                            <input type="text" id="username" class="form-control border-start-0 ps-0" placeholder="e.g. emp001, manager001, hr001" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label font-medium fs-7">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 text-danger"><i class="bi bi-lock"></i></span>
+                            <input type="password" id="password" class="form-control border-start-0 border-end-0 ps-0" placeholder="Enter password" required>
+                            <span class="input-group-text bg-light border-start-0 text-muted" style="cursor: pointer;" onclick="togglePassword()">
+                                <i id="passwordIcon" class="bi bi-eye"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-4 fs-7">
+                        <div class="form-check">
+                            <input type="checkbox" id="rememberMe" class="form-check-input">
+                            <label for="rememberMe" class="form-check-label text-muted">Remember Me</label>
+                        </div>
+                        <a href="#" class="text-danger text-decoration-none fw-medium" onclick="alert('Password reset instructions sent to your corporate email.')">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" id="loginButton" class="btn btn-muthoot w-100 py-2">
+                        <span id="loginText"><i class="bi bi-box-arrow-in-right me-1"></i> Sign In</span>
+                    </button>
+                </form>
+
+                <div class="text-center text-muted fs-7 mt-4">
+                    © 2026 Muthoot Finance Ltd. All Rights Reserved.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function togglePassword() {
+            const password = document.getElementById("password");
+            const icon = document.getElementById("passwordIcon");
+            if (password.type === "password") {
+                password.type = "text";
+                icon.className = "bi bi-eye-slash";
+            } else {
+                password.type = "password";
+                icon.className = "bi bi-eye";
+            }
+        }
+
+        async function handleLogin(event) {
+
+    event.preventDefault();
+
+    const username =
+        document.getElementById("username").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    const errorMessage =
+        document.getElementById("errorMessage");
+
+    const errorText =
+        document.getElementById("errorText");
+
+    const loginButton =
+        document.getElementById("loginButton");
+
+    const loginText =
+        document.getElementById("loginText");
+
+
+    // Hide previous error
+    errorMessage.style.display = "none";
+
+
+    // Validate input
+    if (!username || !password) {
+
+        errorText.textContent =
+            "Please enter username and password.";
+
+        errorMessage.style.display = "block";
+
+        return;
+    }
+
+
+    // Disable button
+    loginButton.disabled = true;
+
+    loginText.innerHTML =
+        '<span class="spinner-border spinner-border-sm me-2"></span> Authenticating...';
+
+
+    try {
+
+        const csrfResponse = await fetch(
+            "/api/csrf-token",
+            {
+                credentials: "include"
+            }
+        );
+
+        const csrfData = await csrfResponse.json();
+
+        if (!csrfResponse.ok || !csrfData.csrf_token) {
+            throw new Error("Unable to initialise a secure login request.");
+        }
+
+        const response = await fetch(
+            "/api/auth/login",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-Token": csrfData.csrf_token
+                },
+
+                credentials: "include",
+
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            }
+        );
+
+
+        const result = await response.json();
+
+
+        // Backend rejected login
+        if (!response.ok || !result.success) {
+
+            throw new Error(
+                result.message ||
+                "Invalid username or password."
+            );
+        }
+
+
+        console.log(
+            "Login successful:",
+            result.user
+        );
+
+
+        // Get role from Flask
+        const role =
+            result.user.role.toLowerCase();
+
+
+        // Redirect based on role
+
+        if (role === "employee") {
+
+            window.location.href =
+                "/employee-dashboard";
+
+        }
+
+        else if (role === "manager") {
+            window.location.href =
+                "/manager-dashboard";
+
+        }
+
+        else if (role === "hr") {
+
+            window.location.href =
+                "/hr-dashboard";
+
+        }
+
+        else if (role === "admin") {
+
+            window.location.href =
+                "/admin-dashboard";
+
+        }
+
+        else {
+
+            throw new Error(
+                "Unknown user role."
+            );
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Login error:",
+            error
+        );
+
+
+        errorText.textContent =
+            error.message;
+
+        errorMessage.style.display =
+            "block";
+
+
+        loginButton.disabled = false;
+
+        loginText.innerHTML =
+            '<i class="bi bi-box-arrow-in-right me-1"></i> Sign In';
+    }
+}
+    </script>
+</body>
+</html>

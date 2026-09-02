@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>HR Training Management - Muthoot Appraisal System</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Google Fonts Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <!-- ApexCharts CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/apexcharts@3.45.1/dist/apexcharts.css" rel="stylesheet" />
+    <!-- Custom Muthoot Minimal CSS -->
+    <link href="../static/css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- Mobile Backdrop Overlay -->
+    <div class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+
+    <!-- --- SIDEBAR WITH TOGGLE BUTTON INSIDE --- -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-logo-container">
+                <img alt="Muthoot Finance Logo" class="brand-full-logo" src="../static/images/muthoot-logo.png" />
+                <img alt="Muthoot Finance Icon" class="brand-icon-logo" src="../static/images/muthoot-logo-toggle.png" />
+            </div>
+            <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+        </div>
+
+                <ul class="menu" id="sidebarMenu">
+            <div class="menu-section-header">HR Administration</div>
+            <li class="" onclick="window.location.href='hr_dashboard.html'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li class="" onclick="window.location.href='performance_results.html'"><i class="bi bi-award"></i> <span>Performance Results</span></li>
+            <li class="active" onclick="window.location.href='manage_training.html'"><i class="bi bi-mortarboard-fill"></i> <span>Manage Training</span></li>
+            <li class="" onclick="window.location.href='kra_management.html'"><i class="bi bi-bullseye"></i> <span>KRA Management</span></li>
+            <li class="" onclick="window.location.href='kpi_management.html'"><i class="bi bi-speedometer2"></i> <span>KPI Management</span></li>
+            <li class="" onclick="window.location.href='assign_kra.html'"><i class="bi bi-person-check"></i> <span>Assign KRA</span></li>
+            <li class="" onclick="window.location.href='assign_kpi.html'"><i class="bi bi-person-lines-fill"></i> <span>Assign KPI</span></li>
+            <li class="" onclick="window.location.href='kra_kpi_report.html'"><i class="bi bi-file-earmark-bar-graph"></i> <span>KRA / KPI Report</span></li>
+            <div class="menu-section-header">Account</div>
+            <li class="" onclick="window.location.href='profile.html'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
+            <li onclick="window.location.href='login.html'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
+        </ul>
+    </aside>
+
+    <!-- --- MAIN CONTENT WRAPPER --- -->
+    <main class="content">
+        <!-- --- TOPBAR NAVBAR --- -->
+        <nav class="topbar">
+            <div class="topbar-left">
+                <button class="topbar-icon-btn d-lg-none" onclick="toggleSidebar()" title="Open Menu">
+                    <i class="bi bi-list"></i>
+                </button>
+                <h4>
+                    Welcome, Sunitha Varma
+                    <span class="text-muted fs-6 font-normal">(Head of HR)</span>
+                </h4>
+            </div>
+
+            <div class="topbar-right">
+                <div class="topbar-icons">
+                    <button class="topbar-icon-btn" data-bs-target="#notificationDrawer" data-bs-toggle="offcanvas"
+                        type="button">
+                        <i class="bi bi-bell"></i>
+                        <span class="notification-badge">4</span>
+                    </button>
+                    <button class="topbar-icon-btn" onclick="generatePDFReport('Organization Performance Summary')">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                    </button>
+                    <button class="topbar-icon-btn" onclick="generateExcelReport('HR_Promotion_Increments')">
+                        <i class="bi bi-file-earmark-excel"></i>
+                    </button>
+                </div>
+
+                <div class="user-badge">
+                    <img alt="Sunitha Varma"
+                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&amp;fit=crop&amp;q=80&amp;w=100" />
+                    <div class="user-badge-info">
+                        <span class="user-badge-name">Sunitha Varma</span>
+                        <span class="user-badge-role">Head Office</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- --- HR DASHBOARD CONTENT --- -->
+        <div class="dashboard-view active" id="hr-view">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h3 class="fw-bold">Manage Training Programs</h3>
+                    <p class="text-muted mb-2">Create, assign and monitor employee training programs.</p>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h6>Total Trainings</h6>
+                            <h2>24</h2>
+                            <p class="text-muted mb-0">Training Programs</p>
+                        </div>
+                        <div class="stat-icon red-icon">
+                            <i class="bi bi-journal-bookmark-fill"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="stat-card gold-border">
+                        <div class="stat-info">
+                            <h6>Active</h6>
+                            <h2>18</h2>
+                            <p class="text-muted mb-0">Currently Active</p>
+                        </div>
+                        <div class="stat-icon gold-icon">
+                            <i class="bi bi-play-circle-fill"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h6>Completed</h6>
+                            <h2>5</h2>
+                            <p class="text-muted mb-0">Completed</p>
+                        </div>
+                        <div class="stat-icon red-icon">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="stat-card gold-border">
+                        <div class="stat-info">
+                            <h6>Pending</h6>
+                            <h2>1</h2>
+                            <p class="text-muted mb-0">Pending Approval</p>
+                        </div>
+                        <div class="stat-icon gold-icon">
+                            <i class="bi bi-hourglass-split"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-muthoot">
+                <div class="card-title-muthoot d-flex justify-content-between align-items-center flex-wrap">
+                    <span>
+                        <i class="bi bi-book me-2"></i>
+                        Training Programs
+                    </span>
+                </div>
+
+                <div class="row g-2 mb-3">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+                            <input id="searchTraining" class="form-control" placeholder="Search Training" type="text" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <select id="typeFilter" class="form-select">
+                            <option>All Types</option>
+                            <option>Technical</option>
+                            <option>HR</option>
+                            <option>Compliance</option>
+                            <option>Soft Skills</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <select id="statusFilter" class="form-select">
+                            <option>All Status</option>
+                            <option>Active</option>
+                            <option>Completed</option>
+                            <option>Pending</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-auto ms-auto d-flex gap-2">
+                        <button class="btn btn-muthoot-outline" onclick="resetFilters()">Reset</button>
+                        <button class="btn btn-muthoot" data-bs-target="#addTrainingModal" data-bs-toggle="modal">
+                            <i class="bi bi-plus-circle-fill text-white me-2"></i>
+                            Add Training
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-muthoot align-middle">
+                        <thead>
+                            <tr>
+                                <th style="width: 8%;">ID</th>
+                                <th style="width: 28%;">Training</th>
+                                <th style="width: 15%;">Type</th>
+                                <th style="width: 18%;">Trainer</th>
+                                <th style="width: 10%;">Start</th>
+                                <th style="width: 10%;">End</th>
+                                <th style="width: 6%;">Status</th>
+                                <th class="text-center" style="width: 5%;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>TR001</td>
+                                <td>Python Basics</td>
+                                <td>Technical</td>
+                                <td>John Mathew</td>
+                                <td>01-08-2026</td>
+                                <td>03-08-2026</td>
+                                <td><span class="badge-muthoot completed">Active</span></td>
+                                <td class="text-center">
+                                    <div class="dropdown text-center">
+                                        <button class="btn btn-sm btn-light rounded-circle" aria-expanded="false"
+                                            data-bs-toggle="dropdown" type="button">
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end shadow">
+                                            <li>
+                                                <a class="dropdown-item" href="training_details.html"><i class="bi bi-eye me-2"></i> View</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#">
+                                                    <i class="bi bi-pencil me-2"></i>
+                                                    Edit
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <hr class="dropdown-divider" />
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item text-danger" href="#">
+                                                    <i class="bi bi-trash me-2"></i>
+                                                    Delete
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>TR002</td>
+                                <td>HR Compliance</td>
+                                <td>Compliance</td>
+                                <td>Sarah Joseph</td>
+                                <td>08-08-2026</td>
+                                <td>09-08-2026</td>
+                                <td><span class="badge-muthoot completed">Completed</span></td>
+                                <td class="text-center">
+                                    <div class="dropdown text-center">
+                                        <button class="btn btn-sm btn-light rounded-circle" aria-expanded="false"
+                                            data-bs-toggle="dropdown" type="button">
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end shadow">
+                                            <li>
+                                                <a class="dropdown-item" href="training_details.html"><i class="bi bi-eye me-2"></i> View</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#">
+                                                    <i class="bi bi-pencil me-2"></i>
+                                                    Edit
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <hr class="dropdown-divider" />
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item text-danger" href="#">
+                                                    <i class="bi bi-trash me-2"></i>
+                                                    Delete
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>TR003</td>
+                                <td>Communication Skills</td>
+                                <td>Soft Skills</td>
+                                <td>David Thomas</td>
+                                <td>08-08-2026</td>
+                                <td>09-08-2026</td>
+                                <td><span class="badge-muthoot completed">Completed</span></td>
+                                <td class="text-center">
+                                    <div class="dropdown text-center">
+                                        <button class="btn btn-sm btn-light rounded-circle" aria-expanded="false"
+                                            data-bs-toggle="dropdown" type="button">
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end shadow">
+                                            <li>
+                                                <a class="dropdown-item" href="training_details.html"><i class="bi bi-eye me-2"></i> View</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#">
+                                                    <i class="bi bi-pencil me-2"></i>
+                                                    Edit
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <hr class="dropdown-divider" />
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item text-danger" href="#">
+                                                    <i class="bi bi-trash me-2"></i>
+                                                    Delete
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>TR004</td>
+                                <td>Leadership Training</td>
+                                <td>Soft Skills</td>
+                                <td>Maria George</td>
+                                <td>08-08-2026</td>
+                                <td>09-08-2026</td>
+                                <td><span class="badge-muthoot completed">Completed</span></td>
+                                <td class="text-center">
+                                    <div class="dropdown text-center">
+                                        <button class="btn btn-sm btn-light rounded-circle" aria-expanded="false"
+                                            data-bs-toggle="dropdown" type="button">
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end shadow">
+                                            <li>
+                                                <a class="dropdown-item" href="training_details.html"><i class="bi bi-eye me-2"></i> View</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#">
+                                                    <i class="bi bi-pencil me-2"></i>
+                                                    Edit
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <hr class="dropdown-divider" />
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item text-danger" href="#">
+                                                    <i class="bi bi-trash me-2"></i>
+                                                    Delete
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>TR005</td>
+                                <td>Customer Service</td>
+                                <td>HR</td>
+                                <td>Anjali Nair</td>
+                                <td>08-08-2026</td>
+                                <td>09-08-2026</td>
+                                <td><span class="badge-muthoot completed">Active</span></td>
+                                <td class="text-center">
+                                    <div class="dropdown text-center">
+                                        <button class="btn btn-sm btn-light rounded-circle" aria-expanded="false"
+                                            data-bs-toggle="dropdown" type="button">
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end shadow">
+                                            <li>
+                                                <a class="dropdown-item" href="training_details.html"><i class="bi bi-eye me-2"></i> View</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#">
+                                                    <i class="bi bi-pencil me-2"></i>
+                                                    Edit
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <hr class="dropdown-divider" />
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item text-danger" href="#">
+                                                    <i class="bi bi-trash me-2"></i>
+                                                    Delete
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <div class="text-muted">
+                        Showing 1–8 of 24 Training Programs
+                        <br />
+                        <small>Last Updated : 03 Aug 2026</small>
+                    </div>
+                    <nav>
+                        <ul class="pagination pagination-sm mb-0">
+                            <li class="page-item disabled">
+                                <a class="page-link">Previous</a>
+                            </li>
+                            <li class="page-item active">
+                                <a class="page-link">1</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link">2</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link">3</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+    </main>
+    <!-- add training modal -->
+    <div class="modal fade" id="addTrainingModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white rounded-top-4">
+                    <h5 class="modal-title">Add Training Program</h5>
+                    <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Training Name</label>
+                            <input class="form-control" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Training Type</label>
+                            <select class="form-select">
+                                <option>Technical</option>
+                                <option>HR</option>
+                                <option>Compliance</option>
+                                <option>Soft Skills</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Trainer Name</label>
+                            <input class="form-control" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Start Date</label>
+                            <input class="form-control" type="date" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">End Date</label>
+                            <input class="form-control" type="date" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Assignment Type</label>
+                            <select class="form-select" id="assignmentType" onchange="toggleAssignmentFields()">
+                                <option value="individual">Individual Employees</option>
+                                <option value="department">Department</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6" id="employeeAssignment">
+                            <label class="form-label">Select Employees</label>
+                            <div class="position-relative">
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-search"></i>
+                                    </span>
+                                    <input type="text" class="form-control" id="employeeSearchInput"
+                                        placeholder="Search employee by name or ID" autocomplete="off"
+                                        oninput="searchEmployees()" onclick="searchEmployees()" />
+                                </div>
+                                <div id="employeeSearchResults"
+                                    class="list-group position-absolute w-100 shadow-sm d-none"
+                                    style="z-index: 1056;">
+                                </div>
+                            </div>
+                            <div id="selectedEmployees" class="d-flex flex-wrap gap-2 mt-2"></div>
+                            <small class="text-muted" id="selectedEmployeeCount">0 employees selected</small>
+                        </div>
+                        <div class="col-md-6 d-none" id="departmentAssignment">
+                            <label class="form-label">Select Department</label>
+                            <select class="form-select">
+                                <option selected disabled>Select Department</option>
+                                <option>Finance</option>
+                                <option>Human Resources</option>
+                                <option>Operations</option>
+                                <option>IT</option>
+                                <option>Marketing</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-muthoot-outline px-4" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button class="btn btn-muthoot px-4">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- --- NOTIFICATIONS OFFCANVAS DRAWER --- -->
+    <div class="offcanvas offcanvas-end" id="notificationDrawer" tabindex="-1">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="offcanvas-title text-danger font-semibold">
+                <i class="bi bi-bell-fill me-2"></i>
+                HR System Notifications
+            </h5>
+            <button class="btn-close" data-bs-dismiss="offcanvas" type="button"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div id="notificationList"></div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- ApexCharts JS -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.1/dist/apexcharts.min.js"></script>
+    <!-- Export Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../static/js/dashboard.js"></script>
+    <script>
+
+        function resetFilters() {
+            document.getElementById("searchTraining").value = "";
+            document.getElementById("typeFilter").selectedIndex = 0;
+            document.getElementById("statusFilter").selectedIndex = 0;
+        }
+
+        const employees = [
+            { id: "EMP001", name: "Rahul Nair", department: "Finance" },
+            { id: "EMP002", name: "Anjali Thomas", department: "HR" },
+            { id: "EMP003", name: "Arun Joseph", department: "Operations" },
+            { id: "EMP004", name: "Priya Menon", department: "IT" }
+        ];
+
+        let selectedEmployees = [];
+
+        function toggleAssignmentFields() {
+            const assignmentType = document.getElementById("assignmentType").value;
+            const employeeAssignment = document.getElementById("employeeAssignment");
+            const departmentAssignment = document.getElementById("departmentAssignment");
+
+            if (assignmentType === "department") {
+                employeeAssignment.classList.add("d-none");
+                departmentAssignment.classList.remove("d-none");
+                hideEmployeeSearchResults();
+            } else {
+                employeeAssignment.classList.remove("d-none");
+                departmentAssignment.classList.add("d-none");
+            }
+        }
+
+        function searchEmployees() {
+            const input = document.getElementById("employeeSearchInput");
+            const results = document.getElementById("employeeSearchResults");
+            const query = input.value.toLowerCase().trim();
+
+            if (!query) {
+                results.innerHTML = "";
+                results.classList.add("d-none");
+                return;
+            }
+
+            const matches = employees.filter(employee => {
+                const alreadySelected = selectedEmployees.some(
+                    selected => selected.id === employee.id
+                );
+
+                return !alreadySelected &&
+                    (employee.name.toLowerCase().includes(query) ||
+                     employee.id.toLowerCase().includes(query));
+            });
+
+            results.innerHTML = matches.length
+                ? matches.map(employee => `
+                    <button type="button"
+                        class="list-group-item list-group-item-action"
+                        onclick="selectEmployee('${employee.id}')">
+                        <div class="fw-semibold">${employee.name}</div>
+                        <small class="text-muted">${employee.id} • ${employee.department}</small>
+                    </button>
+                `).join("")
+                : `<div class="list-group-item text-muted">No employees found</div>`;
+
+            results.classList.remove("d-none");
+        }
+
+        function selectEmployee(employeeId) {
+            const employee = employees.find(item => item.id === employeeId);
+
+            if (!employee || selectedEmployees.some(item => item.id === employeeId)) {
+                return;
+            }
+
+            selectedEmployees.push(employee);
+            renderSelectedEmployees();
+            document.getElementById("employeeSearchInput").value = "";
+            hideEmployeeSearchResults();
+            document.getElementById("employeeSearchInput").focus();
+        }
+
+        function removeSelectedEmployee(employeeId) {
+            selectedEmployees = selectedEmployees.filter(
+                employee => employee.id !== employeeId
+            );
+            renderSelectedEmployees();
+        }
+
+        function renderSelectedEmployees() {
+            const container = document.getElementById("selectedEmployees");
+            const count = document.getElementById("selectedEmployeeCount");
+
+            container.innerHTML = selectedEmployees.map(employee => `
+                <span class="badge rounded-pill bg-light text-dark border px-3 py-2">
+                    ${employee.name}
+                    <button type="button"
+                        class="btn-close ms-1"
+                        style="font-size: 0.55rem;"
+                        aria-label="Remove ${employee.name}"
+                        onclick="removeSelectedEmployee('${employee.id}')">
+                    </button>
+                </span>
+            `).join("");
+
+            count.textContent =
+                `${selectedEmployees.length} employee${selectedEmployees.length === 1 ? "" : "s"} selected`;
+        }
+
+        function hideEmployeeSearchResults() {
+            document.getElementById("employeeSearchResults").classList.add("d-none");
+        }
+
+        document.addEventListener("click", function(event) {
+            const assignmentSection = document.getElementById("employeeAssignment");
+
+            if (assignmentSection && !assignmentSection.contains(event.target)) {
+                hideEmployeeSearchResults();
+            }
+        });
+
+        document.getElementById("addTrainingModal").addEventListener(
+            "hidden.bs.modal",
+            function() {
+                selectedEmployees = [];
+                document.getElementById("employeeSearchInput").value = "";
+                renderSelectedEmployees();
+                document.getElementById("assignmentType").value = "individual";
+                toggleAssignmentFields();
+            }
+        );
+
+    </script>
+</body>
+
+</html>

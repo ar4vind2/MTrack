@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Behaviour Assessment - Muthoot Employee Appraisal System (Member 4)</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom Muthoot Minimal CSS -->
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+
+    <!-- Mobile Backdrop Overlay -->
+    <div class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+
+    <!-- --- SIDEBAR WITH TOGGLE BUTTON INSIDE --- -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-logo-container">
+                <img src="../static/images/muthoot-logo.png" alt="Muthoot Finance Logo" class="brand-full-logo">
+                <img src="../static/images/muthoot-logo-toggle.png" alt="Muthoot Finance Icon" class="brand-icon-logo">
+            </div>
+            <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+        </div>
+        
+        <ul class="menu" id="sidebarMenu">
+            <div class="menu-section-header">Manager Overview</div>
+            <li onclick="window.location.href='manager_dashboard.html'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li onclick="window.location.href='team_evaluation.html'"><i class="bi bi-people"></i> <span>Team Evaluation</span></li>
+            <li class="active" onclick="window.location.href='behaviour_rating.html'"><i class="bi bi-star-half"></i> <span>Behaviour Rating</span></li>
+            <li onclick="window.location.href='feedback_360.html'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
+            <li onclick="window.location.href='assign_kra.html'"><i class="bi bi-ui-checks"></i> <span>Assign KRAs</span></li>
+            <li onclick="window.location.href='kpi_records.html'"><i class="bi bi-speedometer2"></i> <span>KPI Records</span></li>
+            <div class="menu-section-header">Account</div>
+            <li onclick="window.location.href='profile.html'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
+            <li onclick="window.location.href='login.html'"><i class="bi bi-box-arrow-right"></i> <span>Portal Home</span></li>
+        </ul>
+    </aside>
+
+    <!-- --- MAIN CONTENT WRAPPER --- -->
+    <main class="content">
+        
+        <!-- --- TOPBAR NAVBAR --- -->
+        <nav class="topbar">
+            <div class="topbar-left">
+                <button class="topbar-icon-btn d-lg-none" onclick="toggleSidebar()" title="Open Menu">
+                    <i class="bi bi-list"></i>
+                </button>
+                <h4>Behavioural Assessment & Rating <span class="text-muted fs-6 font-normal">(Member 4 Module)</span></h4>
+            </div>
+            <div class="topbar-right">
+                <div class="topbar-icons">
+                    <button class="topbar-icon-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#notificationDrawer" title="Notifications">
+                        <i class="bi bi-bell"></i>
+                        <span class="notification-badge" id="unreadBadge">2</span>
+                    </button>
+                </div>
+                
+                <div class="user-badge" onclick="window.location.href='profile.html'" style="cursor: pointer;">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=100" alt="Rajesh Nair">
+                    <div class="user-badge-info">
+                        <span class="user-badge-name">Rajesh Nair</span>
+                        <span class="user-badge-role">IT Manager</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- --- BEHAVIOUR FORM CARD --- -->
+        <div class="card-muthoot">
+            <div class="card-title-muthoot mb-4">
+                <span><i class="bi bi-award-fill me-2"></i> Employee Behaviour Competency Form</span>
+                <span class="badge bg-danger">Cycle: Q2 2026</span>
+            </div>
+
+            <form onsubmit="event.preventDefault(); alert('Behavioural rating submitted successfully!');">
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label font-medium">Select Employee</label>
+                        <select class="form-select" required>
+                            <option value="M0018">Arjun Kumar (Software Executive)</option>
+                            <option value="M0024">Rahul Sharma (Finance Executive)</option>
+                            <option value="M0035">Meera Jasmine (Senior Loan Officer)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label font-medium">Evaluator ID</label>
+                        <input type="text" class="form-control" value="MGR001 (Rajesh Nair)" readonly>
+                    </div>
+                </div>
+
+                <h6 class="fw-bold text-danger mb-3"><i class="bi bi-star me-1"></i> Core Behavioural Competency Ratings (Scale: 1 to 5)</h6>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label font-medium">Integrity & Ethics</label>
+                        <select class="form-select">
+                            <option>5 - Exceptional</option>
+                            <option selected>4 - Exceeds Expectations</option>
+                            <option>3 - Meets Expectations</option>
+                            <option>2 - Needs Improvement</option>
+                            <option>1 - Unsatisfactory</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label font-medium">Professionalism</label>
+                        <select class="form-select">
+                            <option>5 - Exceptional</option>
+                            <option selected>4 - Exceeds Expectations</option>
+                            <option>3 - Meets Expectations</option>
+                            <option>2 - Needs Improvement</option>
+                            <option>1 - Unsatisfactory</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label font-medium">Leadership & Initiative</label>
+                        <select class="form-select">
+                            <option selected>5 - Exceptional</option>
+                            <option>4 - Exceeds Expectations</option>
+                            <option>3 - Meets Expectations</option>
+                            <option>2 - Needs Improvement</option>
+                            <option>1 - Unsatisfactory</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label font-medium">Accountability</label>
+                        <select class="form-select">
+                            <option>5 - Exceptional</option>
+                            <option selected>4 - Exceeds Expectations</option>
+                            <option>3 - Meets Expectations</option>
+                            <option>2 - Needs Improvement</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label font-medium">Time Management</label>
+                        <select class="form-select">
+                            <option>5 - Exceptional</option>
+                            <option selected>4 - Exceeds Expectations</option>
+                            <option>3 - Meets Expectations</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label font-medium">Adaptability</label>
+                        <select class="form-select">
+                            <option selected>5 - Exceptional</option>
+                            <option>4 - Exceeds Expectations</option>
+                            <option>3 - Meets Expectations</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label font-medium">Manager Remarks & Behavioural Feedback</label>
+                    <textarea class="form-control" rows="3" placeholder="Provide qualitative feedback on employee work ethics, attitude, and team collaboration..."></textarea>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                    <button type="reset" class="btn btn-muthoot-outline">Reset Form</button>
+                    <button type="submit" class="btn btn-muthoot"><i class="bi bi-check-circle me-1"></i> Save Behaviour Rating</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- --- NOTIFICATIONS OFFCANVAS DRAWER --- -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="notificationDrawer">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="offcanvas-title text-danger font-semibold"><i class="bi bi-bell-fill me-2"></i> Notifications</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div id="notificationList"></div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/js/dashboard.js"></script>
+</body>
+</html>

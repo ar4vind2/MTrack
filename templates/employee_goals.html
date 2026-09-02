@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Goals & KRAs - Muthoot Employee Appraisal System</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom Muthoot Minimal CSS -->
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+
+    <!-- Mobile Backdrop Overlay -->
+    <div class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+
+    <!-- --- SIDEBAR WITH INSIDE TOGGLE BUTTON --- -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-logo-container">
+                <img src="../static/images/muthoot-logo.png" alt="Muthoot Finance Logo" class="brand-full-logo">
+                <img src="../static/images/muthoot-logo-toggle.png" alt="Muthoot Finance Icon" class="brand-icon-logo">
+            </div>
+            <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+        </div>
+        
+        <ul class="menu" id="sidebarMenu">
+            <div class="menu-section-header">Main Menu</div>
+            <li onclick="window.location.href='employee_dashboard.html'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li onclick="window.location.href='my_appraisals.html'"><i class="bi bi-clipboard-check"></i> <span>My Appraisals</span></li>
+            <li class="active" onclick="window.location.href='employee_goals.html'"><i class="bi bi-bullseye"></i> <span>Goals & KRAs</span></li>
+            <li onclick="window.location.href='employee_attendance.html'"><i class="bi bi-calendar-check"></i> <span>Attendance</span></li>
+            <li onclick="window.location.href='employee_training.html'"><i class="bi bi-mortarboard"></i> <span>Training</span></li>
+            <div class="menu-section-header">Account</div>
+            <li onclick="window.location.href='profile.html'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
+            <li onclick="window.location.href='index.html'"><i class="bi bi-box-arrow-right"></i> <span>Portal Home</span></li>
+        </ul>
+    </aside>
+
+    <!-- --- MAIN CONTENT WRAPPER --- -->
+    <main class="content">
+        
+        <!-- --- TOPBAR NAVBAR --- -->
+        <nav class="topbar">
+            <div class="topbar-left">
+                <button class="topbar-icon-btn d-lg-none" onclick="toggleSidebar()" title="Open Menu">
+                    <i class="bi bi-list"></i>
+                </button>
+                <h4>My Goals & KRAs <span class="text-muted fs-6 font-normal">(Employee Progress)</span></h4>
+            </div>
+            <div class="topbar-right">
+                <div class="topbar-icons">
+                    <button class="topbar-icon-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#notificationDrawer" title="Notifications">
+                        <i class="bi bi-bell"></i>
+                        <span class="notification-badge" id="unreadBadge">2</span>
+                    </button>
+                </div>
+                
+                <div class="user-badge" onclick="window.location.href='profile.html'" style="cursor: pointer;">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100" alt="Arjun Kumar">
+                    <div class="user-badge-info">
+                        <span class="user-badge-name">Arjun Kumar</span>
+                        <span class="user-badge-role">Software Executive</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- --- GOALS & KRAS CONTENT --- -->
+        <div class="card-muthoot mb-4">
+            <div class="card-title-muthoot">
+                <span><i class="bi bi-bullseye me-2"></i> Assigned Key Result Areas (KRAs - Q2 2026)</span>
+                <span class="badge-muthoot completed">Overall Goal Progress: 88%</span>
+            </div>
+
+            <div class="row g-4 mt-1">
+                <div class="col-md-6">
+                    <div class="p-3 border rounded-3 bg-light">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="fw-bold mb-0 text-danger">1. Core Application Delivery</h6>
+                            <span class="badge bg-danger">Weightage: 40%</span>
+                        </div>
+                        <p class="text-muted fs-7 mb-3">Deliver core appraisal system modules on schedule with zero critical bugs.</p>
+                        <div class="progress mb-2" style="height: 8px;">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 90%;" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="d-flex justify-content-between fs-7 text-muted">
+                            <span>Status: On Track</span>
+                            <span><strong>90% Completed</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="p-3 border rounded-3 bg-light">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="fw-bold mb-0 text-warning text-dark">2. System Performance & Security</h6>
+                            <span class="badge bg-warning text-dark">Weightage: 30%</span>
+                        </div>
+                        <p class="text-muted fs-7 mb-3">Ensure sub-second API responses and 99.9% uptime for branch portals.</p>
+                        <div class="progress mb-2" style="height: 8px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="d-flex justify-content-between fs-7 text-muted">
+                            <span>Status: In Progress</span>
+                            <span><strong>85% Completed</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="p-3 border rounded-3 bg-light">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="fw-bold mb-0 text-success">3. Team Mentorship & Code Quality</h6>
+                            <span class="badge bg-success">Weightage: 20%</span>
+                        </div>
+                        <p class="text-muted fs-7 mb-3">Conduct weekly peer code reviews and mentor junior developers in IT team.</p>
+                        <div class="progress mb-2" style="height: 8px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 95%;" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="d-flex justify-content-between fs-7 text-muted">
+                            <span>Status: Exceeded Target</span>
+                            <span><strong>95% Completed</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="p-3 border rounded-3 bg-light">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="fw-bold mb-0 text-primary">4. Compliance & Process Documentation</h6>
+                            <span class="badge bg-primary">Weightage: 10%</span>
+                        </div>
+                        <p class="text-muted fs-7 mb-3">Maintain updated technical architecture documentation and security logs.</p>
+                        <div class="progress mb-2" style="height: 8px;">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="d-flex justify-content-between fs-7 text-muted">
+                            <span>Status: On Track</span>
+                            <span><strong>80% Completed</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- --- KPI PROGRESS TABLE --- -->
+        <div class="card-muthoot">
+            <div class="card-title-muthoot">
+                <span><i class="bi bi-speedometer2 me-2"></i> My KPI Achievement Records</span>
+                <button class="btn btn-sm btn-muthoot-outline" onclick="generateExcelReport('My_KPI_Progress')"><i class="bi bi-file-earmark-excel me-1"></i> Excel Export</button>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-muthoot">
+                    <thead>
+                        <tr>
+                            <th>KPI Indicator</th>
+                            <th>Target Value</th>
+                            <th>Current Achieved</th>
+                            <th>Completion %</th>
+                            <th>Manager Remarks</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>System Delivery Sprint Targets</strong></td>
+                            <td>10 Sprints</td>
+                            <td>9.5 Sprints</td>
+                            <td><strong>95%</strong></td>
+                            <td>Excellent turnaround time.</td>
+                            <td><span class="badge-muthoot completed">Achieved</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Code Review Accuracy</strong></td>
+                            <td>95% Accuracy</td>
+                            <td>97% Accuracy</td>
+                            <td><strong>102%</strong></td>
+                            <td>Zero critical bugs reported.</td>
+                            <td><span class="badge-muthoot completed">Exceeded</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Biometric Attendance</strong></td>
+                            <td>95% Present</td>
+                            <td>94% Present</td>
+                            <td><strong>98%</strong></td>
+                            <td>Consistent attendance.</td>
+                            <td><span class="badge-muthoot completed">Achieved</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- --- NOTIFICATIONS OFFCANVAS DRAWER --- -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="notificationDrawer">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="offcanvas-title text-danger font-semibold"><i class="bi bi-bell-fill me-2"></i> Notifications</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div id="notificationList"></div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Export Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../static/js/dashboard.js"></script>
+</body>
+</html>

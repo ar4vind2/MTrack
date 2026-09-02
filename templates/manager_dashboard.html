@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dashboard - Muthoot Appraisal System</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- ApexCharts CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/apexcharts@3.45.1/dist/apexcharts.css" rel="stylesheet">
+    <!-- Custom Muthoot Minimal CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- Mobile Backdrop Overlay -->
+    <div class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+
+    <!-- --- SIDEBAR WITH TOGGLE BUTTON INSIDE --- -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-logo-container">
+                <img src="../static/images/muthoot-logo.png" alt="Muthoot Finance Logo" class="brand-full-logo">
+                <img src="../static/images/muthoot-logo-toggle.png" alt="Muthoot Finance Icon" class="brand-icon-logo">
+            </div>
+            <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+        </div>
+        <ul class="menu" id="sidebarMenu">
+            <div class="menu-section-header">Manager Overview</div>
+            <li class="active" onclick="window.location.href='manager_dashboard.html'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li onclick="window.location.href='team_evaluation.html'"><i class="bi bi-people"></i> <span>Team Evaluation</span></li>
+            <li onclick="window.location.href='behaviour_rating.html'"><i class="bi bi-star-half"></i> <span>Behaviour Rating</span></li>
+            <li onclick="window.location.href='feedback_360.html'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
+            <li onclick="window.location.href='assign_kra.html'"><i class="bi bi-ui-checks"></i> <span>Assign KRAs</span></li>
+            <li onclick="window.location.href='kpi_records.html'"><i class="bi bi-speedometer2"></i> <span>KPI Records</span></li>
+            <div class="menu-section-header">Account</div>
+            <li onclick="window.location.href='profile.html'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
+            <li onclick="window.location.href='login.html'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
+        </ul>
+    </aside>
+
+    <!-- --- MAIN CONTENT WRAPPER --- -->
+    <main class="content">
+        
+        <!-- --- TOPBAR NAVBAR --- -->
+        <nav class="topbar">
+            <div class="topbar-left">
+                <button class="topbar-icon-btn d-lg-none" onclick="toggleSidebar()" title="Open Menu">
+                    <i class="bi bi-list"></i>
+                </button>
+                <h4>Welcome, Rajesh Nair <span class="text-muted fs-6 font-normal">(IT Branch Manager)</span></h4>
+            </div>
+            <div class="topbar-right">
+                <div class="topbar-icons">
+                    <button class="topbar-icon-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#notificationDrawer">
+                        <i class="bi bi-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <button class="topbar-icon-btn" onclick="generatePDFReport('Team Performance Report')">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                    </button>
+                    <button class="topbar-icon-btn" onclick="generateExcelReport('Team_Reviews')">
+                        <i class="bi bi-file-earmark-excel"></i>
+                    </button>
+                </div>
+                
+                <div class="user-badge">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=100" alt="Rajesh Nair">
+                    <div class="user-badge-info">
+                        <span class="user-badge-name">Rajesh Nair</span>
+                        <span class="user-badge-role">Kochi Branch</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- --- MANAGER DASHBOARD CONTENT --- -->
+        <div id="manager-view" class="dashboard-view active">
+            
+            <!-- KPI Stat Cards Row -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h6>Team Average</h6>
+                            <h2>4.2 Score</h2>
+                        </div>
+                        <div class="stat-icon red-icon">
+                            <i class="bi bi-graph-up-arrow"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card gold-border">
+                        <div class="stat-info">
+                            <h6>Pending Reviews</h6>
+                            <h2>6 Reviews</h2>
+                        </div>
+                        <div class="stat-icon gold-icon">
+                            <i class="bi bi-hourglass-split"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h6>Completed Reviews</h6>
+                            <h2>18 / 24</h2>
+                        </div>
+                        <div class="stat-icon red-icon">
+                            <i class="bi bi-check2-square"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card gold-border">
+                        <div class="stat-info">
+                            <h6>Total Team Members</h6>
+                            <h2>24 Staff</h2>
+                        </div>
+                        <div class="stat-icon gold-icon">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ApexCharts Row 1 -->
+            <div class="row g-4 mb-4">
+                <div class="col-lg-7">
+                    <div class="card-muthoot">
+                        <div class="card-title-muthoot">
+                            <span><i class="bi bi-bar-chart-fill"></i> Department Performance (ApexCharts Bar)</span>
+                        </div>
+                        <div id="mgrDeptChart" class="chart-container"></div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="card-muthoot">
+                        <div class="card-title-muthoot">
+                            <span><i class="bi bi-pie-chart-fill"></i> Employee Rating Distribution</span>
+                        </div>
+                        <div id="mgrDistChart" class="chart-container"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ApexCharts Row 2 -->
+            <div class="row g-4 mb-4">
+                <div class="col-lg-6">
+                    <div class="card-muthoot">
+                        <div class="card-title-muthoot">
+                            <span><i class="bi bi-circle-square"></i> Team Goal Completion (ApexCharts Donut)</span>
+                        </div>
+                        <div id="mgrGoalDonutChart" class="chart-container"></div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card-muthoot">
+                        <div class="card-title-muthoot">
+                            <span><i class="bi bi-star-half"></i> Average Competency Radar (ApexCharts)</span>
+                        </div>
+                        <div id="mgrCompetencyRadarChart" class="chart-container"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending Reviews Table -->
+            <div class="card-muthoot">
+                <div class="card-title-muthoot">
+                    <span><i class="bi bi-clock-history"></i> Team Appraisal Reviews (Q2 2026)</span>
+                    <button class="btn btn-sm btn-muthoot" onclick="generateExcelReport('Team_Reviews_Q2')"><i class="bi bi-download me-1"></i> Export Excel</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-muthoot">
+                        <thead>
+                            <tr>
+                                <th>Employee</th>
+                                <th>Department</th>
+                                <th>Self Score</th>
+                                <th>Manager Rating</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Rahul Sharma</td>
+                                <td>Finance & Accounts</td>
+                                <td>4.2 / 5</td>
+                                <td><span class="rating-pill">4.3 ⭐</span></td>
+                                <td><span class="badge-muthoot review">Pending Review</span></td>
+                                <td><button class="btn btn-sm btn-muthoot" onclick="alert('Evaluating Rahul Sharma')">Evaluate</button></td>
+                            </tr>
+                            <tr>
+                                <td>Meera Jasmine</td>
+                                <td>Loan Processing</td>
+                                <td>4.5 / 5</td>
+                                <td><span class="rating-pill">4.6 ⭐</span></td>
+                                <td><span class="badge-muthoot review">Pending Review</span></td>
+                                <td><button class="btn btn-sm btn-muthoot" onclick="alert('Evaluating Meera Jasmine')">Evaluate</button></td>
+                            </tr>
+                            <tr>
+                                <td>Arun Varma</td>
+                                <td>Sales & BD</td>
+                                <td>4.0 / 5</td>
+                                <td><span class="rating-pill">4.2 ⭐</span></td>
+                                <td><span class="badge-muthoot completed">Approved</span></td>
+                                <td><button class="btn btn-sm btn-muthoot-outline">View</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- --- NOTIFICATIONS OFFCANVAS DRAWER --- -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="notificationDrawer">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="offcanvas-title text-danger font-semibold"><i class="bi bi-bell-fill me-2"></i> Manager Notifications</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div id="notificationList"></div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- ApexCharts JS -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.1/dist/apexcharts.min.js"></script>
+    <!-- Export Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
