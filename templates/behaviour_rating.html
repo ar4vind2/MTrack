@@ -3,28 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Behaviour Assessment - Muthoot Employee Appraisal System (Member 4)</title>
+    <meta name="user-role" content="{{ (session.get('role_name') or 'manager').lower() }}">
+    <title>Behaviour Assessment - Muthoot Employee Appraisal System</title>
 
+    <!-- Google Fonts Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Google Fonts Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Custom Muthoot Minimal CSS -->
-    <link rel="stylesheet" href="../static/css/style.css">
+    <!-- Custom Muthoot Stitch CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
     <!-- Mobile Backdrop Overlay -->
     <div class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
 
-    <!-- --- SIDEBAR WITH TOGGLE BUTTON INSIDE --- -->
+    <!-- --- SIDEBAR --- -->
     <aside class="sidebar">
         <div class="brand">
             <div class="brand-logo-container">
-                <img src="../static/images/muthoot-logo.png" alt="Muthoot Finance Logo" class="brand-full-logo">
-                <img src="../static/images/muthoot-logo-toggle.png" alt="Muthoot Finance Icon" class="brand-icon-logo">
+                <img src="{{ url_for('static', filename='images/muthoot-logo.png') }}" alt="Muthoot Finance Logo" class="brand-full-logo">
+                <img src="{{ url_for('static', filename='images/muthoot-logo-toggle.png') }}" alt="Muthoot Finance Icon" class="brand-icon-logo">
             </div>
             <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
                 <i class="bi bi-chevron-left"></i>
@@ -33,16 +36,30 @@
         
         <ul class="menu" id="sidebarMenu">
             <div class="menu-section-header">Manager Overview</div>
-            <li onclick="window.location.href='manager_dashboard.html'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
-            <li onclick="window.location.href='team_evaluation.html'"><i class="bi bi-people"></i> <span>Team Evaluation</span></li>
-            <li class="active" onclick="window.location.href='behaviour_rating.html'"><i class="bi bi-star-half"></i> <span>Behaviour Rating</span></li>
-            <li onclick="window.location.href='feedback_360.html'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
-            <li onclick="window.location.href='assign_kra.html'"><i class="bi bi-ui-checks"></i> <span>Assign KRAs</span></li>
-            <li onclick="window.location.href='kpi_records.html'"><i class="bi bi-speedometer2"></i> <span>KPI Records</span></li>
+            <li class="" onclick="window.location.href='/manager-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li class="" onclick="window.location.href='/manager/appraisal'"><i class="bi bi-clipboard-check"></i> <span>Manager Appraisal</span></li>
+            <li class="" onclick="window.location.href='/team-evaluation'"><i class="bi bi-people"></i> <span>Team Evaluation</span></li>
+            <li class="" onclick="window.location.href='/review-appraisal'"><i class="bi bi-clipboard-check"></i> <span>Review Appraisal</span></li>
+            <li class="" onclick="window.location.href='/review-attendance'"><i class="bi bi-calendar-range"></i> <span>Review Attendance</span></li>
+            <li class="active" onclick="window.location.href='/behaviour-rating'"><i class="bi bi-star-half"></i> <span>Behaviour Rating</span></li>
+            <li class="" onclick="window.location.href='/feedback-360'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
+            <li class="" onclick="window.location.href='/approve-leaves'"><i class="bi bi-calendar-check"></i> <span>Approve Leaves</span></li>
+            <div class="menu-section-header">Self Service</div>
+            <li class="" onclick="window.location.href='/my-appraisals'"><i class="bi bi-award"></i> <span>My Appraisals</span></li>
+            <li class="" onclick="window.location.href='/self-appraisal'"><i class="bi bi-person-badge"></i> <span>Self-Appraisal</span></li>
+            <li class="" onclick="window.location.href='/employee-goals'"><i class="bi bi-bullseye"></i> <span>Goals & KRAs</span></li>
+            <li class="" onclick="window.location.href='/employee-attendance'"><i class="bi bi-calendar-check"></i> <span>Attendance</span></li>
+            <li class="" onclick="window.location.href='/leave-request'"><i class="bi bi-calendar-plus"></i> <span>Leave Request</span></li>
+            <li class="" onclick="window.location.href='/requested-leaves'"><i class="bi bi-clock-history"></i> <span>My Leave Requests</span></li>
+            <li class="" onclick="window.location.href='/employee-training'"><i class="bi bi-mortarboard"></i> <span>Training</span></li>
             <div class="menu-section-header">Account</div>
-            <li onclick="window.location.href='profile.html'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
-            <li onclick="window.location.href='login.html'"><i class="bi bi-box-arrow-right"></i> <span>Portal Home</span></li>
+            <li class="" onclick="window.location.href='/profile'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
+            <li onclick="window.location.href='/logout'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
         </ul>
+        <div class="sidebar-footer-badge">
+            <span>System Build v4.8.2</span>
+            <span class="status-pill">Stable</span>
+        </div>
     </aside>
 
     <!-- --- MAIN CONTENT WRAPPER --- -->
@@ -54,118 +71,207 @@
                 <button class="topbar-icon-btn d-lg-none" onclick="toggleSidebar()" title="Open Menu">
                     <i class="bi bi-list"></i>
                 </button>
-                <h4>Behavioural Assessment & Rating <span class="text-muted fs-6 font-normal">(Member 4 Module)</span></h4>
+                <h4>Behavioural Assessment & Rating</h4>
             </div>
             <div class="topbar-right">
                 <div class="topbar-icons">
                     <button class="topbar-icon-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#notificationDrawer" title="Notifications">
                         <i class="bi bi-bell"></i>
-                        <span class="notification-badge" id="unreadBadge">2</span>
+                        <span class="notification-badge" id="unreadBadge" style="display: none;">0</span>
                     </button>
                 </div>
                 
-                <div class="user-badge" onclick="window.location.href='profile.html'" style="cursor: pointer;">
-                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=100" alt="Rajesh Nair">
+                <div class="user-badge" onclick="window.location.href='{{ url_for('dashboard.profile') }}'" style="cursor: pointer;">
+                    <div class="user-avatar-circle">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
                     <div class="user-badge-info">
-                        <span class="user-badge-name">Rajesh Nair</span>
-                        <span class="user-badge-role">IT Manager</span>
+                        <span class="user-badge-name">{{ session.get('username', 'Manager') }}</span>
+                        <span class="user-badge-role">{{ session.get('role_name', 'Manager') }}</span>
                     </div>
                 </div>
             </div>
         </nav>
 
+        <!-- --- STITCH QUICK METRICS BENTO BANNER --- -->
+        <div class="row g-3 mb-4">
+            <div class="col-sm-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h6>Direct Reports</h6>
+                        <h2>{{ employees|length if employees else 0 }}</h2>
+                        <small class="text-muted"><i class="bi bi-people me-1"></i> Team Evaluation Scope</small>
+                    </div>
+                    <div class="stat-icon red-icon">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h6>Scoring Dimensions</h6>
+                        <h2>7 Categories</h2>
+                        <small class="text-success"><i class="bi bi-check-circle me-1"></i> Behavioral Matrix</small>
+                    </div>
+                    <div class="stat-icon green-icon">
+                        <i class="bi bi-star"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h6>Scale Resolution</h6>
+                        <h2>1 to 5 Points</h2>
+                        <small class="text-muted"><i class="bi bi-sliders me-1"></i> Qualitative Anchor</small>
+                    </div>
+                    <div class="stat-icon amber-icon">
+                        <i class="bi bi-bar-chart"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="stat-card gold-border">
+                    <div class="stat-info">
+                        <h6>Cycle Context</h6>
+                        <h2 style="font-size: 1.15rem; line-height: 1.4; padding-top: 4px;">{{ appraisal_cycle or 'Annual 2026' }}</h2>
+                        <small class="text-muted"><i class="bi bi-calendar2-check me-1"></i> Performance Evaluation</small>
+                    </div>
+                    <div class="stat-icon red-icon">
+                        <i class="bi bi-calendar-range"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- --- BEHAVIOUR FORM CARD --- -->
         <div class="card-muthoot">
             <div class="card-title-muthoot mb-4">
-                <span><i class="bi bi-award-fill me-2"></i> Employee Behaviour Competency Form</span>
-                <span class="badge bg-danger">Cycle: Q2 2026</span>
+                <span><i class="bi bi-award-fill me-2 text-danger"></i> Employee Behaviour Competency Form</span>
+                <span class="badge bg-danger-subtle text-danger border border-danger px-3 py-1 rounded-pill">
+                    Cycle: {{ appraisal_cycle or 'Current Cycle' }}
+                </span>
             </div>
 
-            <form onsubmit="event.preventDefault(); alert('Behavioural rating submitted successfully!');">
+            <form method="POST" action="{{ url_for('dashboard.save_behaviour_rating') }}">
+                <input type="hidden" name="csrf_token" id="csrf_token" value="{{ csrf_token() }}">
+                
                 <div class="row g-3 mb-4">
                     <div class="col-md-6">
-                        <label class="form-label font-medium">Select Employee</label>
-                        <select class="form-select" required>
-                            <option value="M0018">Arjun Kumar (Software Executive)</option>
-                            <option value="M0024">Rahul Sharma (Finance Executive)</option>
-                            <option value="M0035">Meera Jasmine (Senior Loan Officer)</option>
+                        <label class="form-label fw-semibold text-dark">Select Employee</label>
+                        <select class="form-select" name="employee_id" required>
+                            <option value="" selected disabled>
+                                Select an employee
+                            </option>
+                            {% for employee in employees %}
+                                <option value="{{ employee.employee_id }}">
+                                    {{ employee.name }} ({{ employee.designation }})
+                                </option>
+                            {% endfor %}
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label font-medium">Evaluator ID</label>
-                        <input type="text" class="form-control" value="MGR001 (Rajesh Nair)" readonly>
+                        <label class="form-label fw-semibold text-dark">Evaluator ID</label>
+                        <input type="text"
+                           class="form-control bg-light"
+                           value="{{ manager.employee_code }} ({{ manager.name }})"
+                           readonly>
                     </div>
                 </div>
 
-                <h6 class="fw-bold text-danger mb-3"><i class="bi bi-star me-1"></i> Core Behavioural Competency Ratings (Scale: 1 to 5)</h6>
-
-                <div class="row g-3 mb-3">
-                    <div class="col-md-4">
-                        <label class="form-label font-medium">Integrity & Ethics</label>
-                        <select class="form-select">
-                            <option>5 - Exceptional</option>
-                            <option selected>4 - Exceeds Expectations</option>
-                            <option>3 - Meets Expectations</option>
-                            <option>2 - Needs Improvement</option>
-                            <option>1 - Unsatisfactory</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label font-medium">Professionalism</label>
-                        <select class="form-select">
-                            <option>5 - Exceptional</option>
-                            <option selected>4 - Exceeds Expectations</option>
-                            <option>3 - Meets Expectations</option>
-                            <option>2 - Needs Improvement</option>
-                            <option>1 - Unsatisfactory</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label font-medium">Leadership & Initiative</label>
-                        <select class="form-select">
-                            <option selected>5 - Exceptional</option>
-                            <option>4 - Exceeds Expectations</option>
-                            <option>3 - Meets Expectations</option>
-                            <option>2 - Needs Improvement</option>
-                            <option>1 - Unsatisfactory</option>
-                        </select>
-                    </div>
+                <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
+                    <i class="bi bi-star-fill text-warning"></i>
+                    <h6 class="fw-bold text-dark mb-0">Core Behavioural Competency Ratings (Scale: 1 to 5)</h6>
                 </div>
 
                 <div class="row g-3 mb-3">
                     <div class="col-md-4">
-                        <label class="form-label font-medium">Accountability</label>
-                        <select class="form-select">
-                            <option>5 - Exceptional</option>
-                            <option selected>4 - Exceeds Expectations</option>
-                            <option>3 - Meets Expectations</option>
-                            <option>2 - Needs Improvement</option>
+                        <label class="form-label fw-semibold text-dark">Integrity & Ethics</label>
+                        <select class="form-select" name="integrity" required>
+                            <option value="5">5 - Exceptional</option>
+                            <option value="4" selected>4 - Exceeds Expectations</option>
+                            <option value="3">3 - Meets Expectations</option>
+                            <option value="2">2 - Needs Improvement</option>
+                            <option value="1">1 - Unsatisfactory</option>
                         </select>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label font-medium">Time Management</label>
-                        <select class="form-select">
-                            <option>5 - Exceptional</option>
-                            <option selected>4 - Exceeds Expectations</option>
-                            <option>3 - Meets Expectations</option>
+                        <label class="form-label fw-semibold text-dark">Professionalism</label>
+                        <select class="form-select" name="professionalism" required>
+                            <option value="5">5 - Exceptional</option>
+                            <option value="4" selected>4 - Exceeds Expectations</option>
+                            <option value="3">3 - Meets Expectations</option>
+                            <option value="2">2 - Needs Improvement</option>
+                            <option value="1">1 - Unsatisfactory</option>
                         </select>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label font-medium">Adaptability</label>
-                        <select class="form-select">
-                            <option selected>5 - Exceptional</option>
-                            <option>4 - Exceeds Expectations</option>
-                            <option>3 - Meets Expectations</option>
+                        <label class="form-label fw-semibold text-dark">Leadership & Initiative</label>
+                        <select class="form-select" name="leadership" required>
+                            <option value="5" selected>5 - Exceptional</option>
+                            <option value="4">4 - Exceeds Expectations</option>
+                            <option value="3">3 - Meets Expectations</option>
+                            <option value="2">2 - Needs Improvement</option>
+                            <option value="1">1 - Unsatisfactory</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold text-dark">Accountability</label>
+                        <select class="form-select" name="accountability" required>
+                            <option value="5">5 - Exceptional</option>
+                            <option value="4" selected>4 - Exceeds Expectations</option>
+                            <option value="3">3 - Meets Expectations</option>
+                            <option value="2">2 - Needs Improvement</option>
+                            <option value="1">1 - Unsatisfactory</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold text-dark">Time Management</label>
+                        <select class="form-select" name="time_management" required>
+                            <option value="5">5 - Exceptional</option>
+                            <option value="4" selected>4 - Exceeds Expectations</option>
+                            <option value="3">3 - Meets Expectations</option>
+                            <option value="2">2 - Needs Improvement</option>
+                            <option value="1">1 - Unsatisfactory</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold text-dark">Adaptability</label>
+                        <select class="form-select" name="adaptability" required>
+                            <option value="5" selected>5 - Exceptional</option>
+                            <option value="4">4 - Exceeds Expectations</option>
+                            <option value="3">3 - Meets Expectations</option>
+                            <option value="2">2 - Needs Improvement</option>
+                            <option value="1">1 - Unsatisfactory</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold text-dark">Learning Ability</label>
+                        <select class="form-select" name="learning_ability" required>
+                            <option value="5">5 - Exceptional</option>
+                            <option value="4">4 - Exceeds Expectations</option>
+                            <option value="3" selected>3 - Meets Expectations</option>
+                            <option value="2">2 - Needs Improvement</option>
+                            <option value="1">1 - Unsatisfactory</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label font-medium">Manager Remarks & Behavioural Feedback</label>
-                    <textarea class="form-control" rows="3" placeholder="Provide qualitative feedback on employee work ethics, attitude, and team collaboration..."></textarea>
+                    <label class="form-label fw-semibold text-dark">Manager Remarks & Behavioural Feedback</label>
+                    <textarea
+                        class="form-control"
+                        name="remarks"
+                        rows="3"
+                        placeholder="Provide qualitative feedback on employee work ethics, attitude, and team collaboration..."
+                        required></textarea>
                 </div>
 
-                <div class="d-flex justify-content-end gap-2 mt-4">
+                <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
                     <button type="reset" class="btn btn-muthoot-outline">Reset Form</button>
                     <button type="submit" class="btn btn-muthoot"><i class="bi bi-check-circle me-1"></i> Save Behaviour Rating</button>
                 </div>
@@ -186,6 +292,30 @@
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../static/js/dashboard.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            const csrfInput = document.getElementById("csrf_token");
+
+            if (!csrfInput) return;
+
+            try {
+                const response = await fetch("/api/csrf-token", {
+                    credentials: "same-origin"
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || !data.csrf_token) {
+                    throw new Error("Unable to obtain CSRF token.");
+                }
+
+                csrfInput.value = data.csrf_token;
+
+            } catch (error) {
+                console.error("CSRF initialization error:", error);
+            }
+        });
+    </script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 </body>
 </html>

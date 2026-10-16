@@ -5,127 +5,339 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Muthoot Employee Appraisal System</title>
 
+    <!-- Google Fonts Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Google Font Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Custom Muthoot Minimal CSS -->
-    <link rel="stylesheet" href="../static/css/style.css">
+    <!-- Custom Muthoot Stitch CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <style>
         body {
             margin: 0;
             min-height: 100vh;
-            background: linear-gradient(135deg, #FFFDF0 0%, #F4F6F8 100%);
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #0F172A 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 24px;
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Ambient background glow */
+        body::before {
+            content: "";
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(200, 16, 46, 0.22) 0%, rgba(200, 16, 46, 0) 70%);
+            top: -150px;
+            left: -100px;
+            pointer-events: none;
+            z-index: 0;
+            animation: pulseGlow 8s ease-in-out infinite alternate;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.18) 0%, rgba(212, 175, 55, 0) 70%);
+            bottom: -150px;
+            right: -100px;
+            pointer-events: none;
+            z-index: 0;
+            animation: pulseGlow 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(0.9) translate(0, 0); opacity: 0.5; }
+            100% { transform: scale(1.15) translate(30px, -20px); opacity: 0.85; }
         }
 
         .login-wrapper {
             width: 100%;
-            max-width: 1000px;
-            min-height: 580px;
+            max-width: 1080px;
+            min-height: 640px;
             background: #FFFFFF;
-            border-radius: 20px;
+            border-radius: 28px;
             overflow: hidden;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
             display: flex;
-            border: 1px solid #E5E7EB;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(20px);
         }
 
+        /* Left Side: Modern Animated Intelligence Hub */
         .login-left {
-            width: 50%;
-            background: linear-gradient(145deg, #C8102E, #9B0B22);
+            width: 52%;
+            background: linear-gradient(150deg, #9B0B22 0%, #C8102E 40%, #DD3026 80%, #A30D23 100%);
             color: #FFFFFF;
             padding: 45px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
             position: relative;
             overflow: hidden;
         }
 
-        .login-left::before {
-            content: "";
+        /* Floating decorative gradient orbs */
+        .orb-1 {
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+            top: -80px;
+            right: -80px;
+            pointer-events: none;
+            animation: floatOrb1 12s ease-in-out infinite;
+        }
+
+        .orb-2 {
             position: absolute;
             width: 280px;
             height: 280px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.06);
-            top: -80px;
-            right: -80px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.22) 0%, rgba(212, 175, 55, 0) 70%);
+            bottom: -60px;
+            left: -60px;
+            pointer-events: none;
+            animation: floatOrb2 15s ease-in-out infinite;
         }
 
-        .login-left::after {
-            content: "";
-            position: absolute;
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.04);
-            bottom: -80px;
-            left: -80px;
+        @keyframes floatOrb1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-30px, 35px) scale(1.1); }
+        }
+
+        @keyframes floatOrb2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(35px, -30px) scale(1.12); }
         }
 
         .login-brand-logo {
             max-width: 190px;
             height: auto;
             background: #FFFFFF;
-            padding: 8px 14px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 9px 15px;
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.22);
             position: relative;
-            z-index: 1;
+            z-index: 2;
+            transition: transform 0.3s ease;
         }
 
-        .welcome-title {
-            font-size: 30px;
-            font-weight: 700;
-            line-height: 1.3;
-            position: relative;
-            z-index: 1;
+        .login-brand-logo:hover {
+            transform: scale(1.02);
         }
 
-        .welcome-text {
-            font-size: 14px;
-            line-height: 1.7;
-            opacity: 0.9;
-            margin-top: 12px;
+        /* Dynamic Center Visualizer Showcase */
+        .visualizer-container {
             position: relative;
-            z-index: 1;
+            margin: 25px 0;
+            padding: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 270px;
+            z-index: 2;
         }
 
-        .feature-item {
+        /* Center Pulsing Radar Ring */
+        .radar-center-ring {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 2px dashed rgba(255, 255, 255, 0.35);
+            animation: rotateRadar 24s linear infinite;
+        }
+
+        .radar-inner-ring {
+            position: absolute;
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(212, 175, 55, 0.45);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, rgba(200, 16, 46, 0.25) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 35px rgba(212, 175, 55, 0.35);
+            animation: pulseCore 3.5s ease-in-out infinite;
+        }
+
+        .radar-core-icon {
+            font-size: 42px;
+            color: #FFFFFF;
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
+        }
+
+        @keyframes rotateRadar {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulseCore {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(212, 175, 55, 0.3); }
+            50% { transform: scale(1.08); box-shadow: 0 0 45px rgba(212, 175, 55, 0.6); }
+        }
+
+        /* Floating Interactive Stat Cards */
+        .floating-stat-card {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.14);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            border-radius: 14px;
+            padding: 10px 16px;
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-top: 20px;
-            position: relative;
-            z-index: 1;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: default;
         }
 
-        .feature-icon-box {
+        .floating-stat-card:hover {
+            transform: translateY(-4px) scale(1.03) !important;
+            background: rgba(255, 255, 255, 0.22);
+            box-shadow: 0 18px 36px rgba(0, 0, 0, 0.25);
+        }
+
+        .card-pos-1 {
+            top: 5px;
+            left: 0;
+            animation: floatCard1 5.5s ease-in-out infinite;
+        }
+
+        .card-pos-2 {
+            top: 20px;
+            right: 0;
+            animation: floatCard2 6.5s ease-in-out infinite;
+        }
+
+        .card-pos-3 {
+            bottom: 5px;
+            left: 20px;
+            animation: floatCard3 6s ease-in-out infinite;
+        }
+
+        @keyframes floatCard1 {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-9px); }
+        }
+
+        @keyframes floatCard2 {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+
+        @keyframes floatCard3 {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .stat-icon-wrap {
             width: 36px;
             height: 36px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.22);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 17px;
+            color: #FFFFFF;
         }
 
+        .stat-label-text {
+            font-size: 10.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: rgba(255, 255, 255, 0.82);
+            font-weight: 600;
+        }
+
+        .stat-value-text {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: #FFFFFF;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pulse-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10B981;
+            box-shadow: 0 0 10px #10B981;
+            animation: indicatorPulse 1.8s infinite;
+        }
+
+        @keyframes indicatorPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.3); }
+        }
+
+        .welcome-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 30px;
+            font-weight: 800;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
+            color: #FFFFFF;
+            margin-top: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .welcome-text {
+            font-size: 13.5px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.90);
+            margin-top: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .system-trust-bar {
+            padding-top: 18px;
+            border-top: 1px solid rgba(255, 255, 255, 0.20);
+            font-size: 11.5px;
+            color: rgba(255, 255, 255, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Right Side: Clean Modern Form */
         .login-right {
-            width: 50%;
-            padding: 45px;
+            width: 48%;
+            padding: 50px 45px;
             display: flex;
             align-items: center;
             justify-content: center;
+            background: #FFFFFF;
         }
 
         .login-form-box {
@@ -134,30 +346,131 @@
         }
 
         .login-heading {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1F2937;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 26px;
+            font-weight: 800;
+            color: #0F172A;
+            letter-spacing: -0.02em;
             margin-bottom: 6px;
         }
 
         .login-subtitle {
             font-size: 13px;
-            color: #6B7280;
-            margin-bottom: 25px;
+            color: #64748B;
+            margin-bottom: 26px;
+            line-height: 1.5;
         }
 
-        @media (max-width: 800px) {
+        .form-floating-custom {
+            margin-bottom: 18px;
+        }
+
+        .form-floating-custom label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .form-floating-custom .input-group {
+            border: 1.5px solid #E2E8F0;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.25s ease;
+            background: #F8FAFC;
+        }
+
+        .form-floating-custom .input-group:focus-within {
+            border-color: #C8102E;
+            background: #FFFFFF;
+            box-shadow: 0 0 0 4px rgba(200, 16, 46, 0.12);
+        }
+
+        .form-floating-custom .input-group-text {
+            background: transparent;
+            border: none;
+            color: #C8102E;
+            padding-left: 14px;
+            padding-right: 10px;
+            font-size: 16px;
+        }
+
+        .form-floating-custom .form-control {
+            border: none;
+            padding: 12px 14px 12px 0;
+            font-size: 14px;
+            color: #0F172A;
+            background: transparent;
+        }
+
+        .form-floating-custom .form-control:focus {
+            box-shadow: none;
+            outline: none;
+        }
+
+        .password-toggle-btn {
+            background: transparent !important;
+            border: none !important;
+            color: #94A3B8;
+            cursor: pointer;
+            padding-right: 14px;
+            transition: color 0.2s ease;
+        }
+
+        .password-toggle-btn:hover {
+            color: #334155;
+        }
+
+        .btn-signin {
+            background: linear-gradient(135deg, #C8102E 0%, #B9100F 100%);
+            color: #FFFFFF;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            padding: 13px;
+            border-radius: 12px;
+            border: none;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 6px 18px rgba(200, 16, 46, 0.32);
+        }
+
+        .btn-signin:hover {
+            background: linear-gradient(135deg, #A80D26 0%, #8F0A1E 100%);
+            color: #FFFFFF;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(200, 16, 46, 0.42);
+        }
+
+        .btn-signin:active {
+            transform: translateY(0);
+        }
+
+        .security-badge-footer {
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid #F1F5F9;
+            font-size: 11px;
+            color: #94A3B8;
+            text-align: center;
+        }
+
+        @media (max-width: 900px) {
             .login-wrapper {
                 flex-direction: column;
                 min-height: auto;
+                max-width: 480px;
             }
             .login-left {
                 width: 100%;
-                padding: 30px;
+                padding: 36px 28px;
             }
             .login-right {
                 width: 100%;
-                padding: 30px;
+                padding: 40px 28px;
+            }
+            .visualizer-container {
+                min-height: 220px;
             }
         }
     </style>
@@ -165,81 +478,190 @@
 <body>
 
     <div class="login-wrapper">
-        <!-- LEFT BRAND SECTION -->
+        <!-- LEFT BRAND & INTERACTIVE ANIMATION SECTION -->
         <div class="login-left">
-            <img src="../static/images/muthoot-logo.png" alt="Muthoot Finance Logo" class="login-brand-logo">
-            
-            <div class="welcome-title">Employee Appraisal System</div>
-            <div class="welcome-text">
-                Centralized platform for employee performance reviews, appraisal cycles, KPI achievements, 360 feedback, and career growth.
+            <!-- Animated Ambient Canvas -->
+            <canvas id="ambientCanvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;"></canvas>
+
+            <!-- Decorative Floating Orbs -->
+            <div class="orb-1"></div>
+            <div class="orb-2"></div>
+
+            <!-- Top Brand -->
+            <div>
+                <img src="{{ url_for('static', filename='images/muthoot-logo.png') }}" alt="Muthoot Finance Logo" class="login-brand-logo">
+                <div class="welcome-title">Muthoot Appraisal System</div>
+                <div class="welcome-text">
+                    Unified platform for continuous KPI calibration, multi-rater 360° reviews, and leadership appraisals.
+                </div>
             </div>
 
-            <div class="feature-item">
-                <div class="feature-icon-box"><i class="bi bi-shield-check"></i></div>
-                <span class="fs-7">Role-Based Access Control (RBAC)</span>
+            <!-- Dynamic Interactive Visualizer Hub -->
+            <div class="visualizer-container">
+                <!-- Rotating Radar Ring -->
+                <div class="radar-center-ring"></div>
+                <!-- Glowing Core -->
+                <div class="radar-inner-ring">
+                    <i class="bi bi-award-fill radar-core-icon"></i>
+                </div>
+
+                <!-- Floating Stat Card 1: Active Cycle -->
+                <div class="floating-stat-card card-pos-1">
+                    <div class="pulse-indicator"></div>
+                    <div>
+                        <div class="stat-label-text">Appraisal Cycle</div>
+                        <div class="stat-value-text">Annual 2026-27</div>
+                    </div>
+                </div>
+
+                <!-- Floating Stat Card 2: Peak Evaluation -->
+                <div class="floating-stat-card card-pos-2">
+                    <div class="stat-icon-wrap"><i class="bi bi-graph-up-arrow"></i></div>
+                    <div>
+                        <div class="stat-label-text">Performance Score</div>
+                        <div class="stat-value-text">
+                            <span id="scoreCounter">94.32</span>%
+                            <span class="badge bg-warning text-dark px-1.5 py-0.5 rounded-pill" style="font-size: 10px;">Outstanding</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating Stat Card 3: 360 Reviews -->
+                <div class="floating-stat-card card-pos-3">
+                    <div class="stat-icon-wrap"><i class="bi bi-shield-check"></i></div>
+                    <div>
+                        <div class="stat-label-text">360° Feedback Calibration</div>
+                        <div class="stat-value-text">Synchronized & Secure</div>
+                    </div>
+                </div>
             </div>
-            <div class="feature-item">
-                <div class="feature-icon-box"><i class="bi bi-graph-up-arrow"></i></div>
-                <span class="fs-7">Real-Time Performance Analytics</span>
-            </div>
-            <div class="feature-item">
-                <div class="feature-icon-box"><i class="bi bi-chat-square-heart"></i></div>
-                <span class="fs-7">360° Feedback & Behaviour Rating</span>
+
+            <!-- Bottom Trust Bar -->
+            <div class="system-trust-bar">
+                <span><i class="bi bi-lock-fill text-warning me-1"></i> 256-Bit SSL Encrypted</span>
+                <span>Muthoot Finance Ltd. • Corporate HRMS</span>
             </div>
         </div>
 
-        <!-- RIGHT FORM SECTION -->
+        <!-- RIGHT LOGIN FORM SECTION -->
         <div class="login-right">
             <div class="login-form-box">
-                <div class="login-heading">Welcome Back</div>
-                <div class="login-subtitle">Sign in to access your Muthoot appraisal portal.</div>
+                <div class="login-heading">Sign In to MTrack</div>
+                <div class="login-subtitle">Enter your official corporate credentials to access your appraisal dashboard.</div>
 
-                <div id="errorMessage" class="alert alert-danger p-2 fs-7 mb-3" style="display: none;">
-                    <i class="bi bi-exclamation-circle me-1"></i> <span id="errorText">Invalid credentials.</span>
+                <div id="errorMessage" class="alert alert-danger p-2 small mb-3 border-0 rounded-3 shadow-sm" style="display: none;">
+                    <i class="bi bi-exclamation-circle-fill me-1"></i> <span id="errorText">Invalid credentials.</span>
                 </div>
 
                 <form id="loginForm" onsubmit="handleLogin(event)">
-                    <div class="mb-3">
-                        <label class="form-label font-medium fs-7">Username / Employee ID</label>
+                    <div class="form-floating-custom">
+                        <label for="username">Username / Corporate ID</label>
                         <div class="input-group">
-                            <span class="input-group-text bg-light border-end-0 text-danger"><i class="bi bi-person"></i></span>
-                            <input type="text" id="username" class="form-control border-start-0 ps-0" placeholder="e.g. emp001, manager001, hr001" required>
+                            <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+                            <input type="text" id="username" class="form-control" placeholder="Enter your corporate username" required autocomplete="username">
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label font-medium fs-7">Password</label>
+                    <div class="form-floating-custom">
+                        <label for="password">Password</label>
                         <div class="input-group">
-                            <span class="input-group-text bg-light border-end-0 text-danger"><i class="bi bi-lock"></i></span>
-                            <input type="password" id="password" class="form-control border-start-0 border-end-0 ps-0" placeholder="Enter password" required>
-                            <span class="input-group-text bg-light border-start-0 text-muted" style="cursor: pointer;" onclick="togglePassword()">
+                            <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                            <input type="password" id="password" class="form-control" placeholder="Enter your password" required autocomplete="current-password">
+                            <span class="input-group-text password-toggle-btn" onclick="togglePassword()" title="Toggle visibility">
                                 <i id="passwordIcon" class="bi bi-eye"></i>
                             </span>
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-between align-items-center mb-4 fs-7">
+                    <div class="d-flex justify-content-between align-items-center mb-4 small">
                         <div class="form-check">
                             <input type="checkbox" id="rememberMe" class="form-check-input">
-                            <label for="rememberMe" class="form-check-label text-muted">Remember Me</label>
+                            <label for="rememberMe" class="form-check-label text-muted" style="cursor: pointer;">Remember Me</label>
                         </div>
-                        <a href="#" class="text-danger text-decoration-none fw-medium" onclick="alert('Password reset instructions sent to your corporate email.')">Forgot Password?</a>
+                        <a href="#" class="text-danger text-decoration-none fw-semibold" onclick="alert('Password reset instructions have been sent to your corporate email.')">
+                            Forgot Password?
+                        </a>
                     </div>
 
-                    <button type="submit" id="loginButton" class="btn btn-muthoot w-100 py-2">
+                    <button type="submit" id="loginButton" class="btn btn-signin w-100">
                         <span id="loginText"><i class="bi bi-box-arrow-in-right me-1"></i> Sign In</span>
                     </button>
                 </form>
 
-                <div class="text-center text-muted fs-7 mt-4">
-                    © 2026 Muthoot Finance Ltd. All Rights Reserved.
+                <div class="security-badge-footer">
+                    <div>© 2026 Muthoot Finance Ltd. All Rights Reserved.</div>
+                    <div class="text-muted mt-1" style="font-size: 10px;">Confidential • Enterprise Performance Management</div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Bootstrap Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
+        // --- AMBIENT CANVAS PARTICLE ANIMATION ---
+        (function initCanvasParticles() {
+            const canvas = document.getElementById("ambientCanvas");
+            if (!canvas) return;
+            const ctx = canvas.getContext("2d");
+
+            function resize() {
+                canvas.width = canvas.parentElement.clientWidth;
+                canvas.height = canvas.parentElement.clientHeight;
+            }
+            resize();
+            window.addEventListener("resize", resize);
+
+            const particles = [];
+            const count = 28;
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 2 + 1,
+                    vx: (Math.random() - 0.5) * 0.45,
+                    vy: (Math.random() - 0.5) * 0.45,
+                    alpha: Math.random() * 0.5 + 0.2
+                });
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = 0; i < count; i++) {
+                    const p = particles[i];
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    if (p.x < 0) p.x = canvas.width;
+                    if (p.x > canvas.width) p.x = 0;
+                    if (p.y < 0) p.y = canvas.height;
+                    if (p.y > canvas.height) p.y = 0;
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha})`;
+                    ctx.fill();
+
+                    for (let j = i + 1; j < count; j++) {
+                        const p2 = particles[j];
+                        const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+                        if (dist < 90) {
+                            ctx.beginPath();
+                            ctx.moveTo(p.x, p.y);
+                            ctx.lineTo(p2.x, p2.y);
+                            ctx.strokeStyle = `rgba(212, 175, 55, ${0.2 * (1 - dist / 90)})`;
+                            ctx.lineWidth = 0.7;
+                            ctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(draw);
+            }
+            draw();
+        })();
+
+        // --- PASSWORD TOGGLE ---
         function togglePassword() {
             const password = document.getElementById("password");
             const icon = document.getElementById("passwordIcon");
@@ -252,170 +674,90 @@
             }
         }
 
+        // --- AUTHENTICATION HANDLER ---
         async function handleLogin(event) {
+            event.preventDefault();
 
-    event.preventDefault();
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value;
+            const errorMessage = document.getElementById("errorMessage");
+            const errorText = document.getElementById("errorText");
+            const loginButton = document.getElementById("loginButton");
+            const loginText = document.getElementById("loginText");
 
-    const username =
-        document.getElementById("username").value.trim();
+            // Hide previous error
+            errorMessage.style.display = "none";
 
-    const password =
-        document.getElementById("password").value;
-
-    const errorMessage =
-        document.getElementById("errorMessage");
-
-    const errorText =
-        document.getElementById("errorText");
-
-    const loginButton =
-        document.getElementById("loginButton");
-
-    const loginText =
-        document.getElementById("loginText");
-
-
-    // Hide previous error
-    errorMessage.style.display = "none";
-
-
-    // Validate input
-    if (!username || !password) {
-
-        errorText.textContent =
-            "Please enter username and password.";
-
-        errorMessage.style.display = "block";
-
-        return;
-    }
-
-
-    // Disable button
-    loginButton.disabled = true;
-
-    loginText.innerHTML =
-        '<span class="spinner-border spinner-border-sm me-2"></span> Authenticating...';
-
-
-    try {
-
-        const csrfResponse = await fetch(
-            "/api/csrf-token",
-            {
-                credentials: "include"
+            // Validate input
+            if (!username || !password) {
+                errorText.textContent = "Please enter username and password.";
+                errorMessage.style.display = "block";
+                return;
             }
-        );
 
-        const csrfData = await csrfResponse.json();
+            // Disable button with animation
+            loginButton.disabled = true;
+            loginText.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Authenticating...';
 
-        if (!csrfResponse.ok || !csrfData.csrf_token) {
-            throw new Error("Unable to initialise a secure login request.");
-        }
+            try {
+                const csrfResponse = await fetch("/api/csrf-token", {
+                    credentials: "include"
+                });
 
-        const response = await fetch(
-            "/api/auth/login",
-            {
-                method: "POST",
+                const csrfData = await csrfResponse.json();
 
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-Token": csrfData.csrf_token
-                },
+                if (!csrfResponse.ok || !csrfData.csrf_token) {
+                    throw new Error("Unable to initialise a secure login request.");
+                }
 
-                credentials: "include",
+                const response = await fetch("/api/auth/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-Token": csrfData.csrf_token
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                });
 
-                body: JSON.stringify({
-                    username: username,
-                    password: password
-                })
+                const result = await response.json();
+
+                if (!response.ok || !result.success) {
+                    throw new Error(result.message || "Invalid username or password.");
+                }
+
+                console.log("Login successful:", result.user);
+
+                // Get role from Flask
+                const role = result.user.role.trim().toLowerCase();
+
+                if (role === "employee") {
+                    window.location.href = "/employee-dashboard";
+                } else if (role === "manager") {
+                    window.location.href = "/manager-dashboard";
+                } else if (
+                    role === "hr" ||
+                    role === "human resources" ||
+                    role === "hr admin"
+                ) {
+                    window.location.href = "/hr-dashboard";
+                } else if (role === "admin") {
+                    window.location.href = "/admin-dashboard";
+                } else {
+                    throw new Error("Unknown user role.");
+                }
+
+            } catch (error) {
+                console.error("Login error:", error);
+                errorText.textContent = error.message;
+                errorMessage.style.display = "block";
+                loginButton.disabled = false;
+                loginText.innerHTML = '<i class="bi bi-box-arrow-in-right me-1"></i> Sign In';
             }
-        );
-
-
-        const result = await response.json();
-
-
-        // Backend rejected login
-        if (!response.ok || !result.success) {
-
-            throw new Error(
-                result.message ||
-                "Invalid username or password."
-            );
         }
-
-
-        console.log(
-            "Login successful:",
-            result.user
-        );
-
-
-        // Get role from Flask
-        const role =
-            result.user.role.toLowerCase();
-
-
-        // Redirect based on role
-
-        if (role === "employee") {
-
-            window.location.href =
-                "/employee-dashboard";
-
-        }
-
-        else if (role === "manager") {
-            window.location.href =
-                "/manager-dashboard";
-
-        }
-
-        else if (role === "hr") {
-
-            window.location.href =
-                "/hr-dashboard";
-
-        }
-
-        else if (role === "admin") {
-
-            window.location.href =
-                "/admin-dashboard";
-
-        }
-
-        else {
-
-            throw new Error(
-                "Unknown user role."
-            );
-        }
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "Login error:",
-            error
-        );
-
-
-        errorText.textContent =
-            error.message;
-
-        errorMessage.style.display =
-            "block";
-
-
-        loginButton.disabled = false;
-
-        loginText.innerHTML =
-            '<i class="bi bi-box-arrow-in-right me-1"></i> Sign In';
-    }
-}
     </script>
 </body>
 </html>

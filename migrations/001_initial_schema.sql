@@ -127,7 +127,7 @@ CREATE TABLE IF NOT EXISTS manager_appraisal (
     appraisal_id BIGSERIAL PRIMARY KEY,
     employee_id BIGINT NOT NULL REFERENCES employees(employee_id) ON DELETE CASCADE,
     manager_id BIGINT NOT NULL REFERENCES employees(employee_id) ON DELETE RESTRICT,
-    appraisal_cycle VARCHAR(100) NOT NULL,
+    cycle_id BIGINT NOT NULL REFERENCES appraisal_cycles(cycle_id),
     status VARCHAR(30) NOT NULL DEFAULT 'Pending',
     appraisal_date DATE,
     productivity NUMERIC(3, 1),
@@ -136,15 +136,16 @@ CREATE TABLE IF NOT EXISTS manager_appraisal (
     communication NUMERIC(3, 1),
     problem_solving NUMERIC(3, 1),
     initiative NUMERIC(3, 1),
-    behaviour_score NUMERIC(3, 1),
-    remarks TEXT,
+    compliance NUMERIC(3, 1),
+    total_score NUMERIC(5, 2),
+    manager_comments TEXT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS performance_result (
     performance_id BIGSERIAL PRIMARY KEY,
     employee_id BIGINT NOT NULL REFERENCES employees(employee_id) ON DELETE CASCADE,
-    appraisal_year INTEGER NOT NULL,
+    cycle_id BIGINT NOT NULL REFERENCES appraisal_cycles(cycle_id),
     kpi_score NUMERIC(5, 2),
     attendance_score NUMERIC(5, 2),
     manager_score NUMERIC(5, 2),
@@ -154,7 +155,8 @@ CREATE TABLE IF NOT EXISTS performance_result (
     final_score NUMERIC(5, 2),
     rating VARCHAR(100),
     recommendation TEXT,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT uq_performance_employee_cycle UNIQUE (employee_id, cycle_id)
 );
 
 CREATE TABLE IF NOT EXISTS notifications (
@@ -175,7 +177,7 @@ CREATE INDEX IF NOT EXISTS attendance_employee_id_idx ON attendance(employee_id)
 CREATE INDEX IF NOT EXISTS training_records_employee_id_idx ON training_records(employee_id);
 CREATE INDEX IF NOT EXISTS manager_appraisal_manager_id_idx ON manager_appraisal(manager_id);
 CREATE INDEX IF NOT EXISTS manager_appraisal_employee_id_idx ON manager_appraisal(employee_id);
-CREATE INDEX IF NOT EXISTS performance_result_employee_year_idx ON performance_result(employee_id, appraisal_year DESC);
+CREATE INDEX IF NOT EXISTS performance_result_employee_cycle_idx ON performance_result(employee_id, cycle_id DESC);
 CREATE INDEX IF NOT EXISTS notifications_user_created_idx ON notifications(user_id, created_at DESC);
 
 COMMIT;

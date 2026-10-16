@@ -3,27 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="user-role" content="{{ (session.get('role_name') or 'manager').lower() }}">
     <title>Team Evaluation - Muthoot Appraisal System</title>
+    <!-- Google Fonts Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Google Fonts Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Custom Muthoot Minimal CSS -->
-    <link rel="stylesheet" href="../static/css/style.css">
+    <!-- Custom Muthoot Stitch CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
     <!-- Mobile Backdrop Overlay -->
     <div class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
 
-    <!-- --- SIDEBAR WITH INSIDE TOGGLE BUTTON --- -->
+    <!-- --- SIDEBAR --- -->
     <aside class="sidebar">
         <div class="brand">
             <div class="brand-logo-container">
-                <img src="../static/images/muthoot-logo.png" alt="Muthoot Finance Logo" class="brand-full-logo">
-                <img src="../static/images/muthoot-logo-toggle.png" alt="Muthoot Finance Icon" class="brand-icon-logo">
+                <img src="{{ url_for('static', filename='images/muthoot-logo.png') }}" alt="Muthoot Finance Logo" class="brand-full-logo">
+                <img src="{{ url_for('static', filename='images/muthoot-logo-toggle.png') }}" alt="Muthoot Finance Icon" class="brand-icon-logo">
             </div>
             <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
                 <i class="bi bi-chevron-left"></i>
@@ -32,14 +35,30 @@
         
         <ul class="menu" id="sidebarMenu">
             <div class="menu-section-header">Manager Overview</div>
-            <li onclick="window.location.href='/manager-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li class="" onclick="window.location.href='/manager-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li class="" onclick="window.location.href='/manager/appraisal'"><i class="bi bi-clipboard-check"></i> <span>Manager Appraisal</span></li>
             <li class="active" onclick="window.location.href='/team-evaluation'"><i class="bi bi-people"></i> <span>Team Evaluation</span></li>
-            <li onclick="window.location.href='assign_kra.html'"><i class="bi bi-ui-checks"></i> <span>Assign KRAs</span></li>
-            <li onclick="window.location.href='kpi_records.html'"><i class="bi bi-speedometer2"></i> <span>KPI Records</span></li>
+            <li class="" onclick="window.location.href='/review-appraisal'"><i class="bi bi-clipboard-check"></i> <span>Review Appraisal</span></li>
+            <li class="" onclick="window.location.href='/review-attendance'"><i class="bi bi-calendar-range"></i> <span>Review Attendance</span></li>
+            <li class="" onclick="window.location.href='/behaviour-rating'"><i class="bi bi-star-half"></i> <span>Behaviour Rating</span></li>
+            <li class="" onclick="window.location.href='/feedback-360'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
+            <li class="" onclick="window.location.href='/approve-leaves'"><i class="bi bi-calendar-check"></i> <span>Approve Leaves</span></li>
+            <div class="menu-section-header">Self Service</div>
+            <li class="" onclick="window.location.href='/my-appraisals'"><i class="bi bi-award"></i> <span>My Appraisals</span></li>
+            <li class="" onclick="window.location.href='/self-appraisal'"><i class="bi bi-person-badge"></i> <span>Self-Appraisal</span></li>
+            <li class="" onclick="window.location.href='/employee-goals'"><i class="bi bi-bullseye"></i> <span>Goals & KRAs</span></li>
+            <li class="" onclick="window.location.href='/employee-attendance'"><i class="bi bi-calendar-check"></i> <span>Attendance</span></li>
+            <li class="" onclick="window.location.href='/leave-request'"><i class="bi bi-calendar-plus"></i> <span>Leave Request</span></li>
+            <li class="" onclick="window.location.href='/requested-leaves'"><i class="bi bi-clock-history"></i> <span>My Leave Requests</span></li>
+            <li class="" onclick="window.location.href='/employee-training'"><i class="bi bi-mortarboard"></i> <span>Training</span></li>
             <div class="menu-section-header">Account</div>
-            <li onclick="window.location.href='/profile'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
-            <li onclick="window.location.href='index.html'"><i class="bi bi-box-arrow-right"></i> <span>Portal Home</span></li>
+            <li class="" onclick="window.location.href='/profile'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
+            <li onclick="window.location.href='/logout'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
         </ul>
+        <div class="sidebar-footer-badge">
+            <span>System Build v4.8.2</span>
+            <span class="status-pill">Stable</span>
+        </div>
     </aside>
 
     <!-- --- MAIN CONTENT WRAPPER --- -->
@@ -51,7 +70,13 @@
                 <button class="topbar-icon-btn d-lg-none" onclick="toggleSidebar()" title="Open Menu">
                     <i class="bi bi-list"></i>
                 </button>
-                <h4>Team Appraisal & Behaviour Evaluation <span class="text-muted fs-6 font-normal">(Rajesh Nair)</span></h4>
+                <h4>Team Appraisal & Behaviour Evaluation</h4>
+                <div class="topbar-cycle-pill d-none d-xl-inline-flex ms-2">
+                    <span class="pulse-dot"></span>
+                    <span class="fw-semibold text-dark">Annual Appraisal 2026-27</span>
+                    <span class="text-muted opacity-50">|</span>
+                    <span class="text-success fw-semibold">Active Cycle</span>
+                </div>
             </div>
             <div class="topbar-right">
                 <button class="btn btn-muthoot me-2" onclick="generatePDFReport('Team_Evaluations')">
@@ -61,28 +86,60 @@
                 <div class="topbar-icons">
                     <button class="topbar-icon-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#notificationDrawer" title="Notifications">
                         <i class="bi bi-bell"></i>
-                        <span class="notification-badge" id="unreadBadge">3</span>
+                        <span class="notification-badge" id="unreadBadge" style="display: none;">0</span>
                     </button>
                 </div>
                 
-                <div class="user-badge" onclick="window.location.href='profile.html'" style="cursor: pointer;">
-                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=100" alt="Rajesh Nair">
+                <div class="user-badge" onclick="window.location.href='{{ url_for('dashboard.profile') }}'" style="cursor: pointer;">
+                    <div class="user-avatar-circle">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
                     <div class="user-badge-info">
-                        <span class="user-badge-name">Rajesh Nair</span>
-                        <span class="user-badge-role">IT Manager</span>
+                        <span class="user-badge-name">{{ session.get('username', 'Manager') }}</span>
+                        <span class="user-badge-role">{{ session.get('role_name', 'Manager') }}</span>
                     </div>
                 </div>
             </div>
         </nav>
 
+        <!-- Page Header Ribbon -->
+        <div class="stitch-hero-banner mb-4">
+            <div class="stitch-hero-orb"></div>
+            <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 position-relative" style="z-index: 2;">
+                <div>
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-0.5 rounded-full" style="font-size: 11px;">
+                            Team Appraisal & Calibration
+                        </span>
+                        <span class="text-muted small">• Reporting Manager Portal</span>
+                    </div>
+                    <h2 class="h4 fw-bold mb-1 text-dark">Employee Performance & Behaviour Assessment</h2>
+                    <p class="text-muted mb-0 small">
+                        Evaluate performance targets and corporate values for direct reports. Scores feed directly into company normalization.
+                    </p>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-light text-muted border px-3 py-2">
+                        <i class="bi bi-people-fill text-danger me-1"></i> Direct Team Members
+                    </span>
+                </div>
+            </div>
+        </div>
+
         <!-- --- TEAM EVALUATION TABLE --- -->
         <div class="card-muthoot mb-4">
-            <div class="card-title-muthoot">
-                <span><i class="bi bi-people-fill me-2"></i> Pending Team Evaluations (Q2 2026)</span>
+            <div class="card-title-muthoot border-bottom pb-3 mb-4">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-people-fill text-danger fs-5"></i>
+                    <div>
+                        <span class="fw-bold">Team Evaluation Records</span>
+                        <div class="text-muted small fw-normal mt-0.5" style="font-size: 11.5px;">Click Evaluate to open the scoring dialog and submit ratings</div>
+                    </div>
+                </div>
             </div>
 
             <div class="table-responsive">
-                <table class="table table-muthoot">
+                <table class="table table-muthoot align-middle">
                     <thead>
                         <tr>
                             <th>Employee Name</th>
@@ -91,12 +148,13 @@
                             <th>Manager Score</th>
                             <th>Behaviour Score</th>
                             <th>Status</th>
-                            <th>Action</th>
+                            <th class="text-end">Action</th>
                         </tr>
                     </thead>
-                   <tbody id="teamEvaluationTableBody">
+                    <tbody id="teamEvaluationTableBody">
                         <tr>
-                            <td colspan="7" class="text-center text-muted py-4">
+                            <td colspan="7" class="text-center text-muted py-5">
+                                <div class="spinner-border spinner-border-sm text-danger me-2" role="status"></div>
                                 Loading team evaluations...
                             </td>
                         </tr>
@@ -107,54 +165,81 @@
 
     </main>
 
-    <!-- --- EVALUATION MODAL --- -->
+    <!-- --- EVALUATION MODAL (Polished, Aligned & Formatted) --- -->
     <div class="modal fade" id="evalModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content border-0 shadow-lg rounded-4">
-                <div class="modal-header bg-danger text-white rounded-top-4">
-                    <h5 class="modal-title font-semibold"><i class="bi bi-star-half me-2"></i> Employee Performance & Behaviour Evaluation</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="modal-header border-bottom bg-white px-4 py-3">
+                    <h5 class="modal-title fw-bold text-dark d-flex align-items-center gap-2">
+                        <i class="bi bi-star-half text-danger"></i>
+                        <span>Employee Performance & Behaviour Evaluation</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4">
+                    <!-- Member Identity Banner -->
+                    <div class="p-3 bg-light rounded-3 mb-4 d-flex align-items-center justify-content-between border">
+                        <div>
+                            <span class="text-muted small d-block">Evaluating Team Member</span>
+                            <strong id="evaluationEmployeeName" class="fs-6 text-dark">Employee Name</strong>
+                        </div>
+                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-1.5 rounded-pill">
+                            <i class="bi bi-person-check me-1"></i> Manager Appraisal
+                        </span>
+                    </div>
+
+                    <!-- Evaluation Form -->
                     <form id="evaluationForm">
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
-                                <label class="form-label font-medium">Performance Rating Score (1 to 5)</label>
-                                <div class="mb-3">
-                                <strong id="evaluationEmployeeName">
-                                    Employee
-                                </strong>
+                                <label class="form-label font-medium" for="performanceRating">
+                                    Performance Rating Score (1 to 5) <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-end-0"><i class="bi bi-speedometer2 text-danger"></i></span>
+                                    <input
+                                        type="number"
+                                        id="performanceRating"
+                                        class="form-control border-start-0 ps-0"
+                                        step="0.1"
+                                        min="1"
+                                        max="5"
+                                        placeholder="e.g. 4.2"
+                                        required>
+                                </div>
+                                <span class="text-muted" style="font-size: 11px;">Target: 1.0 (Unsatisfactory) to 5.0 (Exceptional)</span>
                             </div>
-                                <input
-                                    type="number"
-                                    id="performanceRating"
-                                    class="form-control"
-                                    step="0.1"
-                                    min="1"
-                                    max="5"
-                                    required>
-                            </div>
+
                             <div class="col-md-6">
-                                <label class="form-label font-medium">Behaviour & Integrity Score (1 to 5)</label>
-                               <input
-                                    type="number"
-                                    id="behaviourRating"
-                                    class="form-control"
-                                    step="0.1"
-                                    min="1"
-                                    max="5"
-                                    required>
+                                <label class="form-label font-medium" for="behaviourRating">
+                                    Behaviour & Integrity Score (1 to 5) <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-end-0"><i class="bi bi-star-fill text-warning"></i></span>
+                                    <input
+                                        type="number"
+                                        id="behaviourRating"
+                                        class="form-control border-start-0 ps-0"
+                                        step="0.1"
+                                        min="1"
+                                        max="5"
+                                        placeholder="e.g. 4.5"
+                                        required>
+                                </div>
+                                <span class="text-muted" style="font-size: 11px;">Culture adherence, ethical conduct & team collaboration</span>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label font-medium">Manager Remarks & Feedback</label>
-                            <textarea id="managerRemarks" class="form-control" rows="3" placeholder="Provide detailed feedback on performance, teamwork, and area of improvement..."></textarea>
+                        <div class="mb-4">
+                            <label class="form-label font-medium" for="managerRemarks">Manager Remarks & Feedback</label>
+                            <textarea id="managerRemarks" class="form-control" rows="3" placeholder="Provide qualitative feedback on key milestones, strengths, and areas for skill development..."></textarea>
                         </div>
 
-                        <div class="d-flex justify-content-end gap-2 mt-4">
+                        <div class="d-flex justify-content-end gap-2 pt-3 border-top">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-muthoot"><i class="bi bi-check-circle me-1"></i> Submit Evaluation</button>
+                            <button type="submit" class="btn btn-muthoot">
+                                <i class="bi bi-check-circle me-1"></i> Submit Evaluation
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -165,7 +250,7 @@
     <!-- --- NOTIFICATIONS OFFCANVAS DRAWER --- -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="notificationDrawer">
         <div class="offcanvas-header border-bottom">
-            <h5 class="offcanvas-title text-danger font-semibold"><i class="bi bi-bell-fill me-2"></i> Notifications</h5>
+            <h5 class="offcanvas-title text-danger fw-bold"><i class="bi bi-bell-fill me-2"></i> Notifications</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body">

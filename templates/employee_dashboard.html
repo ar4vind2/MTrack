@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="user-role" content="{{ (session.get('role_name') or 'employee').lower() }}">
     <title>Employee Dashboard - Muthoot Appraisal System</title>
+    <!-- Google Fonts Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Google Fonts Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- ApexCharts CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/apexcharts@3.45.1/dist/apexcharts.css" rel="stylesheet">
-    <!-- Custom Muthoot Minimal CSS -->
+    <!-- Custom Muthoot Stitch CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
@@ -20,12 +21,12 @@
     <!-- Mobile Backdrop Overlay -->
     <div class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
 
-    <!-- --- SIDEBAR WITH TOGGLE BUTTON INSIDE --- -->
+    <!-- --- SIDEBAR --- -->
     <aside class="sidebar">
         <div class="brand">
             <div class="brand-logo-container">
-                <img src="../static/images/muthoot-logo.png" alt="Muthoot Finance Logo" class="brand-full-logo">
-                <img src="../static/images/muthoot-logo-toggle.png" alt="Muthoot Finance Icon" class="brand-icon-logo">
+                <img src="{{ url_for('static', filename='images/muthoot-logo.png') }}" alt="Muthoot Finance Logo" class="brand-full-logo">
+                <img src="{{ url_for('static', filename='images/muthoot-logo-toggle.png') }}" alt="Muthoot Finance Icon" class="brand-icon-logo">
             </div>
             <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
                 <i class="bi bi-chevron-left"></i>
@@ -33,15 +34,22 @@
         </div>
         <ul class="menu" id="sidebarMenu">
             <div class="menu-section-header">Main Menu</div>
-            <li class="active" onclick="window.location.href='employee_dashboard.html'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
-            <li onclick="window.location.href='my_appraisals.html'"><i class="bi bi-clipboard-check"></i> <span>My Appraisals</span></li>
-            <li onclick="window.location.href='employee_goals.html'"><i class="bi bi-bullseye"></i> <span>Goals & KRAs</span></li>
-            <li onclick="window.location.href='employee_attendance.html'"><i class="bi bi-calendar-check"></i> <span>Attendance</span></li>
-            <li onclick="window.location.href='employee_training.html'"><i class="bi bi-mortarboard"></i> <span>Training</span></li>
+            <li class="active" onclick="window.location.href='/employee-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li class="" onclick="window.location.href='/my-appraisals'"><i class="bi bi-clipboard-check"></i> <span>My Appraisals</span></li>
+            <li class="" onclick="window.location.href='/self-appraisal'"><i class="bi bi-person-badge"></i> <span>Self-Appraisal</span></li>
+            <li class="" onclick="window.location.href='/employee-goals'"><i class="bi bi-bullseye"></i> <span>Goals & KRAs</span></li>
+            <li class="" onclick="window.location.href='/employee-attendance'"><i class="bi bi-calendar-check"></i> <span>Attendance</span></li>
+            <li class="" onclick="window.location.href='/leave-request'"><i class="bi bi-calendar-plus"></i> <span>Leave Request</span></li>
+            <li class="" onclick="window.location.href='/requested-leaves'"><i class="bi bi-clock-history"></i> <span>My Leave Requests</span></li>
+            <li class="" onclick="window.location.href='/employee-training'"><i class="bi bi-mortarboard"></i> <span>Training</span></li>
             <div class="menu-section-header">Account</div>
-            <li onclick="window.location.href='profile.html'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
-            <li onclick="window.location.href='index.html'"><i class="bi bi-box-arrow-right"></i> <span>Portal Home</span></li>
+            <li class="" onclick="window.location.href='/profile'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
+            <li onclick="window.location.href='/logout'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
         </ul>
+        <div class="sidebar-footer-badge">
+            <span>System Build v4.8.2</span>
+            <span class="status-pill">Stable</span>
+        </div>
     </aside>
 
     <!-- --- MAIN CONTENT WRAPPER --- -->
@@ -53,55 +61,32 @@
                 <button class="topbar-icon-btn d-lg-none" onclick="toggleSidebar()" title="Open Menu">
                     <i class="bi bi-list"></i>
                 </button>
-                <h4>
-                Welcome,
-                <span id="welcomeName">Loading...</span>
-
-                <span id="welcomeRole" class="text-muted fs-6 font-normal">
-                    (Employee)
-                </span>
-            </h4>
+                <h4>Employee Dashboard</h4>
+                <div class="topbar-cycle-pill d-none d-xl-inline-flex ms-2">
+                    <span class="pulse-dot"></span>
+                    <span class="fw-semibold text-dark">Annual Appraisal 2026-27</span>
+                    <span class="text-muted opacity-50">|</span>
+                    <span class="text-success fw-semibold">Active Cycle</span>
+                </div>
             </div>
             <div class="topbar-right">
                 <div class="topbar-icons">
-                    <button class="topbar-icon-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#notificationDrawer">
+                    <button class="topbar-icon-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#notificationDrawer" title="Notifications">
                         <i class="bi bi-bell"></i>
-                        <span class="notification-badge" id="unreadBadge">2</span>
+                        <span class="notification-badge" id="unreadBadge" style="display: none;">0</span>
                     </button>
-                    <button class="topbar-icon-btn" onclick="generatePDFReport('Employee Performance Report')">
+                    <button class="topbar-icon-btn" onclick="generatePDFReport('Employee Performance Report')" title="Export PDF">
                         <i class="bi bi-file-earmark-pdf"></i>
                     </button>
                 </div>
                 
-                <div class="user-badge">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100" alt="Arjun Kumar">
-                    <div class="user-badge-info">
-                        <div class="user-badge">
-                        <img
-                            id="userAvatar"
-                            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100"
-                            alt="Employee"
-                        >
-
-                        <div class="user-badge-info">
-
-                            <span
-                                id="userBadgeName"
-                                class="user-badge-name"
-                            >
-                                Loading...
-                            </span>
-
-                            <span
-                                id="userBadgeRole"
-                                class="user-badge-role"
-                            >
-                                Loading...
-                            </span>
-
-                        </div>
-
+                <div class="user-badge" onclick="window.location.href='{{ url_for('dashboard.profile') }}'" style="cursor: pointer;">
+                    <div class="user-avatar-circle">
+                        <i class="bi bi-person-fill"></i>
                     </div>
+                    <div class="user-badge-info">
+                        <span id="userBadgeName" class="user-badge-name">{{ session.get('username', 'Employee') }}</span>
+                        <span id="userBadgeRole" class="user-badge-role">{{ session.get('role_name', 'Employee') }}</span>
                     </div>
                 </div>
             </div>
@@ -110,46 +95,87 @@
         <!-- --- EMPLOYEE DASHBOARD CONTENT --- -->
         <div id="employee-view" class="dashboard-view active">
             
-            <!-- KPI Stat Cards Row -->
+            <!-- Employee Performance Banner Ribbon (Stitch Screen 3) -->
+            <div class="stitch-hero-banner mb-4">
+                <div class="stitch-hero-orb"></div>
+                <div class="d-flex flex-column flex-xl-row align-items-start align-items-xl-center justify-content-between gap-3 position-relative" style="z-index: 2;">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="user-avatar-circle" style="width: 50px; height: 50px; font-size: 24px;">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <div>
+                            <div class="d-flex flex-wrap align-items-center gap-2">
+                                <h2 class="h4 fw-bold mb-0 text-dark">{{ session.get('username', 'Employee') }}</h2>
+                                <span class="badge bg-light text-muted border px-2 py-0.5" style="font-size: 11px;">EMP-{{ '%04d'|format(session.get('user_id', 1)) }}</span>
+                                <span class="stitch-hero-pill">
+                                    <span class="pulse-dot" style="width: 6px; height: 6px;"></span> Active Cycle FY26-27
+                                </span>
+                            </div>
+                            <p class="text-muted small mb-0 mt-1">
+                                {{ session.get('role_name', 'Employee') }} • Muthoot Corporate Talent Management
+                            </p>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap align-items-center gap-2">
+                        <a href="{{ url_for('dashboard.self_appraisal_page') }}" class="btn btn-muthoot">
+                            <i class="bi bi-pencil-square me-1"></i> Submit Self-Appraisal
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPI Stat Cards Row (Bento Grid) -->
             <div class="row g-3 mb-4">
-                <div class="col-md-3">
+                <div class="col-sm-6 col-xl-3">
                     <div class="stat-card">
                         <div class="stat-info">
                             <h6>Overall Score</h6>
-                            <h2>4.5 / 5</h2>
+                            <h2>—</h2>
+                            <div class="text-success small mt-1" style="font-size: 11px;">
+                                <i class="bi bi-graph-up-arrow"></i> Calibrated Final
+                            </div>
                         </div>
                         <div class="stat-icon red-icon">
                             <i class="bi bi-star-fill"></i>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-sm-6 col-xl-3">
                     <div class="stat-card gold-border">
                         <div class="stat-info">
                             <h6>Attendance</h6>
-                            <h2>94%</h2>
+                            <h2>—</h2>
+                            <div class="text-muted small mt-1" style="font-size: 11px;">
+                                Month-to-Date
+                            </div>
                         </div>
                         <div class="stat-icon gold-icon">
                             <i class="bi bi-calendar-check-fill"></i>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-sm-6 col-xl-3">
                     <div class="stat-card">
                         <div class="stat-info">
                             <h6>Goals Completed</h6>
-                            <h2>88%</h2>
+                            <h2>—</h2>
+                            <div class="text-success small mt-1" style="font-size: 11px;">
+                                Milestone Target
+                            </div>
                         </div>
-                        <div class="stat-icon red-icon">
+                        <div class="stat-icon" style="background-color: var(--tertiary-light); color: var(--tertiary);">
                             <i class="bi bi-check-circle-fill"></i>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-sm-6 col-xl-3">
                     <div class="stat-card gold-border">
                         <div class="stat-info">
                             <h6>Training Status</h6>
-                            <h2 class="fs-5 text-success mt-1"><i class="bi bi-award-fill"></i> Completed</h2>
+                            <h2>—</h2>
+                            <div class="text-muted small mt-1" style="font-size: 11px;">
+                                Mandatory Modules
+                            </div>
                         </div>
                         <div class="stat-icon gold-icon">
                             <i class="bi bi-mortarboard-fill"></i>
@@ -158,85 +184,182 @@
                 </div>
             </div>
 
-            <!-- ApexCharts Section -->
+            <!-- ApexCharts Section: Trend & Attendance -->
             <div class="row g-4 mb-4">
                 <div class="col-lg-7">
-                    <div class="card-muthoot">
-                        <div class="card-title-muthoot">
-                            <span><i class="bi bi-graph-up-arrow"></i> Monthly Performance Trend (ApexCharts)</span>
-                            <button class="btn btn-sm btn-muthoot-outline" onclick="generatePDFReport('Performance Trend')"><i class="bi bi-download"></i> PDF</button>
+                    <div class="card-muthoot h-100">
+                        <div class="card-title-muthoot align-items-center">
+                            <div>
+                                <span class="fw-bold" id="empTrendTitle"><i class="bi bi-graph-up"></i> Monthly Performance Trend</span>
+                                <div class="text-muted small fw-normal mt-0.5" id="empTrendSubtitle" style="font-size: 11.5px;">Progression of periodic assessment ratings</div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2 flex-wrap">
+                                <div class="btn-group btn-group-sm" role="group" id="empTrendFilterGroup" aria-label="Performance Trend Filter">
+                                    <button type="button" class="btn btn-sm btn-muthoot-outline active" id="btnTrendMonthly" onclick="switchEmpTrendType('monthly', this)">Monthly</button>
+                                    <button type="button" class="btn btn-sm btn-muthoot-outline" id="btnTrendQuarterly" onclick="switchEmpTrendType('quarterly', this)">Quarterly</button>
+                                    <button type="button" class="btn btn-sm btn-muthoot-outline" id="btnTrendAnnual" onclick="switchEmpTrendType('annual', this)">Annual</button>
+                                    <button type="button" class="btn btn-sm btn-muthoot-outline" id="btnTrendAll" onclick="switchEmpTrendType('all', this)">All</button>
+                                </div>
+                                <button class="btn btn-sm btn-muthoot-outline" onclick="generatePDFReport('Performance Trend')">
+                                    <i class="bi bi-download"></i> PDF
+                                </button>
+                            </div>
                         </div>
                         <div id="empTrendChart" class="chart-container"></div>
                     </div>
                 </div>
                 <div class="col-lg-5">
-                    <div class="card-muthoot mb-0">
+                    <div class="card-muthoot h-100 mb-0">
                         <div class="card-title-muthoot">
-                            <span><i class="bi bi-pie-chart"></i> Attendance Breakdown</span>
+                            <div>
+                                <span class="fw-bold"><i class="bi bi-pie-chart-fill"></i> Attendance Breakdown</span>
+                                <div class="text-muted small fw-normal mt-0.5" style="font-size: 11.5px;">Monthly physical & leave ratio</div>
+                            </div>
                         </div>
                         <div id="empAttendanceChart" class="chart-container"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- KRA Radial & Summary Table Row -->
+            <!-- Performance Score Breakdown -->
             <div class="row g-4 mb-4">
+                <!-- Performance Overview -->
                 <div class="col-lg-4">
-                    <div class="card-muthoot">
-                        <div class="card-title-muthoot">
-                            <span><i class="bi bi-pie-chart-fill"></i> Goal Completion (Radial)</span>
+                    <div class="card-muthoot h-100 d-flex flex-column justify-content-between">
+                        <div class="card-title-muthoot border-bottom pb-2">
+                            <span class="fw-bold">
+                                <i class="bi bi-award-fill"></i> Performance Overview
+                            </span>
                         </div>
-                        <div id="empGoalRadialChart" class="chart-container"></div>
+
+                        <div class="text-center py-4 my-auto">
+                            <div class="text-muted small fw-medium mb-1">Final Performance Score</div>
+                            <div id="employeeFinalScore" class="display-5 fw-bold text-dark mb-2">—</div>
+
+                            <div class="mb-3">
+                                <span class="text-muted small d-block mb-1">Performance Rating</span>
+                                <span id="employeeRating" class="badge-muthoot completed fs-6 px-3 py-1">
+                                    —
+                                </span>
+                            </div>
+
+                            <div class="p-2.5 bg-light rounded-3 border">
+                                <span class="text-muted small d-block">Moderation Recommendation</span>
+                                <strong id="employeeRecommendation" class="text-dark small d-block mt-0.5">—</strong>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Score Components -->
                 <div class="col-lg-8">
-                    <div class="card-muthoot">
-                        <div class="card-title-muthoot">
-                            <span><i class="bi bi-table"></i> Recent Appraisal Summary</span>
-                            <button class="btn btn-sm btn-muthoot" onclick="generateExcelReport('Employee_Appraisals')"><i class="bi bi-file-earmark-excel me-1"></i> Export Excel</button>
+                    <div class="card-muthoot h-100">
+                        <div class="card-title-muthoot border-bottom pb-2">
+                            <span class="fw-bold">
+                                <i class="bi bi-bar-chart-line-fill"></i> Performance Score Breakdown
+                            </span>
                         </div>
+
                         <div class="table-responsive">
-                            <table class="table table-muthoot">
+                            <table class="table table-muthoot mb-0">
                                 <thead>
                                     <tr>
-                                        <th>Quarter</th>
-                                        <th>Score</th>
-                                        <th>Reviewer</th>
-                                        <th>Status</th>
-                                        <th>Remarks</th>
+                                        <th>Performance Component</th>
+                                        <th>Weight</th>
+                                        <th class="text-end">Component Score</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Q1 2025</td>
-                                        <td><span class="rating-pill">4.2 ⭐</span></td>
-                                        <td>Rajesh Nair</td>
-                                        <td><span class="badge-muthoot completed">Completed</span></td>
-                                        <td>Good Performance</td>
+                                        <td><i class="bi bi-bullseye text-danger me-2"></i> KPI / Goal Achievement</td>
+                                        <td><span class="badge bg-light text-dark border">40%</span></td>
+                                        <td id="employeeKpiScore" class="text-end fw-bold text-dark">—</td>
                                     </tr>
                                     <tr>
-                                        <td>Q2 2025</td>
-                                        <td><span class="rating-pill">4.3 ⭐</span></td>
-                                        <td>Rajesh Nair</td>
-                                        <td><span class="badge-muthoot completed">Completed</span></td>
-                                        <td>Exceeded KPI Targets</td>
+                                        <td><i class="bi bi-person-check text-danger me-2"></i> Manager Evaluation</td>
+                                        <td><span class="badge bg-light text-dark border">30%</span></td>
+                                        <td id="employeeManagerScore" class="text-end fw-bold text-dark">—</td>
                                     </tr>
                                     <tr>
-                                        <td>Q1 2026</td>
-                                        <td><span class="rating-pill">4.5 ⭐</span></td>
-                                        <td>Rajesh Nair</td>
-                                        <td><span class="badge-muthoot completed">Completed</span></td>
-                                        <td>Outstanding Contribution</td>
+                                        <td><i class="bi bi-calendar-check text-danger me-2"></i> Attendance Record</td>
+                                        <td><span class="badge bg-light text-dark border">10%</span></td>
+                                        <td id="employeeAttendanceScore" class="text-end fw-bold text-dark">—</td>
                                     </tr>
                                     <tr>
-                                        <td>Q2 2026</td>
-                                        <td><span class="text-muted">-</span></td>
-                                        <td>Rajesh Nair</td>
-                                        <td><span class="badge-muthoot review">In Review</span></td>
-                                        <td>Self Appraisal Submitted</td>
+                                        <td><i class="bi bi-star-half text-danger me-2"></i> Behaviour Assessment</td>
+                                        <td><span class="badge bg-light text-dark border">10%</span></td>
+                                        <td id="employeeBehaviourScore" class="text-end fw-bold text-dark">—</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="bi bi-person-badge text-danger me-2"></i> Self-Appraisal Submission</td>
+                                        <td><span class="badge bg-light text-dark border">5%</span></td>
+                                        <td id="employeeSelfAppraisalScore" class="text-end fw-bold text-dark">—</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="bi bi-mortarboard text-danger me-2"></i> Skill & Training Certifications</td>
+                                        <td><span class="badge bg-light text-dark border">5%</span></td>
+                                        <td id="employeeTrainingScore" class="text-end fw-bold text-dark">—</td>
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KRA, Radar Chart & Summary -->
+            <div class="row g-4 mb-4">
+                <!-- Goal Completion Radial -->
+                <div class="col-lg-4">
+                    <div class="card-muthoot h-100">
+                        <div class="card-title-muthoot">
+                            <span class="fw-bold"><i class="bi bi-pie-chart-fill"></i> Goal Completion</span>
+                        </div>
+                        <div id="empGoalRadialChart" class="chart-container"></div>
+                    </div>
+                </div>
+
+                <!-- Performance Radar -->
+                <div class="col-lg-4">
+                    <div class="card-muthoot h-100">
+                        <div class="card-title-muthoot">
+                            <span class="fw-bold"><i class="bi bi-diagram-3-fill"></i> Performance Radar</span>
+                        </div>
+                        <div id="empPerformanceRadarChart" class="chart-container"></div>
+                    </div>
+                </div>
+
+                <!-- Recent Appraisal Summary -->
+                <div class="col-lg-4">
+                    <div class="card-muthoot h-100">
+                        <div class="card-title-muthoot border-bottom pb-2">
+                            <span class="fw-bold"><i class="bi bi-table"></i> Recent Appraisal</span>
+                            <button class="btn btn-sm btn-muthoot" onclick="generateExcelReport('Employee_Appraisals')">
+                                <i class="bi bi-file-earmark-excel me-1"></i> Excel
+                            </button>
+                        </div>
+
+                        <div id="employeeAppraisalTable" class="appraisal-summary-card">
+                            <div class="appraisal-summary-row">
+                                <span class="appraisal-summary-label">Appraisal Year</span>
+                                <span id="appraisalYear" class="appraisal-summary-value">—</span>
+                            </div>
+                            <div class="appraisal-summary-row">
+                                <span class="appraisal-summary-label">Final Score</span>
+                                <span id="appraisalScore" class="appraisal-summary-value score-value text-danger">—</span>
+                            </div>
+                            <div class="appraisal-summary-row">
+                                <span class="appraisal-summary-label">Reviewer</span>
+                                <span id="appraisalReviewer" class="appraisal-summary-value">—</span>
+                            </div>
+                            <div class="appraisal-summary-row">
+                                <span class="appraisal-summary-label">Rating</span>
+                                <span id="appraisalRating" class="badge-muthoot completed">—</span>
+                            </div>
+                            <div class="appraisal-summary-row recommendation-row">
+                                <span class="appraisal-summary-label">Recommendation</span>
+                                <span id="appraisalRecommendation" class="appraisal-summary-value recommendation-value">—</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -246,10 +369,10 @@
 
     </main>
 
-    <!-- --- NOTIFICATIONS OFFCANVAS DRAWER --- -->
+    <!-- NOTIFICATIONS OFFCANVAS DRAWER -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="notificationDrawer">
         <div class="offcanvas-header border-bottom">
-            <h5 class="offcanvas-title text-danger font-semibold"><i class="bi bi-bell-fill me-2"></i> Notifications</h5>
+            <h5 class="offcanvas-title text-danger fw-bold"><i class="bi bi-bell-fill me-2"></i> Notifications</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body">

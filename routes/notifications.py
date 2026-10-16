@@ -6,7 +6,84 @@ notification_bp = Blueprint(
     "notifications",
     __name__
 )
+# ============================================================
+# CREATE NOTIFICATION
+# ============================================================
 
+def create_notification(
+    user_id,
+    title,
+    message,
+    notification_type="system"
+):
+
+    conn = None
+    cursor = None
+
+    try:
+        conn = get_db_connection()
+
+        if conn is None:
+            print("Notification creation failed: database connection failed.")
+            return False
+
+        cursor = conn.cursor()
+
+        # Prevent duplicate identical unread notifications
+        cursor.execute("""
+            SELECT notification_id FROM notifications
+            WHERE user_id = %s AND title = %s AND message = %s AND is_read = FALSE
+        """, (user_id, title, message))
+        if cursor.fetchone():
+            return True
+
+        cursor.execute("""
+            INSERT INTO notifications (
+                user_id,
+                title,
+                message,
+                notification_type,
+                is_read,
+                created_at
+            )
+            VALUES (
+                %s,
+                %s,
+                %s,
+                %s,
+                FALSE,
+                CURRENT_TIMESTAMP
+            )
+        """, (
+            user_id,
+            title,
+            message,
+            notification_type
+        ))
+
+        conn.commit()
+
+        return True
+
+    except Exception as e:
+
+        if conn:
+            conn.rollback()
+
+        print(
+            "Notification creation error:",
+            e
+        )
+
+        return False
+
+    finally:
+
+        if cursor:
+            cursor.close()
+
+        if conn:
+            conn.close()
 
 # ============================================================
 # TEST
@@ -66,9 +143,16 @@ def get_notifications():
 
         rows = cursor.fetchall()
 
+        seen_keys = set()
         notifications = []
 
         for row in rows:
+            clean_title = (row[1] or "").strip()
+            clean_msg = (row[2] or "").strip()
+            key = (clean_title, clean_msg)
+            if key in seen_keys:
+                continue
+            seen_keys.add(key)
 
             notifications.append({
                 "id": row[0],

@@ -1,641 +1,383 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
-<title>Assign KPI - Muthoot Employee Appraisal System</title>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet">
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-      rel="stylesheet">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet">
-
-<link rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="user-role" content="{{ (session.get('role_name') or 'hr').lower() }}">
+    <title>Assign KPI - Muthoot Appraisal System</title>
+    <!-- Google Fonts Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom Muthoot Stitch CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-
-
 <body>
 
-<div class="sidebar-overlay"
-     onclick="closeMobileSidebar()"></div>
-
-
-<!-- SIDEBAR -->
-
-<aside class="sidebar">
-
-<div class="brand">
-
-<div class="brand-logo-container">
-
-<img src="{{ url_for('static', filename='images/muthoot-logo.png') }}"
-     alt="Muthoot Finance Logo"
-     class="brand-full-logo">
-
-<img src="{{ url_for('static', filename='images/muthoot-logo-toggle.png') }}"
-     alt="Muthoot Finance Icon"
-     class="brand-icon-logo">
-
-</div>
-
-
-<button class="sidebar-toggle-btn"
-        onclick="toggleSidebar()">
-
-<i class="bi bi-chevron-left"></i>
-
-</button>
-
-</div>
-
-
-<ul class="menu"
-    id="sidebarMenu">
-
-<div class="menu-section-header">
-HR Administration
-</div>
-
-
-<li onclick="window.location.href='/hr-dashboard'">
-
-<i class="bi bi-grid-fill"></i>
-
-<span>Dashboard</span>
-
-</li>
-
-
-<li onclick="window.location.href='/kra-management'">
-
-<i class="bi bi-bullseye"></i>
-
-<span>KRA Management</span>
-
-</li>
-
-
-<li onclick="window.location.href='/kpi-management'">
-
-<i class="bi bi-speedometer2"></i>
-
-<span>KPI Management</span>
-
-</li>
-
-
-<li onclick="window.location.href='/assign-kra'">
-
-<i class="bi bi-person-check"></i>
-
-<span>Assign KRA</span>
-
-</li>
-
-
-<li class="active"
-    onclick="window.location.href='/assign-kpi'">
-
-<i class="bi bi-person-lines-fill"></i>
-
-<span>Assign KPI</span>
-
-</li>
-
-
-<li onclick="window.location.href='/kpi-records'">
-
-<i class="bi bi-clipboard-data"></i>
-
-<span>KPI Records</span>
-
-</li>
-
-
-<li onclick="window.location.href='/kra-kpi-report'">
-
-<i class="bi bi-file-earmark-bar-graph"></i>
-
-<span>KRA / KPI Report</span>
-
-</li>
-
-
-<div class="menu-section-header">
-Account
-</div>
-
-
-<li onclick="window.location.href='/profile'">
-
-<i class="bi bi-person-circle"></i>
-
-<span>My Profile</span>
-
-</li>
-
-
-<li onclick="window.location.href='/login'">
-
-<i class="bi bi-box-arrow-right"></i>
-
-<span>Sign Out</span>
-
-</li>
-
-</ul>
-
-</aside>
-
-
-<!-- MAIN CONTENT -->
-
-<main class="content">
-
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for category, message in messages %}
-            <div class="flash-message {{ category }}">
-                {{ message }}
+    <!-- Mobile Backdrop Overlay -->
+    <div class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+
+    <!-- --- SIDEBAR --- -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-logo-container">
+                <img src="{{ url_for('static', filename='images/muthoot-logo.png') }}" class="brand-full-logo" alt="Muthoot Finance Logo">
+                <img src="{{ url_for('static', filename='images/muthoot-logo-toggle.png') }}" class="brand-icon-logo" alt="Muthoot Finance Icon">
             </div>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
-
-<nav class="topbar">
-
-<div class="topbar-left">
-
-<button class="topbar-icon-btn d-lg-none"
-        onclick="toggleSidebar()">
-
-<i class="bi bi-list"></i>
-
-</button>
-
-
-<h4>
-
-Assign Key Performance Indicator (KPI)
-
-<span class="text-muted fs-6 font-normal">
-
-(HR Admin)
-
-</span>
-
-</h4>
-
-</div>
-
-
-<div class="topbar-right">
-
-<div class="topbar-icons">
-
-<button class="topbar-icon-btn"
-        type="button"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#notificationDrawer">
-
-<i class="bi bi-bell"></i>
-
-<span class="notification-badge">
-
-2
-
-</span>
-
-</button>
-
-</div>
-
-
-<div class="user-badge">
-
-<div class="user-badge-info">
-
-<span class="user-badge-name">
-
-Sunitha Varma
-
-</span>
-
-<span class="user-badge-role">
-
-HR Admin
-
-</span>
-
-</div>
-
-</div>
-
-</div>
-
-</nav>
-
-
-<!-- ASSIGN KPI FORM -->
-
-<div class="card-muthoot">
-
-<div class="card-title-muthoot border-bottom pb-3 mb-4">
-
-<i class="bi bi-person-lines-fill me-2"></i>
-
-Assign Key Performance Indicator to Employee
-
-</div>
-
-
-<form method="POST"
-      action="{{ url_for('kra_kpi.save_assign_kpi') }}">
-
-<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-
-
-<div class="row g-3 mb-3">
-
-
-<!-- EMPLOYEE -->
-
-<div class="col-md-6">
-
-<label class="form-label font-medium">
-
-Select Employee
-
-</label>
-
-
-<select name="employee_id"
-        class="form-select"
-        required>
-
-<option value="">
-
--- Select Employee --
-
-</option>
-
-
-{% for employee in employees %}
-
-<option value="{{ employee[0] }}">
-
-{{ employee[1] }}
-{{ employee[2] }}
-
-({{ employee[3] }})
-
-</option>
-
-{% endfor %}
-
-</select>
-
-</div>
-
-
-<!-- KPI -->
-
-<div class="col-md-6">
-
-<label class="form-label font-medium">
-
-Select KPI Indicator
-
-</label>
-
-
-<select name="kpi_id"
-        class="form-select"
-        required>
-
-<option value="">
-
--- Select KPI --
-
-</option>
-
-
-{% for kpi in kpis %}
-
-<option value="{{ kpi[0] }}">
-
-{{ kpi[1] }}
-
-{% if kpi[2] %}
-
-({{ kpi[2] }})
-
-{% endif %}
-
-</option>
-
-{% endfor %}
-
-</select>
-
-</div>
-
-</div>
-
-
-<div class="row g-3 mb-3">
-
-
-<!-- TARGET -->
-
-<div class="col-md-4">
-
-<label class="form-label font-medium">
-
-Target Value
-
-</label>
-
-<input type="number"
-       name="assigned_target"
-       class="form-control"
-       placeholder="e.g. 95"
-       step="0.01"
-       required>
-
-</div>
-
-<!-- DUE DATE -->
-
-<div class="col-md-4">
-
-    <label class="form-label font-medium">
-        Start Date
-    </label>
-
-    <input type="date"
-           name="start_date"
-           class="form-control"
-           required>
-
-</div>
-
-<div class="col-md-4">
-
-    <label class="form-label font-medium">
-        End Date
-    </label>
-
-    <input type="date"
-           name="end_date"
-           class="form-control"
-           required>
-
-</div>
-
-</div>
-<div class="row g-3 mb-4">
-
-    <div class="col-md-6">
-
-        <label class="form-label font-medium">
-            Appraisal Period
-        </label>
-
-        <select name="appraisal_period"
-                class="form-select"
-                required>
-
-            <option value="">
-                -- Select Appraisal Period --
-            </option>
-
-            <option value="2026 Q1">
-                2026 Q1
-            </option>
-
-            <option value="2026 Q2">
-                2026 Q2
-            </option>
-
-            <option value="2026 Q3">
-                2026 Q3
-            </option>
-
-            <option value="2026 Q4">
-                2026 Q4
-            </option>
-
-            <option value="2026 Annual">
-                2026 Annual
-            </option>
-
-        </select>
-
+            <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+        </div>
+
+        <ul class="menu" id="sidebarMenu">
+            <div class="menu-section-header">HR Administration</div>
+            <li class="" onclick="window.location.href='/hr-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li class="" onclick="window.location.href='/performance-results'"><i class="bi bi-award"></i> <span>Performance Results</span></li>
+            <li class="" onclick="window.location.href='/manage-training'"><i class="bi bi-mortarboard-fill"></i> <span>Manage Training</span></li>
+            <li class="" onclick="window.location.href='/feedback-360'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
+            <li class="" onclick="window.location.href='/approve-leaves'"><i class="bi bi-calendar-check"></i> <span>Approve Leaves</span></li>
+            <li class="" onclick="window.location.href='/kra-management'"><i class="bi bi-bullseye"></i> <span>KRA Management</span></li>
+            <li class="" onclick="window.location.href='/kpi-management'"><i class="bi bi-speedometer2"></i> <span>KPI Management</span></li>
+            <li class="" onclick="window.location.href='/assign-kra'"><i class="bi bi-person-check"></i> <span>Assign KRA</span></li>
+            <li class="active" onclick="window.location.href='/assign-kpi'"><i class="bi bi-person-lines-fill"></i> <span>Assign KPI</span></li>
+            <li class="" onclick="window.location.href='/kpi-records'"><i class="bi bi-speedometer2"></i> <span>KPI Records</span></li>
+            <li class="" onclick="window.location.href='/appraisal-cycles'"><i class="bi bi-calendar-range"></i> <span>Appraisal Cycles</span></li>
+            <li class="" onclick="window.location.href='/kra-kpi-report'"><i class="bi bi-file-earmark-bar-graph"></i> <span>KRA / KPI Report</span></li>
+            <div class="menu-section-header">Organization & Staff</div>
+            <li class="" onclick="window.location.href='/admin/employees'"><i class="bi bi-people-fill"></i> <span>Employee Directory</span></li>
+            <li class="" onclick="window.location.href='/admin/hierarchy'"><i class="bi bi-diagram-3-fill"></i> <span>Employee Hierarchy</span></li>
+            <li class="" onclick="window.location.href='/admin/departments'"><i class="bi bi-building"></i> <span>Departments</span></li>
+            <li class="" onclick="window.location.href='/admin/branches'"><i class="bi bi-geo-alt-fill"></i> <span>Branches</span></li>
+            <li class="" onclick="window.location.href='/admin/designations'"><i class="bi bi-award-fill"></i> <span>Designations</span></li>
+            <li class="" onclick="window.location.href='/admin/users'"><i class="bi bi-person-badge-fill"></i> <span>User Accounts</span></li>
+            <div class="menu-section-header">Account</div>
+            <li class="" onclick="window.location.href='/profile'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
+            <li onclick="window.location.href='/logout'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
+        </ul>
+        <div class="sidebar-footer-badge">
+            <span>System Build v4.8.2</span>
+            <span class="status-pill">Stable</span>
+        </div>
+    </aside>
+
+    <!-- --- MAIN CONTENT --- -->
+    <main class="content">
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show border-0 shadow-sm mb-3" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Top Bar -->
+        <nav class="topbar">
+            <div class="topbar-left">
+                <button class="topbar-icon-btn d-lg-none" onclick="toggleSidebar()" title="Open Menu">
+                    <i class="bi bi-list"></i>
+                </button>
+                <h4>Assign Key Performance Indicator</h4>
+                <div class="topbar-cycle-pill d-none d-xl-inline-flex ms-2">
+                    <span class="pulse-dot"></span>
+                    <span class="fw-semibold text-dark">Annual Appraisal 2026-27</span>
+                    <span class="text-muted opacity-50">|</span>
+                    <span class="text-success fw-semibold">Active Cycle</span>
+                </div>
+            </div>
+            <div class="topbar-right">
+                <div class="topbar-icons">
+                    <button class="topbar-icon-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#notificationDrawer" title="Notifications">
+                        <i class="bi bi-bell"></i>
+                        <span class="notification-badge" id="unreadBadge" style="display: none;">0</span>
+                    </button>
+                </div>
+                <div class="user-badge" onclick="window.location.href='/profile'" style="cursor: pointer;">
+                    <div class="user-avatar-circle">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                    <div class="user-badge-info">
+                        <span class="user-badge-name">{{ session.get('username', 'HR Admin') }}</span>
+                        <span class="user-badge-role">{{ session.get('role_name', 'HR Admin') }}</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Dashboard View -->
+        <div class="dashboard-view active">
+
+            <!-- Page Header & Action Ribbon (Stitch Screen 1) -->
+            <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 mb-4">
+                <div>
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                        <span class="badge bg-secondary-subtle text-secondary-emphasis border border-secondary-subtle px-2 py-0.5 rounded-full" style="font-size: 11px;">
+                            Performance Calibration
+                        </span>
+                        <span class="text-muted small">• FY 2026-27 Active Cycle</span>
+                    </div>
+                    <h2 class="h3 fw-bold mb-1 text-dark">Assign Key Performance Indicators (KPI)</h2>
+                    <p class="text-muted mb-0 small">
+                        Allocate customized operational indicators, specify weighted targets, and assign period-based milestones across all Muthoot branches.
+                    </p>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <a href="{{ url_for('kra_kpi.kpi_management') }}" class="btn btn-muthoot-outline">
+                        <i class="bi bi-collection me-1"></i> KPI Library
+                    </a>
+                </div>
+            </div>
+
+            <!-- Quick Stat Highlights Banner (Stitch Screen 1) -->
+            <div class="row g-3 mb-4">
+                <div class="col-sm-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h6>Assigned This Cycle</h6>
+                            <h2>{{ assignments|length }}</h2>
+                            <div class="text-success small mt-1" style="font-size: 11px;">
+                                <i class="bi bi-graph-up-arrow"></i> Active Calibration
+                            </div>
+                        </div>
+                        <div class="stat-icon red-icon">
+                            <i class="bi bi-check2-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="stat-card gold-border">
+                        <div class="stat-info">
+                            <h6>Active Staff Pool</h6>
+                            <h2>{{ employees|length }} Staff</h2>
+                            <div class="text-muted small mt-1" style="font-size: 11px;">
+                                Branch & HQ Roster
+                            </div>
+                        </div>
+                        <div class="stat-icon gold-icon">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h6>KPI Library Pool</h6>
+                            <h2>{{ kpis|length }} Metrics</h2>
+                            <div class="text-success small mt-1" style="font-size: 11px;">
+                                Standard Indicators
+                            </div>
+                        </div>
+                        <div class="stat-icon" style="background-color: var(--tertiary-light); color: var(--tertiary);">
+                            <i class="bi bi-speedometer2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="stat-card gold-border">
+                        <div class="stat-info">
+                            <h6>Review Wave</h6>
+                            <h2>Q4 Wave</h2>
+                            <div class="text-danger small mt-1" style="font-size: 11px;">
+                                <i class="bi bi-hourglass-split"></i> Calibration Open
+                            </div>
+                        </div>
+                        <div class="stat-icon gold-icon">
+                            <i class="bi bi-calendar-event"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ASSIGN KPI FORM CARD -->
+            <div class="card-muthoot mb-4">
+                <div class="card-title-muthoot border-bottom pb-3 mb-4">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-person-lines-fill text-danger fs-5"></i>
+                        <div>
+                            <span class="fw-bold">Assign KPI Indicator to Employee</span>
+                            <div class="text-muted small fw-normal mt-0.5" style="font-size: 11.5px;">Fill mandatory performance criteria to calibrate employee scorecard</div>
+                        </div>
+                    </div>
+                </div>
+
+                <form method="POST" action="{{ url_for('kra_kpi.save_assign_kpi') }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                    <div class="row g-3 mb-3">
+                        <!-- EMPLOYEE -->
+                        <div class="col-md-6">
+                            <label class="form-label font-medium">Select Employee <span class="text-danger">*</span></label>
+                            <select name="employee_id" class="form-select" required>
+                                <option value="">-- Choose Employee --</option>
+                                {% for employee in employees %}
+                                    <option value="{{ employee[0] }}">
+                                        {{ employee[1] }} {{ employee[2] }} ({{ employee[3] }})
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- KPI -->
+                        <div class="col-md-6">
+                            <label class="form-label font-medium">Select KPI Indicator <span class="text-danger">*</span></label>
+                            <select name="kpi_id" class="form-select" required>
+                                <option value="">-- Choose Indicator --</option>
+                                {% for kpi in kpis %}
+                                    <option value="{{ kpi[0] }}">
+                                        {{ kpi[1] }} {% if kpi[2] %}({{ kpi[2] }}){% endif %}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <!-- TARGET -->
+                        <div class="col-md-3">
+                            <label class="form-label font-medium">Target Value <span class="text-danger">*</span></label>
+                            <input type="number" name="assigned_target" class="form-control" placeholder="e.g. 95.00" step="0.01" required>
+                        </div>
+
+                        <!-- APPRAISAL PERIOD -->
+                        <div class="col-md-3">
+                            <label class="form-label font-medium">Appraisal Period <span class="text-danger">*</span></label>
+                            <select name="appraisal_period" class="form-select" required>
+                                <option value="">-- Select Period --</option>
+                                <option value="2026 Q1">2026 Q1</option>
+                                <option value="2026 Q2">2026 Q2</option>
+                                <option value="2026 Q3">2026 Q3</option>
+                                <option value="2026 Q4" selected>2026 Q4</option>
+                                <option value="2026 Annual">2026 Annual</option>
+                            </select>
+                        </div>
+
+                        <!-- START DATE -->
+                        <div class="col-md-3">
+                            <label class="form-label font-medium">Start Date <span class="text-danger">*</span></label>
+                            <input type="date" name="start_date" class="form-control" required>
+                        </div>
+
+                        <!-- END DATE -->
+                        <div class="col-md-3">
+                            <label class="form-label font-medium">End Date <span class="text-danger">*</span></label>
+                            <input type="date" name="end_date" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 pt-2 border-top">
+                        <button type="reset" class="btn btn-muthoot-outline">
+                            Reset Form
+                        </button>
+                        <button type="submit" class="btn btn-muthoot">
+                            <i class="bi bi-check-circle me-1"></i> Assign KPI Indicator
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- CURRENT KPI ASSIGNMENTS TABLE -->
+            <div class="card-muthoot">
+                <div class="card-title-muthoot border-bottom pb-3 mb-4">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-list-check text-danger fs-5"></i>
+                        <div>
+                            <span class="fw-bold">Active KPI Assignments</span>
+                            <div class="text-muted small fw-normal mt-0.5" style="font-size: 11.5px;">Current indicator quotas and period targets across workforce</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-muthoot align-middle">
+                        <thead>
+                            <tr>
+                                <th>Employee</th>
+                                <th>EMP Code</th>
+                                <th>KPI Indicator</th>
+                                <th>Target</th>
+                                <th>Period</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Status</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for assignment in assignments %}
+                                <tr>
+                                    <td>
+                                        <strong class="text-dark">{{ assignment[1] }} {{ assignment[2] }}</strong>
+                                    </td>
+                                    <td>
+                                        <span class="font-monospace text-muted small">{{ assignment[3] }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="fw-medium text-dark">{{ assignment[4] }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-light text-dark border fw-bold">{{ assignment[5] }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-secondary-subtle text-secondary-emphasis">{{ assignment[6] }}</span>
+                                    </td>
+                                    <td class="text-muted small">
+                                        {{ assignment[7] }}
+                                    </td>
+                                    <td class="text-muted small">
+                                        {{ assignment[8] }}
+                                    </td>
+                                    <td>
+                                        <span class="badge-muthoot completed">
+                                            {{ assignment[9] }}
+                                        </span>
+                                    </td>
+                                    <td class="text-end">
+                                        <form method="post" action="{{ url_for('kra_kpi.delete_kpi_assignment', employee_kpi_id=assignment[0]) }}" class="d-inline" onsubmit="return confirm('Delete this KPI assignment?')">
+                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger" aria-label="Delete KPI assignment" title="Delete Assignment">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="9" class="text-center text-muted py-5">
+                                        <i class="bi bi-inbox fs-3 d-block mb-2"></i>
+                                        No KPI assignments found.
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- NOTIFICATIONS DRAWER -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="notificationDrawer">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="offcanvas-title text-danger fw-bold"><i class="bi bi-bell-fill me-2"></i> Notifications</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div id="notificationList"></div>
+        </div>
     </div>
 
-</div>
-
-
-<div class="d-flex justify-content-end gap-2">
-
-<button type="reset"
-        class="btn btn-muthoot-outline">
-
-Reset Form
-
-</button>
-
-
-<button type="submit"
-        class="btn btn-muthoot">
-
-<i class="bi bi-check-circle me-1"></i>
-
-Assign KPI
-
-</button>
-
-</div>
-
-</form>
-
-</div>
-
-
-<!-- CURRENT KPI ASSIGNMENTS -->
-
-<div class="card-muthoot mt-4">
-
-<div class="card-title-muthoot border-bottom pb-3 mb-4">
-
-<i class="bi bi-list-check me-2"></i>
-
-Current KPI Assignments
-
-</div>
-
-
-<div class="table-responsive">
-
-<table class="table table-muthoot">
-
-<thead>
-
-<tr>
-
-<th>Employee</th>
-<th>Employee Code</th>
-<th>KPI</th>
-<th>Target</th>
-<th>Appraisal Period</th>
-<th>Start Date</th>
-<th>End Date</th>
-<th>Status</th>
-<th>Action</th>
-
-</tr>
-
-</thead>
-
-
-<tbody>
-
-{% for assignment in assignments %}
-
-<tr>
-
-    <td>
-        {{ assignment[1] }}
-        {{ assignment[2] }}
-    </td>
-
-    <td>
-        {{ assignment[3] }}
-    </td>
-
-    <td>
-        {{ assignment[4] }}
-    </td>
-
-    <td>
-        {{ assignment[5] }}
-    </td>
-
-    <td>
-        {{ assignment[6] }}
-    </td>
-
-    <td>
-        {{ assignment[7] }}
-    </td>
-
-    <td>
-        {{ assignment[8] }}
-    </td>
-
-    <td>
-        <span class="badge bg-success">
-            {{ assignment[9] }}
-        </span>
-    </td>
-
-    <td>
-        <form method="post"
-              action="{{ url_for('kra_kpi.delete_kpi_assignment', employee_kpi_id=assignment[0]) }}"
-              class="d-inline"
-              onsubmit="return confirm('Delete this KPI assignment?')">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <button type="submit" class="btn btn-sm btn-outline-danger" aria-label="Delete KPI assignment">
-                <i class="bi bi-trash"></i>
-            </button>
-        </form>
-    </td>
-
-</tr>
-{% else %}
-
-<tr>
-
-<td colspan="9"
-    class="text-center text-muted py-4">
-
-<i class="bi bi-inbox fs-3"></i>
-
-<p class="mb-0">
-
-No KPI assignments found.
-
-</p>
-
-</td>
-
-</tr>
-
-{% endfor %}
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</main>
-
-
-<!-- NOTIFICATIONS -->
-
-<div class="offcanvas offcanvas-end"
-     tabindex="-1"
-     id="notificationDrawer">
-
-<div class="offcanvas-header border-bottom">
-
-<h5 class="offcanvas-title">
-
-<i class="bi bi-bell-fill me-2"></i>
-
-HR System Notifications
-
-</h5>
-
-<button type="button"
-        class="btn-close"
-        data-bs-dismiss="offcanvas"></button>
-
-</div>
-
-
-<div class="offcanvas-body">
-
-<p class="text-muted">
-
-No new notifications.
-
-</p>
-
-</div>
-
-</div>
-
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
-
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 </body>
-
 </html>

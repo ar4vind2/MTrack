@@ -3,27 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="user-role" content="{{ (session.get('role_name') or 'employee').lower() }}">
     <title>My Appraisals - Muthoot Employee Appraisal System</title>
+
+    <!-- Google Fonts Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Google Fonts Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Custom Muthoot Minimal CSS -->
-    <link rel="stylesheet" href="../static/css/style.css">
+    <!-- Custom Muthoot Stitch CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
     <!-- Mobile Backdrop Overlay -->
     <div class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
 
-    <!-- --- SIDEBAR WITH INSIDE TOGGLE BUTTON --- -->
+    <!-- --- SIDEBAR --- -->
     <aside class="sidebar">
         <div class="brand">
             <div class="brand-logo-container">
-                <img src="../static/images/muthoot-logo.png" alt="Muthoot Finance Logo" class="brand-full-logo">
-                <img src="../static/images/muthoot-logo-toggle.png" alt="Muthoot Finance Icon" class="brand-icon-logo">
+                <img src="{{ url_for('static', filename='images/muthoot-logo.png') }}" alt="Muthoot Finance Logo" class="brand-full-logo">
+                <img src="{{ url_for('static', filename='images/muthoot-logo-toggle.png') }}" alt="Muthoot Finance Icon" class="brand-icon-logo">
             </div>
             <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
                 <i class="bi bi-chevron-left"></i>
@@ -31,16 +35,51 @@
         </div>
         
         <ul class="menu" id="sidebarMenu">
+            {% set r_lower = (session.get('role_name') or 'employee').lower() %}
+            {% if 'manager' in r_lower or 'lead' in r_lower or 'supervisor' in r_lower %}
+            <div class="menu-section-header">Manager Overview</div>
+            <li onclick="window.location.href='/manager-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li onclick="window.location.href='/manager/appraisal'"><i class="bi bi-clipboard-check"></i> <span>Manager Appraisal</span></li>
+            <li onclick="window.location.href='/team-evaluation'"><i class="bi bi-people"></i> <span>Team Evaluation</span></li>
+            <li onclick="window.location.href='/review-appraisal'"><i class="bi bi-clipboard-data"></i> <span>Review Appraisal</span></li>
+            <li onclick="window.location.href='/review-attendance'"><i class="bi bi-calendar-range"></i> <span>Review Attendance</span></li>
+            <li onclick="window.location.href='/behaviour-rating'"><i class="bi bi-star-half"></i> <span>Behaviour Rating</span></li>
+            <li onclick="window.location.href='/feedback-360'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
+            <li onclick="window.location.href='/approve-leaves'"><i class="bi bi-calendar-check"></i> <span>Approve Leaves</span></li>
+            <div class="menu-section-header">Self Service</div>
+            <li class="active" onclick="window.location.href='/my-appraisals'"><i class="bi bi-award"></i> <span>My Appraisals</span></li>
+            <li onclick="window.location.href='/self-appraisal'"><i class="bi bi-person-badge"></i> <span>Self-Appraisal</span></li>
+            <li onclick="window.location.href='/employee-goals'"><i class="bi bi-bullseye"></i> <span>Goals & KRAs</span></li>
+            <li onclick="window.location.href='/employee-attendance'"><i class="bi bi-calendar-check"></i> <span>Attendance</span></li>
+            <li onclick="window.location.href='/leave-request'"><i class="bi bi-calendar-plus"></i> <span>Leave Request</span></li>
+            <li onclick="window.location.href='/requested-leaves'"><i class="bi bi-clock-history"></i> <span>My Leave Requests</span></li>
+            <li onclick="window.location.href='/employee-training'"><i class="bi bi-mortarboard"></i> <span>Training</span></li>
+            {% elif 'hr' in r_lower or 'admin' in r_lower or 'human' in r_lower %}
+            <div class="menu-section-header">HR Administration</div>
+            <li onclick="window.location.href='/hr-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li onclick="window.location.href='/performance-results'"><i class="bi bi-award"></i> <span>Performance Results</span></li>
+            <li onclick="window.location.href='/manage-training'"><i class="bi bi-mortarboard-fill"></i> <span>Manage Training</span></li>
+            <li onclick="window.location.href='/feedback-360'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
+            <li onclick="window.location.href='/approve-leaves'"><i class="bi bi-calendar-check"></i> <span>Approve Leaves</span></li>
+            {% else %}
             <div class="menu-section-header">Main Menu</div>
-            <li onclick="window.location.href='employee_dashboard.html'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
-            <li class="active" onclick="window.location.href='my_appraisals.html'"><i class="bi bi-clipboard-check"></i> <span>My Appraisals</span></li>
-            <li onclick="window.location.href='employee_goals.html'"><i class="bi bi-bullseye"></i> <span>Goals & KRAs</span></li>
-            <li onclick="window.location.href='employee_attendance.html'"><i class="bi bi-calendar-check"></i> <span>Attendance</span></li>
-            <li onclick="window.location.href='employee_training.html'"><i class="bi bi-mortarboard"></i> <span>Training</span></li>
+            <li onclick="window.location.href='/employee-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li class="active" onclick="window.location.href='/my-appraisals'"><i class="bi bi-clipboard-check"></i> <span>My Appraisals</span></li>
+            <li onclick="window.location.href='/self-appraisal'"><i class="bi bi-person-badge"></i> <span>Self-Appraisal</span></li>
+            <li onclick="window.location.href='/employee-goals'"><i class="bi bi-bullseye"></i> <span>Goals & KRAs</span></li>
+            <li onclick="window.location.href='/employee-attendance'"><i class="bi bi-calendar-check"></i> <span>Attendance</span></li>
+            <li onclick="window.location.href='/leave-request'"><i class="bi bi-calendar-plus"></i> <span>Leave Request</span></li>
+            <li onclick="window.location.href='/requested-leaves'"><i class="bi bi-clock-history"></i> <span>My Leave Requests</span></li>
+            <li onclick="window.location.href='/employee-training'"><i class="bi bi-mortarboard"></i> <span>Training</span></li>
+            {% endif %}
             <div class="menu-section-header">Account</div>
-            <li onclick="window.location.href='profile.html'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
-            <li onclick="window.location.href='index.html'"><i class="bi bi-box-arrow-right"></i> <span>Portal Home</span></li>
+            <li onclick="window.location.href='/profile'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
+            <li onclick="window.location.href='/logout'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
         </ul>
+        <div class="sidebar-footer-badge">
+            <span>System Build v4.8.2</span>
+            <span class="status-pill">Stable</span>
+        </div>
     </aside>
 
     <!-- --- MAIN CONTENT WRAPPER --- -->
@@ -52,10 +91,10 @@
                 <button class="topbar-icon-btn d-lg-none" onclick="toggleSidebar()" title="Open Menu">
                     <i class="bi bi-list"></i>
                 </button>
-                <h4>My Performance Appraisals <span class="text-muted fs-6 font-normal">(Employee View)</span></h4>
+                <h4>My Performance Appraisals</h4>
             </div>
             <div class="topbar-right">
-                <button class="btn btn-muthoot me-2" onclick="window.location.href='appraisal_form.html'">
+                <button class="btn btn-muthoot me-2" onclick="window.location.href='/appraisal-form'">
                     <i class="bi bi-file-earmark-plus me-1"></i> Fill Active Appraisal Form
                 </button>
                 <button class="btn btn-muthoot-outline me-2" onclick="generatePDFReport('My_Appraisal_History')">
@@ -65,27 +104,30 @@
                 <div class="topbar-icons">
                     <button class="topbar-icon-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#notificationDrawer" title="Notifications">
                         <i class="bi bi-bell"></i>
-                        <span class="notification-badge" id="unreadBadge">2</span>
+                        <span class="notification-badge" id="unreadBadge" style="display: none;">0</span>
                     </button>
                 </div>
                 
-                <div class="user-badge" onclick="window.location.href='profile.html'" style="cursor: pointer;">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100" alt="Arjun Kumar">
+                <div class="user-badge" onclick="window.location.href='/profile'" style="cursor: pointer;">
+                    <div class="user-avatar-circle">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
                     <div class="user-badge-info">
-                        <span class="user-badge-name">Arjun Kumar</span>
-                        <span class="user-badge-role">Kochi Branch</span>
+                        <span class="user-badge-name">{{ session.get('username', 'Employee') }}</span>
+                        <span class="user-badge-role">{{ session.get('role_name', 'Employee') }}</span>
                     </div>
                 </div>
             </div>
         </nav>
 
-        <!-- --- MY APPRAISALS CONTENT --- -->
+        <!-- --- STITCH QUICK METRICS BENTO BANNER --- -->
         <div class="row g-3 mb-4">
             <div class="col-md-4">
                 <div class="stat-card">
                     <div class="stat-info">
-                        <h6>Latest Score (Q1 2026)</h6>
-                        <h2>4.5 / 5.0</h2>
+                        <h6>Latest Score</h6>
+                        <h2 id="latestScoreVal">—</h2>
+                        <small class="text-muted"><i class="bi bi-award me-1"></i> Composite Score</small>
                     </div>
                     <div class="stat-icon red-icon">
                         <i class="bi bi-star-fill"></i>
@@ -96,9 +138,10 @@
                 <div class="stat-card gold-border">
                     <div class="stat-info">
                         <h6>Active Cycle</h6>
-                        <h2>Q2 2026</h2>
+                        <h2 id="activeCycleVal" style="font-size: 1.25rem;">Annual Appraisal 2026-27</h2>
+                        <small class="text-muted"><i class="bi bi-calendar2-event me-1"></i> Evaluation Underway</small>
                     </div>
-                    <div class="stat-icon gold-icon">
+                    <div class="stat-icon amber-icon">
                         <i class="bi bi-clock-history"></i>
                     </div>
                 </div>
@@ -107,23 +150,27 @@
                 <div class="stat-card">
                     <div class="stat-info">
                         <h6>Reviewer Manager</h6>
-                        <h2 class="fs-5 mt-1 text-dark">Rajesh Nair</h2>
+                        <h2 id="reviewerManagerVal" class="fs-5 mt-1 text-dark">Branch Manager</h2>
+                        <small class="text-muted"><i class="bi bi-person-badge me-1"></i> Assigned Evaluator</small>
                     </div>
-                    <div class="stat-icon red-icon">
-                        <i class="bi bi-person-badge"></i>
+                    <div class="stat-icon green-icon">
+                        <i class="bi bi-person-check"></i>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- --- APPRAISAL HISTORY CARD --- -->
         <div class="card-muthoot">
             <div class="card-title-muthoot">
-                <span><i class="bi bi-journal-text me-2"></i> Appraisal Cycle History</span>
-                <button class="btn btn-sm btn-muthoot-outline" onclick="generateExcelReport('Appraisal_History')"><i class="bi bi-file-earmark-excel me-1"></i> Excel Export</button>
+                <span><i class="bi bi-journal-text me-2 text-danger"></i> Appraisal Cycle History</span>
+                <button class="btn btn-sm btn-muthoot-outline" onclick="generateExcelReport('Appraisal_History')">
+                    <i class="bi bi-file-earmark-excel me-1"></i> Excel Export
+                </button>
             </div>
 
             <div class="table-responsive">
-                <table class="table table-muthoot">
+                <table class="table table-muthoot align-middle mb-0">
                     <thead>
                         <tr>
                             <th>Appraisal Cycle</th>
@@ -132,52 +179,14 @@
                             <th>Final Score</th>
                             <th>Reviewer</th>
                             <th>Status</th>
-                            <th>Action</th>
+                            <th class="text-end">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="appraisalHistoryBody">
                         <tr>
-                            <td><strong>Q2 2026 (Current)</strong></td>
-                            <td>4.6 / 5</td>
-                            <td><span class="text-muted">Pending</span></td>
-                            <td><span class="text-muted">-</span></td>
-                            <td>Rajesh Nair</td>
-                            <td><span class="badge-muthoot review">Submitted to Manager</span></td>
-                            <td>
-                                <button class="btn btn-sm btn-muthoot" onclick="alert('Self Appraisal Details:\n• Project Delivery: 98%\n• Code Review Quality: Excellent\n• Team Collaboration: High')">View Submission</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Q1 2026</strong></td>
-                            <td>4.5 / 5</td>
-                            <td>4.5 / 5</td>
-                            <td><span class="rating-pill">4.5 ⭐</span></td>
-                            <td>Rajesh Nair</td>
-                            <td><span class="badge-muthoot completed">Completed</span></td>
-                            <td>
-                                <button class="btn btn-sm btn-muthoot-outline" onclick="generatePDFReport('Q1_2026_Appraisal')"><i class="bi bi-file-pdf"></i> Download PDF</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Q4 2025</strong></td>
-                            <td>4.4 / 5</td>
-                            <td>4.4 / 5</td>
-                            <td><span class="rating-pill">4.4 ⭐</span></td>
-                            <td>Rajesh Nair</td>
-                            <td><span class="badge-muthoot completed">Completed</span></td>
-                            <td>
-                                <button class="btn btn-sm btn-muthoot-outline" onclick="generatePDFReport('Q4_2025_Appraisal')"><i class="bi bi-file-pdf"></i> Download PDF</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Q3 2025</strong></td>
-                            <td>4.2 / 5</td>
-                            <td>4.3 / 5</td>
-                            <td><span class="rating-pill">4.3 ⭐</span></td>
-                            <td>Rajesh Nair</td>
-                            <td><span class="badge-muthoot completed">Completed</span></td>
-                            <td>
-                                <button class="btn btn-sm btn-muthoot-outline" onclick="generatePDFReport('Q3_2025_Appraisal')"><i class="bi bi-file-pdf"></i> Download PDF</button>
+                            <td colspan="7" class="text-center text-muted py-5">
+                                <div class="spinner-border spinner-border-sm me-2"></div>
+                                Loading appraisal cycle history...
                             </td>
                         </tr>
                     </tbody>
@@ -202,9 +211,94 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Export Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-    <!-- Custom JS -->
-    <script src="../static/js/dashboard.js"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script>
+        async function loadEmployeeAppraisalHistory() {
+            const tbody = document.getElementById("appraisalHistoryBody");
+            if (!tbody) return;
+
+            try {
+                const authRes = await fetch("/api/auth/me");
+                const authData = await authRes.json();
+                if (!authData || !authData.authenticated || !authData.user) {
+                    tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted py-4">Please log in to view appraisal history.</td></tr>';
+                    return;
+                }
+
+                const employeeId = authData.user.employee_id;
+                if (!employeeId) {
+                    tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted py-4">No employee profile linked to account.</td></tr>';
+                    return;
+                }
+
+                const res = await fetch(`/api/performance-history/${employeeId}`);
+                const history = await res.json();
+
+                if (!res.ok || !Array.isArray(history) || history.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="7" class="text-center text-muted py-5">
+                                <div class="text-muted">
+                                    <i class="bi bi-clipboard-x fs-1 d-block mb-3 text-secondary"></i>
+                                    <h6 class="fw-bold">No Appraisal Cycle History Found</h6>
+                                    <p class="mb-0 fs-7">Completed historical appraisal evaluation records will appear here.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                // Update top metrics
+                const latest = history[0];
+                if (latest) {
+                    const scoreEl = document.getElementById("latestScoreVal");
+                    if (scoreEl && latest.final_score !== null) scoreEl.textContent = `${Number(latest.final_score).toFixed(2)}%`;
+
+                    const cycleEl = document.getElementById("activeCycleVal");
+                    if (cycleEl && latest.cycle_name) cycleEl.textContent = latest.cycle_name;
+
+                    const reviewerEl = document.getElementById("reviewerManagerVal");
+                    if (reviewerEl && latest.reviewer_name) reviewerEl.textContent = latest.reviewer_name;
+                }
+
+                tbody.innerHTML = history.map(item => {
+                    const statusBadge = item.status === "Completed"
+                        ? '<span class="badge bg-success-subtle text-success border border-success rounded-pill">Completed</span>'
+                        : '<span class="badge bg-warning-subtle text-warning-emphasis border border-warning rounded-pill">Incomplete</span>';
+
+                    const selfDisplay = item.self_score !== null ? `${Number(item.self_score).toFixed(2)}%` : '<span class="text-muted small">Pending</span>';
+                    const mgrDisplay = item.manager_score !== null ? `${Number(item.manager_score).toFixed(2)}%` : '<span class="text-muted small">Pending</span>';
+                    const finalDisplay = item.final_score !== null ? `<strong class="text-danger">${Number(item.final_score).toFixed(2)}%</strong>` : '<span class="text-muted small">Incomplete</span>';
+
+                    return `
+                        <tr>
+                            <td>
+                                <strong class="text-dark">${item.cycle_name || `Cycle #${item.cycle_id}`}</strong>
+                                ${item.rating && item.rating !== 'N/A' ? `<div class="small text-muted">Rating: <span class="badge bg-light text-dark border">${item.rating}</span></div>` : ''}
+                            </td>
+                            <td>${selfDisplay}</td>
+                            <td>${mgrDisplay}</td>
+                            <td>${finalDisplay}</td>
+                            <td>${item.reviewer_name || 'Manager'}</td>
+                            <td>${statusBadge}</td>
+                            <td class="text-end">
+                                <a href="/employee-performance-details?employee_id=${employeeId}&cycle_id=${item.cycle_id}" class="btn btn-sm btn-muthoot-outline py-1 px-2" title="View Full Performance Breakdown">
+                                    <i class="bi bi-eye me-1"></i> View
+                                </a>
+                            </td>
+                        </tr>
+                    `;
+                }).join("");
+
+            } catch (err) {
+                console.error("Appraisal History Error:", err);
+                tbody.innerHTML = '<tr><td colspan="7" class="text-center text-danger py-4">Failed to load appraisal cycle history.</td></tr>';
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", loadEmployeeAppraisalHistory);
+    </script>
 </body>
 </html>

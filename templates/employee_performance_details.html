@@ -1,54 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Employee Performance Details - Muthoot Appraisal System</title>
 
+    <!-- Google Fonts Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
-    <!-- Google Fonts Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <!-- ApexCharts CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/apexcharts@3.45.1/dist/apexcharts.css" rel="stylesheet" />
-    <!-- Custom Muthoot Minimal CSS -->
-    <link href="../static/css/style.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom Muthoot Stitch CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        #committeeActionRecommendation, #recommendationRating, #promotionRecommendation, #incrementRecommendation {
+            white-space: normal !important;
+            word-break: break-word !important;
+            overflow-wrap: break-word !important;
+            max-width: 100% !important;
+            display: inline-block !important;
+            line-height: 1.35 !important;
+        }
+    </style>
 </head>
 
 <body>
     <!-- Mobile Backdrop Overlay -->
     <div class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
 
-    <!-- --- SIDEBAR WITH TOGGLE BUTTON INSIDE --- -->
+    <!-- --- SIDEBAR --- -->
     <aside class="sidebar">
         <div class="brand">
             <div class="brand-logo-container">
-                <img alt="Muthoot Finance Logo" class="brand-full-logo" src="../static/images/muthoot-logo.png" />
-                <img alt="Muthoot Finance Icon" class="brand-icon-logo" src="../static/images/muthoot-logo-toggle.png" />
+                <img alt="Muthoot Finance Logo" class="brand-full-logo" src="{{ url_for('static', filename='images/muthoot-logo.png') }}" />
+                <img alt="Muthoot Finance Icon" class="brand-icon-logo" src="{{ url_for('static', filename='images/muthoot-logo-toggle.png') }}" />
             </div>
             <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
                 <i class="bi bi-chevron-left"></i>
             </button>
         </div>
 
-                <ul class="menu" id="sidebarMenu">
+        <ul class="menu" id="sidebarMenu">
             <div class="menu-section-header">HR Administration</div>
-            <li class="" onclick="window.location.href='hr_dashboard.html'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
-            <li class="active" onclick="window.location.href='performance_results.html'"><i class="bi bi-award"></i> <span>Performance Results</span></li>
-            <li class="" onclick="window.location.href='manage_training.html'"><i class="bi bi-mortarboard-fill"></i> <span>Manage Training</span></li>
-            <li class="" onclick="window.location.href='kra_management.html'"><i class="bi bi-bullseye"></i> <span>KRA Management</span></li>
-            <li class="" onclick="window.location.href='kpi_management.html'"><i class="bi bi-speedometer2"></i> <span>KPI Management</span></li>
-            <li class="" onclick="window.location.href='assign_kra.html'"><i class="bi bi-person-check"></i> <span>Assign KRA</span></li>
-            <li class="" onclick="window.location.href='assign_kpi.html'"><i class="bi bi-person-lines-fill"></i> <span>Assign KPI</span></li>
-            <li class="" onclick="window.location.href='kra_kpi_report.html'"><i class="bi bi-file-earmark-bar-graph"></i> <span>KRA / KPI Report</span></li>
+            <li class="" onclick="window.location.href='/hr-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li class="active" onclick="window.location.href='/performance-results'"><i class="bi bi-award"></i> <span>Performance Results</span></li>
+            <li class="" onclick="window.location.href='/manage-training'"><i class="bi bi-mortarboard-fill"></i> <span>Manage Training</span></li>
+            <li class="" onclick="window.location.href='/feedback-360'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
+            <li class="" onclick="window.location.href='/approve-leaves'"><i class="bi bi-calendar-check"></i> <span>Approve Leaves</span></li>
+            <li class="" onclick="window.location.href='/kra-management'"><i class="bi bi-bullseye"></i> <span>KRA Management</span></li>
+            <li class="" onclick="window.location.href='/kpi-management'"><i class="bi bi-speedometer2"></i> <span>KPI Management</span></li>
+            <li class="" onclick="window.location.href='/assign-kra'"><i class="bi bi-person-check"></i> <span>Assign KRA</span></li>
+            <li class="" onclick="window.location.href='/assign-kpi'"><i class="bi bi-person-lines-fill"></i> <span>Assign KPI</span></li>
+            <li class="" onclick="window.location.href='/kpi-records'"><i class="bi bi-speedometer2"></i> <span>KPI Records</span></li>
+            <li class="" onclick="window.location.href='/appraisal-cycles'"><i class="bi bi-calendar-range"></i> <span>Appraisal Cycles</span></li>
+            <li class="" onclick="window.location.href='/kra-kpi-report'"><i class="bi bi-file-earmark-bar-graph"></i> <span>KRA / KPI Report</span></li>
+            <div class="menu-section-header">Organization & Staff</div>
+            <li class="" onclick="window.location.href='/admin/employees'"><i class="bi bi-people-fill"></i> <span>Employee Directory</span></li>
+            <li class="" onclick="window.location.href='/admin/hierarchy'"><i class="bi bi-diagram-3-fill"></i> <span>Employee Hierarchy</span></li>
+            <li class="" onclick="window.location.href='/admin/departments'"><i class="bi bi-building"></i> <span>Departments</span></li>
+            <li class="" onclick="window.location.href='/admin/branches'"><i class="bi bi-geo-alt-fill"></i> <span>Branches</span></li>
+            <li class="" onclick="window.location.href='/admin/designations'"><i class="bi bi-award-fill"></i> <span>Designations</span></li>
+            <li class="" onclick="window.location.href='/admin/users'"><i class="bi bi-person-badge-fill"></i> <span>User Accounts</span></li>
             <div class="menu-section-header">Account</div>
-            <li class="" onclick="window.location.href='profile.html'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
-            <li onclick="window.location.href='login.html'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
+            <li class="" onclick="window.location.href='/profile'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
+            <li onclick="window.location.href='/logout'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
         </ul>
+        <div class="sidebar-footer-badge">
+            <span>System Build v4.8.2</span>
+            <span class="status-pill">Stable</span>
+        </div>
     </aside>
 
     <!-- --- MAIN CONTENT WRAPPER --- -->
@@ -59,33 +83,30 @@
                 <button class="topbar-icon-btn d-lg-none" onclick="toggleSidebar()" title="Open Menu">
                     <i class="bi bi-list"></i>
                 </button>
-                <h4>
-                    Welcome, Sunitha Varma
-                    <span class="text-muted fs-6 font-normal">(Head of HR)</span>
-                </h4>
+                <h4>Employee Performance Details</h4>
             </div>
 
             <div class="topbar-right">
                 <div class="topbar-icons">
-                    <button class="topbar-icon-btn" data-bs-target="#notificationDrawer" data-bs-toggle="offcanvas"
-                        type="button">
+                    <button class="topbar-icon-btn" data-bs-target="#notificationDrawer" data-bs-toggle="offcanvas" type="button" title="Notifications">
                         <i class="bi bi-bell"></i>
-                        <span class="notification-badge">4</span>
+                        <span class="notification-badge" id="unreadBadge" style="display: none;">0</span>
                     </button>
-                    <button class="topbar-icon-btn" onclick="generatePDFReport('Organization Performance Summary')">
+                    <button class="topbar-icon-btn" onclick="generatePDFReport('Organization Performance Summary')" title="Export PDF">
                         <i class="bi bi-file-earmark-pdf"></i>
                     </button>
-                    <button class="topbar-icon-btn" onclick="generateExcelReport('HR_Promotion_Increments')">
+                    <button class="topbar-icon-btn" onclick="generateExcelReport('HR_Promotion_Increments')" title="Export Excel">
                         <i class="bi bi-file-earmark-excel"></i>
                     </button>
                 </div>
 
-                <div class="user-badge">
-                    <img alt="Sunitha Varma"
-                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&amp;fit=crop&amp;q=80&amp;w=100" />
+                <div class="user-badge" onclick="window.location.href='{{ url_for('dashboard.profile') }}'" style="cursor: pointer;">
+                    <div class="user-avatar-circle">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
                     <div class="user-badge-info">
-                        <span class="user-badge-name">Sunitha Varma</span>
-                        <span class="user-badge-role">Head Office</span>
+                        <span id="userBadgeName" class="user-badge-name">{{ session.get('username', 'HR Admin') }}</span>
+                        <span id="userBadgeRole" class="user-badge-role">{{ session.get('role_name', 'Human Resources') }}</span>
                     </div>
                 </div>
             </div>
@@ -95,176 +116,148 @@
         <div class="dashboard-view active" id="hr-view">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div>
-                    <h3 class="fw-bold">Employee Performance Details</h3>
-                    <p class="text-muted mb-2">View Complete Evaluation details, ratings, and recommendations.</p>
+                    <h3 class="fw-bold mb-1">Employee Performance Dossier</h3>
+                    <p class="text-muted mb-0">Individual assessment breakdown across all evaluated dimensions and historical performance.</p>
                 </div>
-                <button class="btn btn-muthoot-outline btn-sm" onclick="history.back()">
-                    <i class="bi bi-arrow-left me-1"></i>
-                    Back to Results
+                <button class="btn btn-muthoot-outline btn-sm" onclick="window.location.href='/performance-results'">
+                    <i class="bi bi-arrow-left me-1"></i> Back to Results
                 </button>
             </div>
+
+            <!-- EMPLOYEE INFORMATION HERO CARD -->
             <div class="card-muthoot mb-4">
                 <div class="card-title-muthoot mb-3 justify-content-start">
-                    <i class="bi bi-person-badge me-2"></i>
-                    Employee Information
+                    <i class="bi bi-person-badge me-2 text-danger"></i> Employee Identity & Designation
                 </div>
 
-                <div class="row">
-
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label text-muted">Employee ID</label>
-                        <div class="fw-semibold">EMP001</div>
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label text-muted small mb-1">Employee ID</label>
+                        <div class="fw-semibold text-dark fs-6" id="employeeCode">Loading...</div>
                     </div>
 
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label text-muted">Employee Name</label>
-                        <div class="fw-semibold">Rahul Nair</div>
+                    <div class="col-md-3">
+                        <label class="form-label text-muted small mb-1">Employee Name</label>
+                        <div class="fw-semibold text-dark fs-6" id="employeeName">Loading...</div>
                     </div>
 
-                    <div class="col-md-6">
-                        <label class="form-label text-muted">Department</label>
-                        <div class="fw-semibold">Finance</div>
+                    <div class="col-md-3">
+                        <label class="form-label text-muted small mb-1">Department</label>
+                        <div class="fw-semibold text-dark fs-6" id="employeeDepartment">Loading...</div>
                     </div>
 
-                    <div class="col-md-6">
-                        <label class="form-label text-muted">Designation</label>
-                        <div class="fw-semibold">Senior Officer</div>
+                    <div class="col-md-3">
+                        <label class="form-label text-muted small mb-1">Designation</label>
+                        <div class="fw-semibold text-dark fs-6" id="employeeDesignation">Loading...</div>
                     </div>
                 </div>
             </div>
+
+            <!-- PERFORMANCE SCORE BREAKDOWN -->
             <div class="card-muthoot mb-4">
-                <div class="card-title-muthoot justify-content-start">
-                    <i class="bi bi-bar-chart-line me-2"></i>
-                    Performance Score Calculation
+                <div class="card-title-muthoot justify-content-start mb-3">
+                    <i class="bi bi-bar-chart-line me-2 text-danger"></i> Performance Score Breakdown
                 </div>
 
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label text-muted">KPI / Goal Score</label>
-                        <div class="fw-semibold">92%</div>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <div class="p-3 border rounded-3 bg-light">
+                            <label class="form-label text-muted small mb-1">KPI / Goal Score (40%)</label>
+                            <div class="fs-5 fw-bold text-dark" id="kpiScore">—</div>
+                        </div>
                     </div>
 
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label text-muted">Manager Evaluation</label>
-                        <div class="fw-semibold">94%</div>
+                    <div class="col-md-4">
+                        <div class="p-3 border rounded-3 bg-light">
+                            <label class="form-label text-muted small mb-1">Manager Evaluation (30%)</label>
+                            <div class="fs-5 fw-bold text-dark" id="managerScore">—</div>
+                        </div>
                     </div>
 
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label text-muted">Attendance Score</label>
-                        <div class="fw-semibold">96%</div>
+                    <div class="col-md-4">
+                        <div class="p-3 border rounded-3 bg-light">
+                            <label class="form-label text-muted small mb-1">Attendance Score (10%)</label>
+                            <div class="fs-5 fw-bold text-dark" id="attendanceScore">—</div>
+                        </div>
                     </div>
 
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label text-muted">Behaviour Score</label>
-                        <div class="fw-semibold">94%</div>
+                    <div class="col-md-4">
+                        <div class="p-3 border rounded-3 bg-light">
+                            <label class="form-label text-muted small mb-1">Behaviour Competency (10%)</label>
+                            <div class="fs-5 fw-bold text-dark" id="behaviourScore">—</div>
+                        </div>
                     </div>
 
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label text-muted">Self-Appraisal Score</label>
-                        <div class="fw-semibold">90%</div>
+                    <div class="col-md-4">
+                        <div class="p-3 border rounded-3 bg-light">
+                            <label class="form-label text-muted small mb-1">Self-Appraisal (5%)</label>
+                            <div class="fs-5 fw-bold text-dark" id="selfAppraisalScore">—</div>
+                        </div>
                     </div>
 
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label text-muted">Training Score</label>
-                        <div class="fw-semibold">89%</div>
-                    </div>
-                </div>
-
-                <hr class="my-3" />
-
-                <div class="mb-3">
-                    <h6 class="fw-semibold mb-3">Performance Formula</h6>
-                    <div class="table-responsive">
-                        <table class="table table-sm table-muthoot align-middle mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Component</th>
-                                    <th>Weight</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>KPI / Goal Achievement</td>
-                                    <td>40%</td>
-                                </tr>
-                                <tr>
-                                    <td>Manager Evaluation</td>
-                                    <td>30%</td>
-                                </tr>
-                                <tr>
-                                    <td>Attendance</td>
-                                    <td>10%</td>
-                                </tr>
-                                <tr>
-                                    <td>Behaviour</td>
-                                    <td>10%</td>
-                                </tr>
-                                <tr>
-                                    <td>Self-Appraisal</td>
-                                    <td>5%</td>
-                                </tr>
-                                <tr>
-                                    <td>Training</td>
-                                    <td>5%</td>
-                                </tr>
-                                <tr class="fw-semibold">
-                                    <td>Total</td>
-                                    <td>100%</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="col-md-4">
+                        <div class="p-3 border rounded-3 bg-light">
+                            <label class="form-label text-muted small mb-1">Training Attendance (5%)</label>
+                            <div class="fs-5 fw-bold text-dark" id="trainingScore">—</div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="alert alert-light border mb-0">
-                    <div class="small text-muted mb-1">Final Score Calculation</div>
-                    <div class="fw-semibold">
-                        (92 × 0.40) + (94 × 0.30) + (96 × 0.10) +
-                        (94 × 0.10) + (90 × 0.05) + (89 × 0.05)
-                        = <span class="text-success">92.95%</span>
-                    </div>
-                </div>
-
-                <div class="row mt-3">
+                <div class="row g-3 p-3 rounded-3 bg-danger-subtle border border-danger">
                     <div class="col-md-6">
-                        <label class="form-label text-muted">Final Performance Score</label>
-                        <div class="fs-4 fw-bold text-success">92.95%</div>
+                        <label class="form-label text-danger small mb-1 fw-semibold">Final Performance Score</label>
+                        <div class="fs-3 fw-bold text-danger" id="finalScore">—</div>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label text-muted">Overall Rating</label>
-                        <div class="fw-bold text-success">Outstanding</div>
+                        <label class="form-label text-danger small mb-1 fw-semibold">Overall Appraisal Rating</label>
+                        <div>
+                            <span class="fs-4 fw-bold text-danger" id="finalRating">—</span>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="card-muthoot mb-4">
 
-                <div class="card-title-muthoot justify-content-start">
-                    <i class="bi bi-award me-2"></i>
-                    Final Rating & Recommendation
+            <!-- RECOMMENDATIONS -->
+            <div class="card-muthoot mb-4">
+                <div class="card-title-muthoot justify-content-start mb-3">
+                    <i class="bi bi-award me-2 text-danger"></i> Rating & Committee Recommendations
                 </div>
 
-                <div class="row">
-
-                    <div class="col-md-4">
-                        <label class="form-label text-muted">Overall Rating</label>
-                        <div class="fw-bold text-success">Outstanding</div>
+                <div class="row g-3">
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="p-3 border rounded-3 bg-light h-100 d-flex flex-column justify-content-between">
+                            <label class="form-label text-muted small d-block mb-2">Appraisal Rating</label>
+                            <div><span class="badge bg-primary-subtle text-primary border border-primary fs-6 px-3 py-2 rounded-pill text-wrap text-break" id="recommendationRating">—</span></div>
+                        </div>
                     </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label text-muted">Promotion</label>
-                        <span class="badge bg-primary">Recommended</span>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="p-3 border rounded-3 bg-light h-100 d-flex flex-column justify-content-between">
+                            <label class="form-label text-muted small d-block mb-2">Promotion Eligibility</label>
+                            <div><span class="badge bg-secondary-subtle text-secondary border border-secondary fs-6 px-3 py-2 rounded-pill text-wrap text-break" id="promotionRecommendation">—</span></div>
+                        </div>
                     </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label text-muted">Salary Increment</label>
-                        <span class="badge bg-success">Recommended</span>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="p-3 border rounded-3 bg-light h-100 d-flex flex-column justify-content-between">
+                            <label class="form-label text-muted small d-block mb-2">Salary Increment</label>
+                            <div><span class="badge bg-secondary-subtle text-secondary border border-secondary fs-6 px-3 py-2 rounded-pill text-wrap text-break" id="incrementRecommendation">—</span></div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="p-3 border rounded-3 bg-light h-100 d-flex flex-column justify-content-between">
+                            <label class="form-label text-muted small d-block mb-2">Committee Recommendation</label>
+                            <div><span class="badge bg-light text-dark border fs-6 px-3 py-2 rounded-pill text-wrap text-break" id="committeeActionRecommendation">—</span></div>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <!-- PERFORMANCE HISTORY -->
             <div class="card-muthoot mb-4">
-                <div class="card-title-muthoot justify-content-start">
-                    <i class="bi bi-clock-history me-2"></i>
-                    Performance History
+                <div class="card-title-muthoot justify-content-start mb-3">
+                    <i class="bi bi-clock-history me-2 text-danger"></i> Performance History Across Cycles
                 </div>
 
                 <div class="table-responsive">
@@ -274,53 +267,36 @@
                                 <th>Appraisal Cycle</th>
                                 <th>Final Score</th>
                                 <th>Overall Rating</th>
+                                <th>Recommendation</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="performanceHistoryBody">
                             <tr>
-                                <td>2026</td>
-                                <td class="fw-semibold">92.95%</td>
-                                <td><span class="badge bg-success">Outstanding</span></td>
-                                <td><span class="badge-muthoot completed">Completed</span></td>
-                            </tr>
-                            <tr>
-                                <td>2025</td>
-                                <td class="fw-semibold">87%</td>
-                                <td><span class="badge bg-primary">Excellent</span></td>
-                                <td><span class="badge-muthoot completed">Completed</span></td>
-                            </tr>
-                            <tr>
-                                <td>2024</td>
-                                <td class="fw-semibold">81%</td>
-                                <td><span class="badge bg-primary">Excellent</span></td>
-                                <td><span class="badge-muthoot completed">Completed</span></td>
+                                <td colspan="5" class="text-center text-muted py-3">Loading history...</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
+            <!-- MANAGER'S REMARKS -->
             <div class="card-muthoot">
-
-                <div class="card-title-muthoot justify-content-start">
-                    <i class="bi bi-chat-left-text me-2"></i>
-                    Manager's Remarks
+                <div class="card-title-muthoot justify-content-start mb-2">
+                    <i class="bi bi-chat-left-text me-2 text-danger"></i> Manager Evaluation Comments & Remarks
                 </div>
-                <p class="text-muted mb-0" style="line-height:1.8;">
-                    Rahul consistently exceeded quarterly targets and demonstrated excellent
-                    leadership. Shows strong teamwork, problem-solving skills, and a proactive
-                    approach to assigned responsibilities.
+                <p class="text-dark p-3 bg-light rounded-3 border mb-0" id="managerRemarks" style="line-height:1.8;">
+                    Loading remarks...
                 </p>
             </div>
         </div>
     </main>
+
     <!-- --- NOTIFICATIONS OFFCANVAS DRAWER --- -->
     <div class="offcanvas offcanvas-end" id="notificationDrawer" tabindex="-1">
         <div class="offcanvas-header border-bottom">
             <h5 class="offcanvas-title text-danger font-semibold">
-                <i class="bi bi-bell-fill me-2"></i>
-                HR System Notifications
+                <i class="bi bi-bell-fill me-2"></i> HR System Notifications
             </h5>
             <button class="btn-close" data-bs-dismiss="offcanvas" type="button"></button>
         </div>
@@ -331,12 +307,135 @@
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- ApexCharts JS -->
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.1/dist/apexcharts.min.js"></script>
-    <!-- Export Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <!-- Custom JS -->
-    <script src="../static/js/dashboard.js"></script>
-</body>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 
+    <script>
+        function getEmployeeId() {
+            const urlParams = new URLSearchParams(window.location.search);
+            let id = urlParams.get("employee_id");
+            if (!id) {
+                const parts = window.location.pathname.split("/").filter(Boolean);
+                const last = parts[parts.length - 1];
+                if (/^\d+$/.test(last)) {
+                    id = last;
+                }
+            }
+            return id;
+        }
+
+        const employeeId = getEmployeeId();
+
+        async function loadPerformanceHistory() {
+            if (!employeeId) return;
+
+            try {
+                const response = await fetch(`/api/performance-history/${employeeId}`);
+                const history = await response.json();
+                const tbody = document.getElementById("performanceHistoryBody");
+                tbody.innerHTML = "";
+
+                if (!response.ok || history.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-3">No previous performance records found.</td></tr>';
+                    return;
+                }
+
+                history.forEach(record => {
+                    const scoreDisplay = record.final_score !== null && record.final_score !== undefined
+                        ? `${Number(record.final_score).toFixed(2)}%`
+                        : "Pending";
+                    const statusBadge = record.status === "Incomplete"
+                        ? `<span class="badge bg-warning-subtle text-warning-emphasis border border-warning rounded-pill">Incomplete</span>`
+                        : `<span class="badge bg-success-subtle text-success border border-success rounded-pill">${record.status || "Completed"}</span>`;
+                    const ratingBadge = record.rating === "Incomplete"
+                        ? `<span class="badge bg-warning-subtle text-warning-emphasis border border-warning rounded-pill">${record.rating}</span>`
+                        : `<span class="badge bg-primary-subtle text-primary border border-primary rounded-pill">${record.rating}</span>`;
+
+                    const row = `
+                        <tr>
+                            <td><strong>${record.cycle_name || record.appraisal_year || ('Cycle ' + record.cycle_id)}</strong></td>
+                            <td class="fw-semibold text-danger">${scoreDisplay}</td>
+                            <td>${ratingBadge}</td>
+                            <td><span class="badge bg-light text-dark border px-2 py-1 text-wrap text-break">${record.recommendation || "Completed"}</span></td>
+                            <td>${statusBadge}</td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += row;
+                });
+            } catch (err) {
+                console.error("Error loading history:", err);
+            }
+        }
+
+        async function loadEmployeeDetails() {
+            if (!employeeId) {
+                alert("Employee ID is required.");
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/performance-results`);
+                const employees = await response.json();
+
+                const employee = employees.find(emp => String(emp.employee_id) === String(employeeId));
+
+                if (employee) {
+                    document.getElementById("employeeName").textContent = employee.name;
+                    document.getElementById("employeeDepartment").textContent = employee.department || "—";
+                    document.getElementById("employeeDesignation").textContent = employee.designation || "—";
+                    document.getElementById("employeeCode").textContent = employee.employee_code || ("EMP" + String(employee.employee_id).padStart(3, "0"));
+
+                    document.getElementById("kpiScore").textContent = employee.kpi_score !== null && employee.kpi_score !== undefined ? employee.kpi_score + "%" : "Pending";
+                    document.getElementById("managerScore").textContent = employee.manager_score !== null && employee.manager_score !== undefined ? employee.manager_score + "%" : "Pending";
+                    document.getElementById("attendanceScore").textContent = employee.attendance_score !== null && employee.attendance_score !== undefined ? employee.attendance_score + "%" : "Pending";
+                    document.getElementById("behaviourScore").textContent = employee.behaviour_score !== null && employee.behaviour_score !== undefined ? employee.behaviour_score + "%" : "Pending";
+                    document.getElementById("selfAppraisalScore").textContent = employee.self_appraisal_score !== null && employee.self_appraisal_score !== undefined ? employee.self_appraisal_score + "%" : "Pending";
+                    document.getElementById("trainingScore").textContent = employee.training_score !== null && employee.training_score !== undefined ? employee.training_score + "%" : "N/A (No trainings)";
+                    document.getElementById("finalScore").textContent = employee.score !== null && employee.score !== undefined ? Number(employee.score).toFixed(2) + "%" : "Pending (Incomplete)";
+
+                    document.getElementById("finalRating").textContent = employee.rating;
+                    document.getElementById("recommendationRating").textContent = employee.rating;
+
+                    const promoEl = document.getElementById("promotionRecommendation");
+                    const hasPromo = employee.recommendations && employee.recommendations.some(r => r.includes("Promotion"));
+                    if (hasPromo) {
+                        promoEl.textContent = "Eligible / Recommended";
+                        promoEl.className = "badge bg-success-subtle text-success border border-success fs-6 px-3 py-2 rounded-pill text-wrap text-break";
+                    } else {
+                        promoEl.textContent = "Not Recommended";
+                        promoEl.className = "badge bg-secondary-subtle text-secondary border border-secondary fs-6 px-3 py-2 rounded-pill text-wrap text-break";
+                    }
+
+                    const incEl = document.getElementById("incrementRecommendation");
+                    const hasInc = employee.recommendations && employee.recommendations.some(r => r.includes("Increment"));
+                    if (hasInc) {
+                        incEl.textContent = "Eligible / Recommended";
+                        incEl.className = "badge bg-success-subtle text-success border border-success fs-6 px-3 py-2 rounded-pill text-wrap text-break";
+                    } else {
+                        incEl.textContent = "Not Recommended";
+                        incEl.className = "badge bg-secondary-subtle text-secondary border border-secondary fs-6 px-3 py-2 rounded-pill text-wrap text-break";
+                    }
+
+                    const commEl = document.getElementById("committeeActionRecommendation");
+                    if (commEl) {
+                        commEl.textContent = (employee.recommendations && employee.recommendations.length > 0)
+                            ? employee.recommendations.join(", ")
+                            : "No Immediate Action";
+                        commEl.className = "badge bg-light text-dark border fs-6 px-3 py-2 rounded-pill text-wrap text-break";
+                    }
+
+                    document.getElementById("managerRemarks").textContent = employee.manager_comments || "No remarks recorded.";
+                } else {
+                    document.getElementById("employeeName").textContent = "Employee not found";
+                }
+            } catch (err) {
+                console.error("Error loading employee details:", err);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadEmployeeDetails();
+            loadPerformanceHistory();
+        });
+    </script>
+</body>
 </html>

@@ -3,169 +3,437 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KRA/KPI Report - Muthoot Employee Appraisal System</title>
+    <meta name="user-role" content="{{ (session.get('role_name') or 'hr').lower() }}">
+    <title>KRA & KPI Performance Report - Muthoot Appraisal System</title>
+    <!-- Google Fonts Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Google Fonts Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Custom Muthoot Minimal CSS -->
-    <link rel="stylesheet" href="../static/css/style.css">
+    <!-- Custom Muthoot Stitch CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
     <!-- Mobile Backdrop Overlay -->
     <div class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
 
-    <!-- --- SIDEBAR WITH INSIDE TOGGLE BUTTON --- -->
+    <!-- --- SIDEBAR --- -->
     <aside class="sidebar">
         <div class="brand">
             <div class="brand-logo-container">
-                <img src="../static/images/muthoot-logo.png" alt="Muthoot Finance Logo" class="brand-full-logo">
-                <img src="../static/images/muthoot-logo-toggle.png" alt="Muthoot Finance Icon" class="brand-icon-logo">
+                <img src="{{ url_for('static', filename='images/muthoot-logo.png') }}" alt="Muthoot Finance Logo" class="brand-full-logo">
+                <img src="{{ url_for('static', filename='images/muthoot-logo-toggle.png') }}" alt="Muthoot Finance Icon" class="brand-icon-logo">
             </div>
             <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
                 <i class="bi bi-chevron-left"></i>
             </button>
         </div>
-        
-                <ul class="menu" id="sidebarMenu">
+
+        <ul class="menu" id="sidebarMenu">
             <div class="menu-section-header">HR Administration</div>
-            <li class="" onclick="window.location.href='hr_dashboard.html'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
-            <li class="" onclick="window.location.href='performance_results.html'"><i class="bi bi-award"></i> <span>Performance Results</span></li>
-            <li class="" onclick="window.location.href='manage_training.html'"><i class="bi bi-mortarboard-fill"></i> <span>Manage Training</span></li>
-            <li class="" onclick="window.location.href='kra_management.html'"><i class="bi bi-bullseye"></i> <span>KRA Management</span></li>
-            <li class="" onclick="window.location.href='kpi_management.html'"><i class="bi bi-speedometer2"></i> <span>KPI Management</span></li>
-            <li class="" onclick="window.location.href='assign_kra.html'"><i class="bi bi-person-check"></i> <span>Assign KRA</span></li>
-            <li class="" onclick="window.location.href='assign_kpi.html'"><i class="bi bi-person-lines-fill"></i> <span>Assign KPI</span></li>
-            <li class="active" onclick="window.location.href='kra_kpi_report.html'"><i class="bi bi-file-earmark-bar-graph"></i> <span>KRA / KPI Report</span></li>
+            <li class="" onclick="window.location.href='/hr-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li class="" onclick="window.location.href='/performance-results'"><i class="bi bi-award"></i> <span>Performance Results</span></li>
+            <li class="" onclick="window.location.href='/manage-training'"><i class="bi bi-mortarboard-fill"></i> <span>Manage Training</span></li>
+            <li class="" onclick="window.location.href='/feedback-360'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
+            <li class="" onclick="window.location.href='/approve-leaves'"><i class="bi bi-calendar-check"></i> <span>Approve Leaves</span></li>
+            <li class="" onclick="window.location.href='/kra-management'"><i class="bi bi-bullseye"></i> <span>KRA Management</span></li>
+            <li class="" onclick="window.location.href='/kpi-management'"><i class="bi bi-speedometer2"></i> <span>KPI Management</span></li>
+            <li class="" onclick="window.location.href='/assign-kra'"><i class="bi bi-person-check"></i> <span>Assign KRA</span></li>
+            <li class="" onclick="window.location.href='/assign-kpi'"><i class="bi bi-person-lines-fill"></i> <span>Assign KPI</span></li>
+            <li class="" onclick="window.location.href='/kpi-records'"><i class="bi bi-speedometer2"></i> <span>KPI Records</span></li>
+            <li class="" onclick="window.location.href='/appraisal-cycles'"><i class="bi bi-calendar-range"></i> <span>Appraisal Cycles</span></li>
+            <li class="active" onclick="window.location.href='/kra-kpi-report'"><i class="bi bi-file-earmark-bar-graph"></i> <span>KRA / KPI Report</span></li>
+            <div class="menu-section-header">Organization & Staff</div>
+            <li class="" onclick="window.location.href='/admin/employees'"><i class="bi bi-people-fill"></i> <span>Employee Directory</span></li>
+            <li class="" onclick="window.location.href='/admin/hierarchy'"><i class="bi bi-diagram-3-fill"></i> <span>Employee Hierarchy</span></li>
+            <li class="" onclick="window.location.href='/admin/departments'"><i class="bi bi-building"></i> <span>Departments</span></li>
+            <li class="" onclick="window.location.href='/admin/branches'"><i class="bi bi-geo-alt-fill"></i> <span>Branches</span></li>
+            <li class="" onclick="window.location.href='/admin/designations'"><i class="bi bi-award-fill"></i> <span>Designations</span></li>
+            <li class="" onclick="window.location.href='/admin/users'"><i class="bi bi-person-badge-fill"></i> <span>User Accounts</span></li>
             <div class="menu-section-header">Account</div>
-            <li class="" onclick="window.location.href='profile.html'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
-            <li onclick="window.location.href='login.html'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
+            <li class="" onclick="window.location.href='/profile'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
+            <li onclick="window.location.href='/logout'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
         </ul>
+        <div class="sidebar-footer-badge">
+            <span>System Build v4.8.2</span>
+            <span class="status-pill">Stable</span>
+        </div>
     </aside>
 
-    <!-- --- MAIN CONTENT WRAPPER --- -->
+    <!-- --- MAIN CONTENT --- -->
     <main class="content">
-        
-        <!-- --- TOPBAR NAVBAR --- -->
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show border-0 shadow-sm mb-3" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Topbar -->
         <nav class="topbar">
             <div class="topbar-left">
                 <button class="topbar-icon-btn d-lg-none" onclick="toggleSidebar()" title="Open Menu">
                     <i class="bi bi-list"></i>
                 </button>
-                <h4>KRA / KPI Report Summary <span class="text-muted fs-6 font-normal">(HR Admin)</span></h4>
+                <h4>KRA & KPI Performance Report</h4>
+                <div class="topbar-cycle-pill d-none d-xl-inline-flex ms-2">
+                    <span class="pulse-dot"></span>
+                    <span class="fw-semibold text-dark">Annual Appraisal 2026-27</span>
+                    <span class="text-muted opacity-50">|</span>
+                    <span class="text-success fw-semibold">Active Cycle</span>
+                </div>
             </div>
             <div class="topbar-right">
-                <button class="btn btn-muthoot me-2" onclick="generatePDFReport('KRA_KPI_Summary_Report')">
+                <button class="btn btn-muthoot me-2 shadow-sm" onclick="exportKraKpiPDF()">
                     <i class="bi bi-file-earmark-pdf me-1"></i> Export PDF
                 </button>
-                <button class="btn btn-muthoot-outline" onclick="generateExcelReport('KRA_KPI_Summary_Data')">
+                <button class="btn btn-muthoot-outline" onclick="exportKraKpiExcel()">
                     <i class="bi bi-file-earmark-excel me-1"></i> Export Excel
                 </button>
-
                 <div class="topbar-icons ms-2">
                     <button class="topbar-icon-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#notificationDrawer" title="Notifications">
                         <i class="bi bi-bell"></i>
-                        <span class="notification-badge" id="unreadBadge">2</span>
+                        <span class="notification-badge" id="unreadBadge" style="display: none;">0</span>
                     </button>
                 </div>
-                
-                <div class="user-badge">
-                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100" alt="Sunitha Varma">
+                <div class="user-badge" onclick="window.location.href='{{ url_for('dashboard.profile') }}'" style="cursor: pointer;">
+                    <div class="user-avatar-circle">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
                     <div class="user-badge-info">
-                        <span class="user-badge-name">Sunitha Varma</span>
-                        <span class="user-badge-role">Head Office</span>
+                        <span class="user-badge-name">{{ session.get('username', 'HR Admin') }}</span>
+                        <span class="user-badge-role">{{ session.get('role_name', 'Human Resources') }}</span>
                     </div>
                 </div>
             </div>
         </nav>
 
-        <!-- --- REPORT CONTENT CARD --- -->
-        <div class="card-muthoot">
-            <div class="row g-2 mb-4">
-                <div class="col-md-3">
-                    <input class="form-control" placeholder="Search Employee Name or ID...">
+        <!-- Dashboard View -->
+        <div class="dashboard-view active">
+
+            <!-- Page Header & Action Ribbon -->
+            <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 mb-4">
+                <div>
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                        <span class="badge bg-secondary-subtle text-secondary-emphasis border border-secondary-subtle px-2 py-0.5 rounded-full" style="font-size: 11px;">
+                            Performance Intelligence
+                        </span>
+                        <span class="text-muted small">• Consolidated Audit & Reporting</span>
+                    </div>
+                    <h2 class="h3 fw-bold mb-1 text-dark">Enterprise KRA & KPI Performance Report</h2>
+                    <p class="text-muted mb-0 small">
+                        Review strategic KRA deliverables, operational KPI benchmarks, target completions, and employee scores across departments.
+                    </p>
                 </div>
-                <div class="col-md-3">
-                    <select class="form-select">
-                        <option>All Departments</option>
-                        <option>IT</option>
-                        <option>Finance</option>
-                        <option>Loan Processing</option>
-                        <option>HR</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <select class="form-select">
-                        <option>All Statuses</option>
-                        <option>Completed</option>
-                        <option>Pending</option>
-                        <option>In Review</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <button class="btn btn-muthoot w-100"><i class="bi bi-funnel me-1"></i> Generate Report</button>
+                <div class="d-flex align-items-center gap-2">
+                    <a href="{{ url_for('kra_kpi.assign_kra') }}" class="btn btn-muthoot-outline">
+                        <i class="bi bi-bullseye me-1"></i> KRA Assignments
+                    </a>
+                    <a href="{{ url_for('kra_kpi.assign_kpi') }}" class="btn btn-muthoot-outline">
+                        <i class="bi bi-speedometer2 me-1"></i> KPI Assignments
+                    </a>
                 </div>
             </div>
 
-            <div class="table-responsive">
-                <table class="table table-muthoot">
-                    <thead>
-                        <tr>
-                            <th>Employee</th>
-                            <th>Department</th>
-                            <th>Target KRA</th>
-                            <th>KPI Target Achievement</th>
-                            <th>Overall Score</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Arjun Kumar</strong></td>
-                            <td>Information Technology</td>
-                            <td>System Delivery & Productivity</td>
-                            <td>95% Achieved</td>
-                            <td><span class="rating-pill">4.8 ⭐</span></td>
-                            <td><span class="badge-muthoot completed">Completed</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Rahul Sharma</strong></td>
-                            <td>Finance & Accounts</td>
-                            <td>Customer Satisfaction</td>
-                            <td>92% Achieved</td>
-                            <td><span class="rating-pill">4.5 ⭐</span></td>
-                            <td><span class="badge-muthoot completed">Completed</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Meera Jasmine</strong></td>
-                            <td>Loan Processing</td>
-                            <td>Loan Application TAT</td>
-                            <td>89% Achieved</td>
-                            <td><span class="rating-pill">4.3 ⭐</span></td>
-                            <td><span class="badge-muthoot review">In Review</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Reshma Nair</strong></td>
-                            <td>Human Resources</td>
-                            <td>Employee Engagement</td>
-                            <td>91% Achieved</td>
-                            <td><span class="rating-pill">4.6 ⭐</span></td>
-                            <td><span class="badge-muthoot pending">Pending</span></td>
-                        </tr>
-                    </tbody>
-                </table>
+            <!-- Bento Metrics Highlights Banner -->
+            <div class="row g-3 mb-4">
+                <div class="col-sm-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h6>KRA Records</h6>
+                            <h2>{{ kra_report|length }}</h2>
+                            <div class="text-success small mt-1" style="font-size: 11px;">
+                                <i class="bi bi-bullseye"></i> Goal Allocations
+                            </div>
+                        </div>
+                        <div class="stat-icon red-icon">
+                            <i class="bi bi-bar-chart-line-fill"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="stat-card gold-border">
+                        <div class="stat-info">
+                            <h6>KPI Logged Entries</h6>
+                            <h2>{{ kpi_report|length }}</h2>
+                            <div class="text-muted small mt-1" style="font-size: 11px;">
+                                Quantitative Benchmarks
+                            </div>
+                        </div>
+                        <div class="stat-icon gold-icon">
+                            <i class="bi bi-speedometer2"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h6>Departments Tracked</h6>
+                            <h2>{{ departments|length }}</h2>
+                            <div class="text-primary small mt-1" style="font-size: 11px;">
+                                Organization-wide
+                            </div>
+                        </div>
+                        <div class="stat-icon red-icon">
+                            <i class="bi bi-building"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="stat-card gold-border">
+                        <div class="stat-info">
+                            <h6>Audit Status</h6>
+                            <h2>Certified</h2>
+                            <div class="text-success small mt-1" style="font-size: 11px;">
+                                <i class="bi bi-shield-check"></i> HR Verified
+                            </div>
+                        </div>
+                        <div class="stat-icon gold-icon">
+                            <i class="bi bi-check2-circle"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <!-- Filter Card Form -->
+            <div class="card-muthoot mb-4">
+                <form method="GET" action="{{ url_for('kra_kpi.kra_kpi_report') }}">
+                    <div class="row g-2 align-items-center">
+                        <!-- Search Employee -->
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0 text-muted">
+                                    <i class="bi bi-search"></i>
+                                </span>
+                                <input
+                                    type="text"
+                                    name="search"
+                                    class="form-control border-start-0 ps-0"
+                                    placeholder="Search Employee or ID..."
+                                    value="{{ selected_search }}">
+                            </div>
+                        </div>
+
+                        <!-- Department -->
+                        <div class="col-md-3">
+                            <select name="department" class="form-select">
+                                <option value="">All Departments</option>
+                                {% for department in departments %}
+                                    <option value="{{ department[0] }}" {% if selected_department == department[0] %}selected{% endif %}>
+                                        {{ department[0] }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Status -->
+                        <div class="col-md-2">
+                            <select name="status" class="form-select">
+                                <option value="">All Statuses</option>
+                                <option value="Active" {% if selected_status == "Active" %}selected{% endif %}>Active</option>
+                                <option value="Pending" {% if selected_status == "Pending" %}selected{% endif %}>Pending</option>
+                                <option value="Completed" {% if selected_status == "Completed" %}selected{% endif %}>Completed</option>
+                                <option value="In Review" {% if selected_status == "In Review" %}selected{% endif %}>In Review</option>
+                            </select>
+                        </div>
+
+                        <!-- Cycle -->
+                        <div class="col-md-2">
+                            <select name="cycle_id" class="form-select" aria-label="Appraisal Cycle">
+                                <option value="">All Appraisal Cycles</option>
+                                {% for cycle in cycles %}
+                                <option value="{{ cycle[0] }}" {% if selected_cycle == cycle[0]|string %}selected{% endif %}>
+                                    {{ cycle[1] }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Generate Report Button -->
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-muthoot w-100">
+                                <i class="bi bi-funnel me-1"></i> Filter Report
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- KRA Report Table Card -->
+            <div class="card-muthoot mb-4">
+                <div class="card-title-muthoot border-bottom pb-3 mb-4 d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="bi bi-bullseye me-2 text-danger"></i>
+                        <span class="fw-bold">Key Result Area (KRA) Performance Allocations</span>
+                    </div>
+                    <span class="badge bg-secondary-subtle text-secondary-emphasis font-monospace px-2 py-1">
+                        {{ kra_report|length }} Records
+                    </span>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-muthoot align-middle">
+                        <thead>
+                            <tr>
+                                <th>Employee</th>
+                                <th>Employee Code</th>
+                                <th>KRA Title</th>
+                                <th>Cycle</th>
+                                <th>Weightage</th>
+                                <th>Target</th>
+                                <th>Due Date</th>
+                                <th class="text-end">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if kra_report %}
+                                {% for record in kra_report %}
+                                <tr>
+                                    <td>
+                                        <div class="fw-bold text-dark">
+                                            {{ record[1] }} {{ record[2] }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-light text-dark border font-monospace px-2 py-1">
+                                            {{ record[0] }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="fw-medium text-dark">{{ record[3] }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="text-muted small">{{ record[4] or "-" }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-danger-subtle text-danger px-2 py-1 fw-bold">
+                                            {{ record[5] }}%
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="text-dark small">{{ record[6] }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="text-muted small font-monospace">
+                                            {{ record[7] }}
+                                        </span>
+                                    </td>
+                                    <td class="text-end">
+                                        <span class="badge bg-success-subtle text-success px-2 py-1 rounded-pill">
+                                            {{ record[8] }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="8" class="text-center text-muted py-4">
+                                        <i class="bi bi-inbox fs-2 d-block mb-2 opacity-50"></i>
+                                        No KRA records found matching the selected filters.
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- KPI Achievement Report Table Card -->
+            <div class="card-muthoot">
+                <div class="card-title-muthoot border-bottom pb-3 mb-4 d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="bi bi-speedometer2 me-2 text-danger"></i>
+                        <span class="fw-bold">Employee KPI Achievement Log</span>
+                    </div>
+                    <span class="badge bg-secondary-subtle text-secondary-emphasis font-monospace px-2 py-1">
+                        {{ kpi_report|length }} Entries
+                    </span>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-muthoot align-middle">
+                        <thead>
+                            <tr>
+                                <th>Employee</th>
+                                <th>Employee ID</th>
+                                <th>KPI Name</th>
+                                <th>Appraisal Cycle</th>
+                                <th>Achieved Value</th>
+                                <th>Evaluation Month</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if kpi_report %}
+                                {% for record in kpi_report %}
+                                <tr>
+                                    <td>
+                                        <div class="fw-bold text-dark">
+                                            {{ record[1] }} {{ record[2] }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-light text-dark border font-monospace px-2 py-1">
+                                            {{ record[0] }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="fw-medium text-dark">{{ record[3] }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="text-muted small">{{ record[4] or "-" }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success-subtle text-success px-2 py-1 fw-bold fs-7">
+                                            {{ record[5] }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-light text-secondary border px-2 py-1">
+                                            {{ record[6] }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="text-muted small" style="max-width: 280px;">
+                                            {{ record[7] or "-" }}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted py-4">
+                                        <i class="bi bi-inbox fs-2 d-block mb-2 opacity-50"></i>
+                                        No KPI records found matching the selected filters.
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
 
     </main>
 
-    <!-- --- NOTIFICATIONS OFFCANVAS DRAWER --- -->
+    <!-- Offcanvas Notifications -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="notificationDrawer">
         <div class="offcanvas-header border-bottom">
-            <h5 class="offcanvas-title text-danger font-semibold"><i class="bi bi-bell-fill me-2"></i> HR System Notifications</h5>
+            <h5 class="offcanvas-title text-danger font-semibold">
+                <i class="bi bi-bell-fill me-2"></i> HR System Notifications
+            </h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body">
@@ -173,13 +441,28 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS Bundle -->
+    <!-- Bootstrap Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Export Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script>
+        function exportKraKpiPDF() {
+            const params = new URLSearchParams(
+                new FormData(document.querySelector("form"))
+            );
+            window.location.href = "{{ url_for('kra_kpi.export_kra_kpi_pdf') }}" + "?" + params.toString();
+        }
+
+        function exportKraKpiExcel() {
+            const params = new URLSearchParams(
+                new FormData(document.querySelector("form"))
+            );
+            window.location.href = "{{ url_for('kra_kpi.export_kra_kpi_excel') }}" + "?" + params.toString();
+        }
+    </script>
     <!-- Custom JS -->
-    <script src="../static/js/dashboard.js"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 </body>
 </html>

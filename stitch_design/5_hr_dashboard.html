@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-tertiary-fixed":"#002113","tertiary-fixed":"#6ffbbe","tertiary":"#006947","surface-dim":"#cbdbf5","surface-container-high":"#dce9ff","outline-variant":"#e5bdb8","secondary-fixed":"#dae2fd","secondary-container":"#dae2fd","on-tertiary-container":"#f4fff6","on-background":"#0b1c30","primary-fixed":"#ffdad5","surface-bright":"#f8f9ff","on-secondary-container":"#5c647a","on-primary-fixed":"#410001","error":"#ba1a1a","on-surface-variant":"#5c403c","on-primary-fixed-variant":"#930005","surface-container-low":"#eff4ff","surface-tint":"#bc1412","inverse-surface":"#213145","on-tertiary-fixed-variant":"#005236","surface-container-highest":"#d3e4fe","error-container":"#ffdad6","on-primary":"#ffffff","primary-container":"#dd3026","primary":"#b9100f","inverse-primary":"#ffb4a9","on-surface":"#0b1c30","on-tertiary":"#ffffff","tertiary-container":"#00855b","on-secondary-fixed":"#131b2e","surface-container":"#e5eeff","on-error-container":"#93000a","surface-container-lowest":"#ffffff","tertiary-fixed-dim":"#4edea3","surface":"#f8f9ff","secondary-fixed-dim":"#bec6e0","background":"#f8f9ff","secondary":"#565e74","outline":"#906f6b","on-secondary-fixed-variant":"#3f465c","on-secondary":"#ffffff","primary-fixed-dim":"#ffb4a9","on-error":"#ffffff","surface-variant":"#d3e4fe","on-primary-container":"#fffcff","inverse-on-surface":"#eaf1ff"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-xl":"2rem",gutter:"1.5rem","space-xs":"0.25rem","margin-sm":"1rem","space-md":"1rem","space-lg":"1.5rem",margin:"2rem","space-sm":"0.5rem","gutter-sm":"1rem"},fontFamily:{"label-md":["Inter"],"headline-sm":["Plus Jakarta Sans"],"body-sm":["Inter"],"body-md":["Inter"],"headline-xl-mobile":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"headline-xl":["Plus Jakarta Sans"],"label-sm":["Inter"],"body-lg":["Inter"],"headline-lg":["Plus Jakarta Sans"],"label-lg":["Inter"],"numeric-stat":["Plus Jakarta Sans"]},fontSize:{"label-md":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"500"}],"headline-sm":["16px",{lineHeight:"24px",letterSpacing:"-0.005em",fontWeight:"600"}],"body-sm":["12px",{lineHeight:"16px",fontWeight:"400"}],"body-md":["14px",{lineHeight:"20px",fontWeight:"400"}],"headline-xl-mobile":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"700"}],"headline-lg-mobile":["22px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-md":["20px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-xl":["36px",{lineHeight:"44px",letterSpacing:"-0.02em",fontWeight:"700"}],"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.04em",fontWeight:"600"}],"body-lg":["16px",{lineHeight:"24px",fontWeight:"400"}],"headline-lg":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"700"}],"label-lg":["14px",{lineHeight:"20px",letterSpacing:"0.01em",fontWeight:"600"}],"numeric-stat":["32px",{lineHeight:"38px",letterSpacing:"-0.02em",fontWeight:"700"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-64 bg-inverse-surface z-50 flex flex-col justify-between overflow-y-auto"><div class="flex flex-col"><div class="h-16 flex items-center gap-3 px-space-md border-b border-outline/20"><img alt="Muthoot Finance Performance Portal Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VB6Z87SH1QrpxMP5OTwZCoGMPnCsdG-nI70bttJU_E1L6TLJATayL0_19dJu9qqcg9RxJroXdAcRKbTMdLViJAUTy2BwGe9vy1GYXrsxqN210O4jEqSICsT2MLmBD5Vi6fR8ioXVL6cFlauP3Pg12DGkVawtce4GzZtDhy7H_s5pJkXSG0hXylK3mHgLQe82yKV-1XFvhVQBvQDg2ohY0GfttgPLkSkKKS7O4I5jlK5ayNbDojh9WoTvk"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-surface-container-lowest font-bold leading-tight">MUTHOOT</span><span class="font-label-sm text-[10px] text-surface-dim uppercase tracking-wider">Performance PMS</span></div></div><nav class="flex-1 px-space-sm py-space-md space-y-space-md" data-active-classes="bg-primary-container text-on-primary-container font-semibold shadow-sm"><div class="space-y-space-xs"><div class="px-space-sm py-space-xs font-label-sm text-label-sm text-surface-dim/70 uppercase tracking-wider">HR Administration</div><div class="space-y-1"><a aria-current="page" class="flex items-center gap-3 px-space-sm py-2 rounded-lg transition-colors bg-primary-container text-on-primary-container font-semibold shadow-sm" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[18px]">dashboard</span><span class="font-body-md text-body-md">Dashboard</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-surface-dim hover:bg-surface-dim/10 hover:text-surface-container-lowest transition-colors" data-path="performance-results" href="#"><span class="material-symbols-outlined text-[18px]">analytics</span><span class="font-body-md text-body-md">Performance Results</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-surface-dim hover:bg-surface-dim/10 hover:text-surface-container-lowest transition-colors" data-path="appraisal-cycles" href="#"><span class="material-symbols-outlined text-[18px]">event_repeat</span><span class="font-body-md text-body-md">Appraisal Cycles</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-surface-dim hover:bg-surface-dim/10 hover:text-surface-container-lowest transition-colors" data-path="kra-kpi-management" href="#"><span class="material-symbols-outlined text-[18px]">track_changes</span><span class="font-body-md text-body-md">KRA &amp; KPI Management</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-surface-dim hover:bg-surface-dim/10 hover:text-surface-container-lowest transition-colors" data-path="assign-kra-kpi" href="#"><span class="material-symbols-outlined text-[18px]">assignment_ind</span><span class="font-body-md text-body-md">Assign KRA/KPI</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-surface-dim hover:bg-surface-dim/10 hover:text-surface-container-lowest transition-colors" data-path="manage-training" href="#"><span class="material-symbols-outlined text-[18px]">model_training</span><span class="font-body-md text-body-md">Manage Training</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-surface-dim hover:bg-surface-dim/10 hover:text-surface-container-lowest transition-colors" data-path="approve-leaves" href="#"><span class="material-symbols-outlined text-[18px]">fact_check</span><span class="font-body-md text-body-md">Approve Leaves</span></a></div></div><div class="space-y-space-xs"><div class="px-space-sm py-space-xs font-label-sm text-label-sm text-surface-dim/70 uppercase tracking-wider">Employee Portal</div><div class="space-y-1"><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-surface-dim hover:bg-surface-dim/10 hover:text-surface-container-lowest transition-colors" data-path="my-performance-goals" href="#"><span class="material-symbols-outlined text-[18px]">flag</span><span class="font-body-md text-body-md">My Performance &amp; Goals</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-surface-dim hover:bg-surface-dim/10 hover:text-surface-container-lowest transition-colors" data-path="self-appraisal" href="#"><span class="material-symbols-outlined text-[18px]">rate_review</span><span class="font-body-md text-body-md">Self-Appraisal</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-surface-dim hover:bg-surface-dim/10 hover:text-surface-container-lowest transition-colors" data-path="leave-requests" href="#"><span class="material-symbols-outlined text-[18px]">date_range</span><span class="font-body-md text-body-md">Leave Requests</span></a></div></div><div class="space-y-space-xs"><div class="px-space-sm py-space-xs font-label-sm text-label-sm text-surface-dim/70 uppercase tracking-wider">Account</div><div class="space-y-1"><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-surface-dim hover:bg-surface-dim/10 hover:text-surface-container-lowest transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-[18px]">settings</span><span class="font-body-md text-body-md">Settings</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-surface-dim hover:bg-error-container hover:text-on-error-container transition-colors" data-path="sign-out" href="#"><span class="material-symbols-outlined text-[18px]">logout</span><span class="font-body-md text-body-md">Sign Out</span></a></div></div></nav></div><div class="p-space-sm border-t border-outline/20"><div class="bg-inverse-surface/60 rounded-lg p-space-sm flex items-center justify-between text-surface-dim"><span class="font-label-sm text-[10px]">System Build v4.8.2</span><span class="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] bg-tertiary-container/30 text-tertiary-fixed font-semibold">Stable</span></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 border-b border-surface-container"><div class="h-16 w-full px-space-lg flex items-center justify-between"><div class="flex items-center gap-space-md"><div class="hidden md:flex items-center relative w-72"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">search</span><input class="w-full h-9 pl-9 pr-3 rounded-md bg-surface-container-low border border-surface-container text-body-sm font-body-sm text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container" placeholder="Search employees, KPIs, branch..." type="text"/></div><div class="hidden xl:flex items-center gap-2 px-space-sm py-1 rounded-full bg-surface-container-low border border-surface-container text-secondary text-label-sm font-label-sm"><span class="h-2 w-2 rounded-full bg-tertiary animate-pulse"></span><span class="font-medium text-on-surface">Annual Appraisal 2026-27</span><span class="text-outline">|</span><span class="text-tertiary font-semibold">Active Cycle</span></div></div><div class="flex items-center gap-space-md"><button aria-label="Notifications" class="relative p-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary-container text-[10px] font-bold text-on-primary-container">4</span></button><div class="h-6 w-px bg-surface-container"></div><div class="flex items-center gap-space-sm pl-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRca130lUW4QFVtSfNDRKmmqHqhA3NTmaTCCw5AJ8PVrERvEK7F1kLfvTREJHR5SqIXPqJWGCv39QIko5RKeliOZNOFEsypwAAgGkbBApvRcr1jAHCE0NN4d0ptYj3DurpyIT_SjUsnbsTSUX-1zmO-0LN8ah4FQWRsx3NBvysAk5ZPpEHw8X_upWFnJAga_wCJhzAkAk0p6loLXHfQi1Jg6pZ1rBxOJ5BsyPEab6wek-dF3I5behj"/><div class="flex flex-col text-left"><span class="font-label-lg text-label-md font-semibold text-on-surface leading-tight">Priya Sharma</span><span class="font-label-sm text-[11px] text-secondary leading-tight">HR Admin</span></div></div></div></div></header><main class="relative w-full pt-16 bg-surface min-h-screen"><div class="w-full px-space-lg py-space-lg"><div class="flex flex-col w-full space-y-space-lg">
+<!-- Executive Summary Banner -->
+<section class="relative overflow-hidden rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
+<div class="absolute -right-16 -top-16 w-80 h-80 rounded-full bg-gradient-to-br from-primary-container/10 via-primary/5 to-transparent blur-3xl pointer-events-none"></div>
+<div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-tertiary-container/15 text-tertiary font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>
+            FY 2026-27 Active Cycle
+          </span>
+<span class="text-secondary font-label-sm text-label-sm tracking-wide">Q4 Evaluation Wave</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">HR Administration &amp; Performance Overview</h1>
+<p class="font-body-md text-body-md text-secondary">Calibrated workforce metrics, appraisal velocity, and talent advancement recommendations across all regional branches.</p>
+</div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<button class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary">table_view</span>
+          Export Excel
+        </button>
+<button class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-primary-container hover:bg-primary text-on-primary-container hover:text-on-primary font-label-md text-label-md transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+          Export PDF Summary
+        </button>
+</div>
+</div>
+</section>
+<!-- Top 4 KPI Metric Cards -->
+<section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-md">
+<!-- Card 1: Total Employees -->
+<div class="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-200">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-secondary uppercase tracking-wider">Total Headcount</span>
+<span class="w-8 h-8 rounded-lg bg-primary-container/10 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[18px]">badge</span>
+</span>
+</div>
+<div class="mt-space-md">
+<div class="flex items-baseline gap-2">
+<span class="font-numeric-stat text-numeric-stat text-on-surface">1,420</span>
+<span class="font-body-md text-body-md text-secondary">Staff</span>
+</div>
+<div class="mt-2 flex items-center gap-1.5 text-tertiary">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded-full bg-tertiary-fixed/30 font-label-sm text-label-sm text-tertiary">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+            +12.4%
+          </span>
+<span class="font-body-sm text-body-sm text-secondary">vs previous financial year</span>
+</div>
+</div>
+</div>
+<!-- Card 2: Org Rating -->
+<div class="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-200">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-secondary uppercase tracking-wider">Average Org Rating</span>
+<span class="w-8 h-8 rounded-lg bg-secondary-container/40 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]">hotel_class</span>
+</span>
+</div>
+<div class="mt-space-md">
+<div class="flex items-baseline gap-2">
+<span class="font-numeric-stat text-numeric-stat text-on-surface">3.8</span>
+<span class="font-body-md text-body-md text-secondary">/ 5.0</span>
+</div>
+<div class="mt-2 flex items-center justify-between">
+<div class="flex items-center text-amber-500">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star_half</span>
+<span class="material-symbols-outlined text-[16px]">star</span>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary font-medium">+0.3 Cycle Diff</span>
+</div>
+</div>
+</div>
+<!-- Card 3: Completed Appraisals -->
+<div class="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-200">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-secondary uppercase tracking-wider">Completed Appraisals</span>
+<span class="w-8 h-8 rounded-lg bg-tertiary-container/15 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+</span>
+</div>
+<div class="mt-space-md">
+<div class="flex items-baseline gap-2">
+<span class="font-numeric-stat text-numeric-stat text-on-surface">1,136</span>
+<span class="font-label-lg text-label-lg text-tertiary font-semibold">(80.0%)</span>
+</div>
+<div class="mt-2 flex items-center gap-2">
+<div class="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+<div class="bg-tertiary-container h-1.5 rounded-full" style="width: 80%"></div>
+</div>
+<span class="font-label-sm text-label-sm text-secondary">1,420 Target</span>
+</div>
+</div>
+</div>
+<!-- Card 4: Pending Reviews -->
+<div class="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-200">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-secondary uppercase tracking-wider">Pending Reviews</span>
+<span class="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center text-amber-700">
+<span class="material-symbols-outlined text-[18px]">pending_actions</span>
+</span>
+</div>
+<div class="mt-space-md">
+<div class="flex items-baseline gap-2">
+<span class="font-numeric-stat text-numeric-stat text-on-surface">284</span>
+<span class="font-body-md text-body-md text-secondary">Reviews</span>
+</div>
+<div class="mt-2 flex items-center gap-2">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded-full bg-amber-50 font-label-sm text-label-sm text-amber-700">
+            Action Req.
+          </span>
+<span class="font-body-sm text-body-sm text-secondary">Deadline: In 6 business days</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Middle Row Analytics (2-column layout) -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- Left: Line Chart Velocity -->
+<div class="lg:col-span-8 rounded-xl bg-surface-container-lowest p-space-lg shadow-sm flex flex-col justify-between">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-space-md">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Monthly Appraisal Trend &amp; Score Velocity</h2>
+<p class="font-body-sm text-body-sm text-secondary">Progression of finalized assessment scores vs target baseline benchmark (3.5)</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1.5 font-label-sm text-label-sm text-secondary">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span>
+            Avg Score
+          </span>
+<span class="inline-flex items-center gap-1.5 font-label-sm text-label-sm text-secondary">
+<span class="w-2.5 h-0.5 bg-secondary"></span>
+            Target Benchmark
+          </span>
+<button class="p-1 rounded hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Export graph as PDF" type="button">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+</div>
+<!-- Modern Interactive SVG Line Graph -->
+<div class="relative w-full h-64 mt-2">
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 680 220">
+<defs>
+<lineargradient id="primaryArea" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#dd3026" stop-opacity="0.22"></stop>
+<stop offset="100%" stop-color="#dd3026" stop-opacity="0.0"></stop>
+</lineargradient>
+</defs>
+<!-- Horizontal Grid Lines -->
+<line stroke="#f1f5f9" stroke-dasharray="3 3" x1="40" x2="660" y1="20" y2="20"></line>
+<text fill="#94a3b8" font-family="Inter" font-size="10" text-anchor="end" x="30" y="24">5.0</text>
+<line stroke="#f1f5f9" stroke-dasharray="3 3" x1="40" x2="660" y1="65" y2="65"></line>
+<text fill="#94a3b8" font-family="Inter" font-size="10" text-anchor="end" x="30" y="69">4.0</text>
+<line stroke="#f1f5f9" stroke-dasharray="3 3" x1="40" x2="660" y1="110" y2="110"></line>
+<text fill="#94a3b8" font-family="Inter" font-size="10" text-anchor="end" x="30" y="114">3.0</text>
+<line stroke="#f1f5f9" stroke-dasharray="3 3" x1="40" x2="660" y1="155" y2="155"></line>
+<text fill="#94a3b8" font-family="Inter" font-size="10" text-anchor="end" x="30" y="159">2.0</text>
+<!-- Target Benchmark Line (Score 3.5 -> y=87.5) -->
+<line opacity="0.6" stroke="#565e74" stroke-dasharray="4 4" stroke-width="1.5" x1="40" x2="660" y1="87.5" y2="87.5"></line>
+<!-- Area fill -->
+<polygon fill="url(#primaryArea)" points="50,150 145,130 240,118 335,95 430,76 525,82 620,54 620,190 50,190"></polygon>
+<!-- Primary Velocity Path -->
+<polyline fill="none" points="50,150 145,130 240,118 335,95 430,76 525,82 620,54" stroke="#dd3026" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></polyline>
+<!-- Data Points -->
+<circle cx="50" cy="150" fill="#ffffff" r="4" stroke="#dd3026" stroke-width="2"></circle>
+<circle cx="145" cy="130" fill="#ffffff" r="4" stroke="#dd3026" stroke-width="2"></circle>
+<circle cx="240" cy="118" fill="#ffffff" r="4" stroke="#dd3026" stroke-width="2"></circle>
+<circle cx="335" cy="95" fill="#ffffff" r="4" stroke="#dd3026" stroke-width="2"></circle>
+<circle cx="430" cy="76" fill="#ffffff" r="4" stroke="#dd3026" stroke-width="2"></circle>
+<circle cx="525" cy="82" fill="#ffffff" r="4" stroke="#dd3026" stroke-width="2"></circle>
+<!-- Active Highlight Point -->
+<circle cx="620" cy="54" fill="#dd3026" r="6" stroke="#ffffff" stroke-width="2"></circle>
+<!-- Simulated Tooltip for Active Highlight -->
+<rect fill="#0b1c30" height="32" rx="4" width="80" x="560" y="10"></rect>
+<text fill="#ffffff" font-family="Inter" font-size="10" font-weight="600" text-anchor="middle" x="600" y="24">Score: 3.84</text>
+<text fill="#4edea3" font-family="Inter" font-size="9" text-anchor="middle" x="600" y="35">+0.3 vs Nov</text>
+<!-- X Axis Labels -->
+<text fill="#64748b" font-family="Inter" font-size="11" text-anchor="middle" x="50" y="205">Oct '26</text>
+<text fill="#64748b" font-family="Inter" font-size="11" text-anchor="middle" x="145" y="205">Nov '26</text>
+<text fill="#64748b" font-family="Inter" font-size="11" text-anchor="middle" x="240" y="205">Dec '26</text>
+<text fill="#64748b" font-family="Inter" font-size="11" text-anchor="middle" x="335" y="205">Jan '27</text>
+<text fill="#64748b" font-family="Inter" font-size="11" text-anchor="middle" x="430" y="205">Feb '27</text>
+<text fill="#64748b" font-family="Inter" font-size="11" text-anchor="middle" x="525" y="205">Mar '27</text>
+<text fill="#dd3026" font-family="Inter" font-size="11" font-weight="600" text-anchor="middle" x="620" y="205">Current (Apr)</text>
+</svg>
+</div>
+<div class="mt-4 pt-3 flex flex-wrap items-center justify-between gap-2 border-t border-surface-container text-body-sm font-body-sm text-secondary">
+<span class="inline-flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-tertiary">verified</span>
+          Calibrated across 18 regional zones &amp; 4 central departments
+        </span>
+<span class="text-on-surface font-label-md text-label-md">Goal Velocity Index: 94.2%</span>
+</div>
+</div>
+<!-- Right: Donut Chart Completion Breakdown -->
+<div class="lg:col-span-4 rounded-xl bg-surface-container-lowest p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-space-sm">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Appraisal Status</h2>
+<span class="material-symbols-outlined text-secondary text-[20px]">pie_chart</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Cohort completion ratio across active tiers</p>
+</div>
+<!-- Donut Chart -->
+<div class="relative flex items-center justify-center my-4">
+<svg class="w-44 h-44 -rotate-90" viewbox="0 0 100 100">
+<!-- Background track -->
+<circle cx="50" cy="50" fill="transparent" r="38" stroke="#eff4ff" stroke-width="12"></circle>
+<!-- Completed: 80% (dasharray 191.0, circumference ~238.76) -->
+<circle cx="50" cy="50" fill="transparent" r="38" stroke="#00855b" stroke-dasharray="191 239" stroke-dashoffset="0" stroke-width="12"></circle>
+<!-- In Review: 15% (35.8) -->
+<circle cx="50" cy="50" fill="transparent" r="38" stroke="#dae2fd" stroke-dasharray="35.8 239" stroke-dashoffset="-191" stroke-width="12"></circle>
+<!-- Pending: 5% (11.9) -->
+<circle cx="50" cy="50" fill="transparent" r="38" stroke="#dd3026" stroke-dasharray="12 239" stroke-dashoffset="-226.8" stroke-width="12"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<span class="font-numeric-stat text-[26px] text-on-surface font-bold">80%</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Completed</span>
+</div>
+</div>
+<!-- Donut Legend -->
+<div class="space-y-2 pt-2 border-t border-surface-container">
+<div class="flex items-center justify-between text-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-tertiary-container"></span>
+<span class="text-on-surface font-medium">Completed</span>
+</div>
+<span class="font-semibold text-on-surface">1,136 (80%)</span>
+</div>
+<div class="flex items-center justify-between text-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-secondary-fixed"></span>
+<span class="text-on-surface font-medium">In Manager Review</span>
+</div>
+<span class="font-semibold text-on-surface">213 (15%)</span>
+</div>
+<div class="flex items-center justify-between text-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary-container"></span>
+<span class="text-on-surface font-medium">Pending Self-Review</span>
+</div>
+<span class="font-semibold text-on-surface">71 (5%)</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Lower Row: Department Performance Comparison -->
+<section class="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-space-md">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Department Performance Comparison</h2>
+<p class="font-body-sm text-body-sm text-secondary">Attainment index measured against the Muthoot 80% baseline threshold</p>
+</div>
+<div class="flex items-center gap-3">
+<span class="inline-flex items-center gap-1.5 font-label-sm text-label-sm text-secondary">
+<span class="w-2.5 h-2.5 rounded bg-primary-container"></span>
+          Dept Score
+        </span>
+<span class="inline-flex items-center gap-1.5 font-label-sm text-label-sm text-secondary">
+<span class="w-3 h-0.5 bg-outline"></span>
+          80% Baseline
+        </span>
+</div>
+</div>
+<!-- Comparative Department Horizontal Bars -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- HR -->
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col justify-between space-y-3">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Human Resources</span>
+<span class="font-numeric-stat text-[20px] text-tertiary font-bold">88.0%</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-2 relative">
+<div class="bg-tertiary-container h-2 rounded-full" style="width: 88%"></div>
+<div class="absolute top-0 bottom-0 left-[80%] w-0.5 bg-on-surface/40" title="80% Baseline"></div>
+</div>
+<div class="flex items-center justify-between text-body-sm text-secondary">
+<span>Target Met (+8%)</span>
+<span class="font-medium text-on-surface">148 Appraised</span>
+</div>
+</div>
+<!-- Finance -->
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col justify-between space-y-3">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Finance &amp; Audit</span>
+<span class="font-numeric-stat text-[20px] text-tertiary font-bold">86.5%</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-2 relative">
+<div class="bg-tertiary-container h-2 rounded-full" style="width: 86.5%"></div>
+<div class="absolute top-0 bottom-0 left-[80%] w-0.5 bg-on-surface/40" title="80% Baseline"></div>
+</div>
+<div class="flex items-center justify-between text-body-sm text-secondary">
+<span>Target Met (+6.5%)</span>
+<span class="font-medium text-on-surface">312 Appraised</span>
+</div>
+</div>
+<!-- Information Technology -->
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col justify-between space-y-3">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Information Tech</span>
+<span class="font-numeric-stat text-[20px] text-primary-container font-bold">91.0%</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-2 relative">
+<div class="bg-primary-container h-2 rounded-full" style="width: 91%"></div>
+<div class="absolute top-0 bottom-0 left-[80%] w-0.5 bg-on-surface/40" title="80% Baseline"></div>
+</div>
+<div class="flex items-center justify-between text-body-sm text-secondary">
+<span class="text-primary-container font-medium">Top Performer (+11%)</span>
+<span class="font-medium text-on-surface">224 Appraised</span>
+</div>
+</div>
+<!-- Operations -->
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col justify-between space-y-3">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Branch Operations</span>
+<span class="font-numeric-stat text-[20px] text-secondary font-bold">82.0%</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-2 relative">
+<div class="bg-secondary h-2 rounded-full" style="width: 82%"></div>
+<div class="absolute top-0 bottom-0 left-[80%] w-0.5 bg-on-surface/40" title="80% Baseline"></div>
+</div>
+<div class="flex items-center justify-between text-body-sm text-secondary">
+<span>Target Met (+2%)</span>
+<span class="font-medium text-on-surface">736 Appraised</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Reference Screen Context & Workflow Visuals -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<div class="rounded-xl bg-surface-container-lowest p-space-md shadow-sm flex items-center gap-space-md overflow-hidden">
+<img alt="PMS Dashboard Reference" class="w-24 h-24 rounded-lg object-cover bg-surface-container flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7EW1BBjTjGcdCYRBQZ9LfcywYwOJ83FnmPeZ4dlgg_CvPVL4jQQyKwLrejc0XzLJtmZVYj-hZ7pK5KHp5QuYu4MYjJ3b8lo28EdR3US43M51a_iVDunkrTqDdDBol6ifQjtG2hQ9lk3BrCPHjmVaDmQgotLeX3tZSs2KvOnx-Hf9QZMFvzUJPmca2hbFESQkqodPGZ4WbeRmEEPvcAoZWP5s_PSb2rU9Y4yy_4LL91ZP8YzTyxR6PzDTTo_jhQ-_6eQ"/>
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm text-primary-container uppercase font-semibold">Active Operational Model</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Branch KPI Calibration Grid</h3>
+<p class="font-body-sm text-body-sm text-secondary line-clamp-2">Direct sync with gold loan disbursement volumes, collection efficiency, and regional branch manager appraisals.</p>
+</div>
+</div>
+<div class="rounded-xl bg-surface-container-lowest p-space-md shadow-sm flex items-center gap-space-md overflow-hidden">
+<img alt="Appraisal Assessment Workflow" class="w-24 h-24 rounded-lg object-cover bg-surface-container flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA95b_LNfNjXVuP0n_hn7iYnrhiFxbLBXksQ2ENyUFGsNagR1LEklxbDzD2CYUYPzP2VPdf_XnyAciND02tcHm9QacYKuYw2kcnYpKHm_319ROT8cKYpFVS4fkYRincvoa8V4JfZXoAbXI5HofXWgVAFZZJJObsHk4oApGFr1g5pHV0pfn-dm16B1QvgAqH5OC6ELBtfXoZ_NFimFUZHuDlkIteDlRblnpK_j2UAFHyP9y4P53TFMz5_z_mgeavWKIvpg"/>
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm text-tertiary uppercase font-semibold">Calibrated Bell Curve</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Appraisal Moderation Matrix</h3>
+<p class="font-body-sm text-body-sm text-secondary line-clamp-2">Automated moderation applied for promotion-grade staff with standard deviations aligned with company policy.</p>
+</div>
+</div>
+</section>
+<!-- Bottom Section: Recommended Salary Increments & Promotions Table -->
+<section class="rounded-xl bg-surface-container-lowest shadow-sm overflow-hidden">
+<div class="p-space-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-surface-container">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Recommended Salary Increments &amp; Promotions</h2>
+<p class="font-body-sm text-body-sm text-secondary">Appraisal-based decisions generated by calibration matrix. Approvals route to Compensation Committee.</p>
+</div>
+<div class="flex items-center gap-2">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-secondary text-[18px]">search</span>
+<input class="h-9 pl-8 pr-3 text-body-sm font-body-sm rounded-lg bg-surface-container-low border border-surface-container focus:outline-none focus:ring-1 focus:ring-primary-container" placeholder="Filter candidates..." type="text"/>
+</div>
+<button class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface-container-low text-on-surface font-label-md text-label-md hover:bg-surface-container" type="button">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+          Filter
+        </button>
+</div>
+</div>
+<!-- Data Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-surface-container text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3 px-space-md">EMP ID</th>
+<th class="py-3 px-space-md">Employee Name</th>
+<th class="py-3 px-space-md">Department</th>
+<th class="py-3 px-space-md">Appraisal Rating</th>
+<th class="py-3 px-space-md">Suggested Increment</th>
+<th class="py-3 px-space-md">Promotion Status</th>
+<th class="py-3 px-space-md text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container font-body-md text-body-md text-on-surface">
+<!-- Row 1: High Performer Promotion Candidate -->
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="py-3.5 px-space-md font-mono text-body-sm text-secondary">MF-78401</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full object-cover bg-surface-container-high" data-alt="Professional corporate headshot of an Indian male senior software engineer with glasses, confident smile, clean corporate office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4owNNH8mUefCAhhc3IvfZiF_saF-7xEFNHsCKs0yPEbGn1yP6b34Mn-c2DDQKC2WV4smApCf_wJsV-J0CrhAt-1bMD9yuqBoL5pdYJU8MwQToqEBQ0Z9Fv0KBWqjb86v-WPyD0Qk6VWHfrGPJFa6CqBITmIBpPyV-sCurvVkvLDLDdx3RHur7K32MvgNiHW6sHvZPczEJE8wd4oYRDsBmjeQwgulqxMt0nijFCPueoXczUW0Xgxxn"/>
+<div>
+<div class="font-semibold text-on-surface leading-tight">Anand Varma</div>
+<div class="font-body-sm text-body-sm text-secondary">Lead Architect • Tech</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm bg-surface-container text-on-surface">IT Systems</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">star</span>
+                Outstanding 92%
+              </span>
+</td>
+<td class="py-3.5 px-space-md font-semibold text-tertiary">
+              14% Increment
+            </td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-primary-container/10 text-primary-container font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+                Nominated: Principal Lead
+              </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="inline-flex items-center gap-1">
+<button class="px-2.5 py-1 rounded bg-primary-container text-on-primary-container hover:bg-primary font-label-sm text-label-sm font-semibold transition-colors" type="button">
+                  Promote
+                </button>
+<button class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm transition-colors" type="button">
+                  View
+                </button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Excellent Rating -->
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="py-3.5 px-space-md font-mono text-body-sm text-secondary">MF-65219</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full object-cover bg-surface-container-high" data-alt="Professional corporate portrait of an Indian female finance manager in formal attire, calm studio lighting, neutral business environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXbjcgQ-cm_jTxGIjW80tIEqNwAxv-jGLrXJ25z0XxA2GXuU8L502D5x-8Prp695bfWdn-8Yz9OdEV51wlM4xiMyx3J-orXga3Y3M6VgYvY6gW3rA38wctl1ggSVW_-ewGRa5NklLAuU8kDgD_ATvz8NX0vuAjPXFsXghureGjTWhFFhV25gNd24x4vDqKzWyKFvnSAkpRCAHteBb897hl3pZpJwjhIskmU7GdEDndS2NwBSlGSTE_"/>
+<div>
+<div class="font-semibold text-on-surface leading-tight">Sunita Nambiar</div>
+<div class="font-body-sm text-body-sm text-secondary">Senior Audit Manager</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm bg-surface-container text-on-surface">Finance</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-blue-50 text-blue-800 font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                Excellent 86.5%
+              </span>
+</td>
+<td class="py-3.5 px-space-md font-semibold text-tertiary">
+              10% Increment
+            </td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container text-secondary font-label-sm text-label-sm">
+                Band Maintained
+              </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="inline-flex items-center gap-1">
+<button class="px-2.5 py-1 rounded bg-tertiary-container text-on-tertiary hover:bg-tertiary font-label-sm text-label-sm font-semibold transition-colors" type="button">
+                  Apply Increment
+                </button>
+<button class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm transition-colors" type="button">
+                  View
+                </button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Solid Performer Promotion Candidate -->
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="py-3.5 px-space-md font-mono text-body-sm text-secondary">MF-88114</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full object-cover bg-surface-container-high" data-alt="Portrait of an Indian male branch operations officer in business shirt, friendly warm demeanor, office interior with soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAm4wYtx806lrfCiuTWzIxX6LySciWQ8_Is-h9UNYx5BpEWKApXxWFGYl8cjtgIm16O7CT2CAWJ2lJnL0IEEj9A7TwLNsZTuNh7REcwhX4WQwFjn_53OuzbH3p0CfvOcOTyosRqMWzuGAknjpXtWnMxZL5_9dtDwZXJImmgelnCNCGGlrCdcm3HW8o66oKydpGa0ddiUsNFVdELmki7WLRXNTjgTy1lwdnTxKqDoC6_MpMKqZmcVg_e"/>
+<div>
+<div class="font-semibold text-on-surface leading-tight">Rajesh K. Pillai</div>
+<div class="font-body-sm text-body-sm text-secondary">Branch Head • Ernakulam</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm bg-surface-container text-on-surface">Operations</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">star</span>
+                Outstanding 90%
+              </span>
+</td>
+<td class="py-3.5 px-space-md font-semibold text-tertiary">
+              12% Increment
+            </td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-primary-container/10 text-primary-container font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+                Nominated: Area Manager
+              </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="inline-flex items-center gap-1">
+<button class="px-2.5 py-1 rounded bg-primary-container text-on-primary-container hover:bg-primary font-label-sm text-label-sm font-semibold transition-colors" type="button">
+                  Promote
+                </button>
+<button class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm transition-colors" type="button">
+                  View
+                </button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Needs Improvement Calibration -->
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="py-3.5 px-space-md font-mono text-body-sm text-secondary">MF-54023</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-error-container text-on-error-container font-semibold flex items-center justify-center font-label-sm text-label-sm">
+                  DK
+                </div>
+<div>
+<div class="font-semibold text-on-surface leading-tight">Deepak Kumar</div>
+<div class="font-body-sm text-body-sm text-secondary">Customer Relations • CRM</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm bg-surface-container text-on-surface">Human Resources</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-red-50 text-red-700 font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                Needs Imp. 52%
+              </span>
+</td>
+<td class="py-3.5 px-space-md font-medium text-secondary">
+              0% (Deferred)
+            </td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 font-label-sm text-label-sm font-medium">
+                Assigned PIP (90 Days)
+              </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="inline-flex items-center gap-1">
+<button class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high text-secondary hover:text-on-surface font-label-sm text-label-sm transition-colors" type="button">
+                  Review PIP
+                </button>
+<button class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm transition-colors" type="button">
+                  View
+                </button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination & Bulk Action Footer -->
+<div class="px-space-lg py-3 bg-surface-container-low flex flex-col sm:flex-row items-center justify-between gap-3 text-body-sm font-body-sm text-secondary">
+<div class="flex items-center gap-2">
+<span>Showing 4 of 24 recommended talent records</span>
+<span class="text-outline">•</span>
+<button class="text-primary-container font-medium hover:underline" type="button">Batch Process Increments</button>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded flex items-center justify-center hover:bg-surface-container text-secondary disabled:opacity-40" disabled="" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded flex items-center justify-center bg-primary-container text-on-primary-container font-semibold text-label-sm" type="button">1</button>
+<button class="w-8 h-8 rounded flex items-center justify-center hover:bg-surface-container text-secondary text-label-sm" type="button">2</button>
+<button class="w-8 h-8 rounded flex items-center justify-center hover:bg-surface-container text-secondary text-label-sm" type="button">3</button>
+<button class="w-8 h-8 rounded flex items-center justify-center hover:bg-surface-container text-secondary" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+</div></div></main></div></body></html>

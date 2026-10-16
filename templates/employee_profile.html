@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="user-role" content="{{ (session.get('role_name') or 'hr').lower() }}">
+    <title>{{ employee.first_name }} {{ employee.last_name }} - Employee Profile - Muthoot Appraisal System</title>
+    <!-- Google Fonts Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom Muthoot Stitch CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- Mobile Backdrop Overlay -->
+    <div class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+
+    <!-- --- SIDEBAR --- -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-logo-container">
+                <img src="{{ url_for('static', filename='images/muthoot-logo.png') }}" class="brand-full-logo" alt="Muthoot Finance Logo">
+                <img src="{{ url_for('static', filename='images/muthoot-logo-toggle.png') }}" class="brand-icon-logo" alt="Muthoot Finance">
+            </div>
+            <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+        </div>
+
+        <ul class="menu" id="sidebarMenu">
+            <div class="menu-section-header">HR Administration</div>
+            <li class="" onclick="window.location.href='/hr-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li class="" onclick="window.location.href='/performance-results'"><i class="bi bi-award"></i> <span>Performance Results</span></li>
+            <li class="" onclick="window.location.href='/manage-training'"><i class="bi bi-mortarboard-fill"></i> <span>Manage Training</span></li>
+            <li class="" onclick="window.location.href='/feedback-360'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
+            <li class="" onclick="window.location.href='/approve-leaves'"><i class="bi bi-calendar-check"></i> <span>Approve Leaves</span></li>
+            <li class="" onclick="window.location.href='/kra-management'"><i class="bi bi-bullseye"></i> <span>KRA Management</span></li>
+            <li class="" onclick="window.location.href='/kpi-management'"><i class="bi bi-speedometer2"></i> <span>KPI Management</span></li>
+            <li class="" onclick="window.location.href='/assign-kra'"><i class="bi bi-person-check"></i> <span>Assign KRA</span></li>
+            <li class="" onclick="window.location.href='/assign-kpi'"><i class="bi bi-person-lines-fill"></i> <span>Assign KPI</span></li>
+            <li class="" onclick="window.location.href='/kpi-records'"><i class="bi bi-speedometer2"></i> <span>KPI Records</span></li>
+            <li class="" onclick="window.location.href='/appraisal-cycles'"><i class="bi bi-calendar-range"></i> <span>Appraisal Cycles</span></li>
+            <li class="" onclick="window.location.href='/kra-kpi-report'"><i class="bi bi-file-earmark-bar-graph"></i> <span>KRA / KPI Report</span></li>
+
+            <div class="menu-section-header">Organization & Staff</div>
+            <li class="active" onclick="window.location.href='/admin/employees'"><i class="bi bi-people-fill"></i> <span>Employee Directory</span></li>
+            <li class="" onclick="window.location.href='/admin/hierarchy'"><i class="bi bi-diagram-3-fill"></i> <span>Employee Hierarchy</span></li>
+            <li class="" onclick="window.location.href='/admin/departments'"><i class="bi bi-building"></i> <span>Departments</span></li>
+            <li class="" onclick="window.location.href='/admin/branches'"><i class="bi bi-geo-alt-fill"></i> <span>Branches</span></li>
+            <li class="" onclick="window.location.href='/admin/designations'"><i class="bi bi-award-fill"></i> <span>Designations</span></li>
+            <li class="" onclick="window.location.href='/admin/users'"><i class="bi bi-person-badge-fill"></i> <span>User Accounts</span></li>
+
+            <div class="menu-section-header">Account</div>
+            <li class="" onclick="window.location.href='/profile'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
+            <li onclick="window.location.href='/logout'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
+        </ul>
+
+        <div class="sidebar-footer-badge">
+            <span>System Build v4.8.2</span>
+            <span class="status-pill">Stable</span>
+        </div>
+    </aside>
+
+    <!-- --- MAIN CONTENT WRAPPER --- -->
+    <main class="content">
+
+        <!-- Topbar -->
+        <nav class="topbar">
+            <div class="topbar-left">
+                <button class="topbar-icon-btn d-lg-none" onclick="toggleSidebar()" title="Open Menu">
+                    <i class="bi bi-list"></i>
+                </button>
+                <h4>Employee Profile</h4>
+                <div class="topbar-cycle-pill d-none d-xl-inline-flex ms-2">
+                    <span class="pulse-dot"></span>
+                    <span class="fw-semibold text-dark">Staff Dossier</span>
+                    <span class="text-muted opacity-50">/</span>
+                    <span class="text-danger fw-semibold">{{ employee.employee_code }}</span>
+                </div>
+            </div>
+            <div class="topbar-right">
+                <a href="/admin/employees" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-1"></i> Back to Directory
+                </a>
+                <a href="/admin/employees/edit/{{ employee.employee_id }}" class="btn btn-muthoot shadow-sm">
+                    <i class="bi bi-pencil-square me-1"></i> Edit Profile
+                </a>
+                <div class="topbar-icons">
+                    <button class="topbar-icon-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#notificationDrawer" title="Notifications">
+                        <i class="bi bi-bell"></i>
+                        <span class="notification-badge" id="unreadBadge" style="display: none;">0</span>
+                    </button>
+                </div>
+                <div class="user-badge" onclick="window.location.href='/profile'" style="cursor: pointer;">
+                    <div class="user-avatar-circle">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                    <div class="user-badge-info">
+                        <span class="user-badge-name">{{ session.get('username', 'Admin') }}</span>
+                        <span class="user-badge-role">{{ session.get('role_name', 'HR Administrator') }}</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Profile Hero Banner -->
+        <div class="card card-muthoot shadow-sm mb-4 border-0 overflow-hidden">
+            <div class="p-4" style="background: linear-gradient(135deg, #dd3026 0%, #8e1610 100%); color: white;">
+                <div class="d-flex flex-column flex-md-row align-items-md-center gap-4">
+                    <div class="d-flex align-items-center justify-content-center bg-white text-danger rounded-circle shadow" style="width: 80px; height: 80px; font-size: 2.2rem; font-weight: 700;">
+                        {{ employee.first_name[0] }}{{ employee.last_name[0] }}
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
+                            <h3 class="mb-0 fw-bold">{{ employee.first_name }} {{ employee.last_name }}</h3>
+                            <span class="badge bg-white text-dark fw-bold px-2 py-1">{{ employee.employee_code }}</span>
+                            {% if employee.employment_status == 'Active' %}
+                                <span class="badge bg-success bg-opacity-75 text-white px-2 py-1"><i class="bi bi-check-circle me-1"></i>Active</span>
+                            {% else %}
+                                <span class="badge bg-secondary bg-opacity-75 text-white px-2 py-1">{{ employee.employment_status }}</span>
+                            {% endif %}
+                        </div>
+                        <p class="mb-0 opacity-75 fs-6">
+                            {{ designation.designation_name if designation else 'Designation Not Assigned' }} &bull;
+                            {{ department.department_name if department else 'Department Not Assigned' }}
+                        </p>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <a href="/admin/employees/edit/{{ employee.employee_id }}" class="btn btn-light fw-semibold text-danger">
+                            <i class="bi bi-pencil-fill me-1"></i> Edit
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Left Column: Personal & Contact Details -->
+            <div class="col-lg-6">
+                <div class="card card-muthoot shadow-sm h-100">
+                    <div class="card-header bg-white border-bottom py-3">
+                        <h6 class="mb-0 fw-bold text-dark d-flex align-items-center">
+                            <i class="bi bi-person-vcard text-danger fs-5 me-2"></i> Contact & Personal Information
+                        </h6>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label class="text-muted fs-7 text-uppercase fw-semibold mb-1 d-block">Employee Code</label>
+                                <span class="fw-bold fs-6 text-dark font-monospace">{{ employee.employee_code }}</span>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="text-muted fs-7 text-uppercase fw-semibold mb-1 d-block">Full Name</label>
+                                <span class="fw-bold fs-6 text-dark">{{ employee.first_name }} {{ employee.last_name }}</span>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="text-muted fs-7 text-uppercase fw-semibold mb-1 d-block">Email Address</label>
+                                {% if employee.email %}
+                                    <a href="mailto:{{ employee.email }}" class="text-decoration-none fw-semibold text-primary">
+                                        <i class="bi bi-envelope me-1"></i>{{ employee.email }}
+                                    </a>
+                                {% else %}
+                                    <span class="text-muted fst-italic">Not Provided</span>
+                                {% endif %}
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="text-muted fs-7 text-uppercase fw-semibold mb-1 d-block">Phone Number</label>
+                                {% if employee.phone %}
+                                    <span class="fw-semibold text-dark">
+                                        <i class="bi bi-telephone me-1 text-muted"></i>{{ employee.phone }}
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted fst-italic">Not Provided</span>
+                                {% endif %}
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="text-muted fs-7 text-uppercase fw-semibold mb-1 d-block">Joining Date</label>
+                                <span class="fw-semibold text-dark">
+                                    <i class="bi bi-calendar-event me-1 text-muted"></i>
+                                    {{ employee.joining_date.strftime('%d-%b-%Y') if employee.joining_date else 'Not Provided' }}
+                                </span>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="text-muted fs-7 text-uppercase fw-semibold mb-1 d-block">Status</label>
+                                {% if employee.employment_status == 'Active' %}
+                                    <span class="badge bg-success-subtle text-success px-2 py-1"><i class="bi bi-check-circle me-1"></i>Active</span>
+                                {% else %}
+                                    <span class="badge bg-secondary-subtle text-secondary px-2 py-1">{{ employee.employment_status }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Organizational & Reporting Structure -->
+            <div class="col-lg-6">
+                <div class="card card-muthoot shadow-sm h-100">
+                    <div class="card-header bg-white border-bottom py-3">
+                        <h6 class="mb-0 fw-bold text-dark d-flex align-items-center">
+                            <i class="bi bi-diagram-3 text-danger fs-5 me-2"></i> Placement & Hierarchy
+                        </h6>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label class="text-muted fs-7 text-uppercase fw-semibold mb-1 d-block">Department</label>
+                                <span class="fw-bold fs-6 text-dark">
+                                    <i class="bi bi-building me-1 text-danger"></i>
+                                    {{ department.department_name if department else 'Not Assigned' }}
+                                </span>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="text-muted fs-7 text-uppercase fw-semibold mb-1 d-block">Designation</label>
+                                <span class="fw-bold fs-6 text-dark">
+                                    <i class="bi bi-award me-1 text-warning"></i>
+                                    {{ designation.designation_name if designation else 'Not Assigned' }}
+                                </span>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="text-muted fs-7 text-uppercase fw-semibold mb-1 d-block">Branch Location</label>
+                                <span class="fw-semibold text-dark">
+                                    <i class="bi bi-geo-alt me-1 text-primary"></i>
+                                    {{ branch.branch_name if branch else 'Not Assigned' }}
+                                    {% if branch and branch.location %}<small class="text-muted">({{ branch.location }})</small>{% endif %}
+                                </span>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="text-muted fs-7 text-uppercase fw-semibold mb-1 d-block">Reporting Manager</label>
+                                {% if manager %}
+                                    <span class="fw-semibold text-dark">
+                                        <i class="bi bi-person-check me-1 text-success"></i>
+                                        {{ manager.first_name }} {{ manager.last_name }}
+                                        <small class="text-muted font-monospace">({{ manager.employee_code }})</small>
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted fst-italic">No Direct Manager</span>
+                                {% endif %}
+                            </div>
+                            <div class="col-12 pt-3 border-top">
+                                <label class="text-muted fs-7 text-uppercase fw-semibold mb-1 d-block">Portal User Account</label>
+                                {% if employee.user_id %}
+                                    <div class="d-flex align-items-center p-2 rounded bg-light border">
+                                        <i class="bi bi-person-badge-fill text-success fs-5 me-2"></i>
+                                        <div>
+                                            <span class="fw-semibold text-dark">Account Linked</span>
+                                            <small class="text-muted d-block">System User ID #{{ employee.user_id }}</small>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="d-flex align-items-center p-2 rounded bg-light border text-muted">
+                                        <i class="bi bi-exclamation-circle text-warning fs-5 me-2"></i>
+                                        <span>No Portal Login Credentials Assigned</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- NOTIFICATIONS DRAWER -->
+    <div class="offcanvas offcanvas-end" id="notificationDrawer" tabindex="-1">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="offcanvas-title text-danger font-semibold">
+                <i class="bi bi-bell-fill me-2"></i> Notifications
+            </h5>
+            <button class="btn-close" data-bs-dismiss="offcanvas" type="button"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div id="notificationList"></div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

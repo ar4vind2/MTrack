@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request, session
+from flask import Flask, jsonify, render_template, request, session, redirect, url_for
 from dotenv import load_dotenv
 import os
 import secrets
@@ -8,9 +8,12 @@ from routes.dashboard import dashboard_bp
 from routes.notifications import notification_bp
 from routes.reports import reports_bp
 from routes.kra_kpi_routes import kra_kpi_bp
+from routes.training_routes import training_bp
+from routes.performance_routes import performance_bp
 
 
-load_dotenv()
+dotenv_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+load_dotenv(dotenv_path)
 
 
 app = Flask(__name__)
@@ -53,7 +56,9 @@ def validate_csrf_token():
 
     submitted_token = (
         request.headers.get("X-CSRF-Token")
+        or request.headers.get("X-CSRFToken")
         or request.form.get("csrf_token")
+        or (request.is_json and request.get_json(silent=True) and request.get_json(silent=True).get("csrf_token"))
     )
     expected_token = session.get("_csrf_token")
 
@@ -96,6 +101,8 @@ app.register_blueprint(
     url_prefix="/api/reports"
 )
 app.register_blueprint(kra_kpi_bp)
+app.register_blueprint(training_bp)
+app.register_blueprint(performance_bp)
 
 
 # ==============================
@@ -114,12 +121,29 @@ def landing_page():
 # LOGIN PAGE
 # ==============================
 
+@app.route("/login.html")
 @app.route("/login")
 def login_page():
 
     return render_template(
         "login.html"
     )
+
+
+# ==============================
+# LOGOUT ROUTE
+# ==============================
+
+@app.route("/logout", methods=["GET", "POST"])
+def logout_page():
+    session.clear()
+    if request.is_json or request.headers.get("Accept") == "application/json":
+        return jsonify({
+            "success": True,
+            "message": "Logged out successfully."
+        })
+    return redirect(url_for("login_page"))
+
 
 
 # ==============================

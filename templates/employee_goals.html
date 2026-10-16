@@ -3,27 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="user-role" content="{{ (session.get('role_name') or 'employee').lower() }}">
     <title>My Goals & KRAs - Muthoot Employee Appraisal System</title>
+    <!-- Google Fonts Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Google Fonts Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Custom Muthoot Minimal CSS -->
-    <link rel="stylesheet" href="../static/css/style.css">
+    <!-- Custom Muthoot Stitch CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
     <!-- Mobile Backdrop Overlay -->
     <div class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
 
-    <!-- --- SIDEBAR WITH INSIDE TOGGLE BUTTON --- -->
+    <!-- --- SIDEBAR --- -->
     <aside class="sidebar">
         <div class="brand">
             <div class="brand-logo-container">
-                <img src="../static/images/muthoot-logo.png" alt="Muthoot Finance Logo" class="brand-full-logo">
-                <img src="../static/images/muthoot-logo-toggle.png" alt="Muthoot Finance Icon" class="brand-icon-logo">
+                <img src="{{ url_for('static', filename='images/muthoot-logo.png') }}" alt="Muthoot Finance Logo" class="brand-full-logo">
+                <img src="{{ url_for('static', filename='images/muthoot-logo-toggle.png') }}" alt="Muthoot Finance Icon" class="brand-icon-logo">
             </div>
             <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
                 <i class="bi bi-chevron-left"></i>
@@ -31,169 +34,336 @@
         </div>
         
         <ul class="menu" id="sidebarMenu">
+            {% set r_lower = (session.get('role_name') or 'employee').lower() %}
+            {% if 'manager' in r_lower or 'lead' in r_lower or 'supervisor' in r_lower %}
+            <div class="menu-section-header">Manager Overview</div>
+            <li onclick="window.location.href='/manager-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li onclick="window.location.href='/manager/appraisal'"><i class="bi bi-clipboard-check"></i> <span>Manager Appraisal</span></li>
+            <li onclick="window.location.href='/team-evaluation'"><i class="bi bi-people"></i> <span>Team Evaluation</span></li>
+            <li onclick="window.location.href='/review-appraisal'"><i class="bi bi-clipboard-data"></i> <span>Review Appraisal</span></li>
+            <li onclick="window.location.href='/review-attendance'"><i class="bi bi-calendar-range"></i> <span>Review Attendance</span></li>
+            <li onclick="window.location.href='/behaviour-rating'"><i class="bi bi-star-half"></i> <span>Behaviour Rating</span></li>
+            <li onclick="window.location.href='/feedback-360'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
+            <li onclick="window.location.href='/approve-leaves'"><i class="bi bi-calendar-check"></i> <span>Approve Leaves</span></li>
+            <div class="menu-section-header">Self Service</div>
+            <li onclick="window.location.href='/my-appraisals'"><i class="bi bi-award"></i> <span>My Appraisals</span></li>
+            <li onclick="window.location.href='/self-appraisal'"><i class="bi bi-person-badge"></i> <span>Self-Appraisal</span></li>
+            <li class="active" onclick="window.location.href='/employee-goals'"><i class="bi bi-bullseye"></i> <span>Goals & KRAs</span></li>
+            <li onclick="window.location.href='/employee-attendance'"><i class="bi bi-calendar-check"></i> <span>Attendance</span></li>
+            <li onclick="window.location.href='/leave-request'"><i class="bi bi-calendar-plus"></i> <span>Leave Request</span></li>
+            <li onclick="window.location.href='/requested-leaves'"><i class="bi bi-clock-history"></i> <span>My Leave Requests</span></li>
+            <li onclick="window.location.href='/employee-training'"><i class="bi bi-mortarboard"></i> <span>Training</span></li>
+            {% elif 'hr' in r_lower or 'admin' in r_lower or 'human' in r_lower %}
+            <div class="menu-section-header">HR Administration</div>
+            <li onclick="window.location.href='/hr-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li onclick="window.location.href='/performance-results'"><i class="bi bi-award"></i> <span>Performance Results</span></li>
+            <li onclick="window.location.href='/manage-training'"><i class="bi bi-mortarboard-fill"></i> <span>Manage Training</span></li>
+            <li onclick="window.location.href='/feedback-360'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
+            <li onclick="window.location.href='/approve-leaves'"><i class="bi bi-calendar-check"></i> <span>Approve Leaves</span></li>
+            {% else %}
             <div class="menu-section-header">Main Menu</div>
-            <li onclick="window.location.href='employee_dashboard.html'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
-            <li onclick="window.location.href='my_appraisals.html'"><i class="bi bi-clipboard-check"></i> <span>My Appraisals</span></li>
-            <li class="active" onclick="window.location.href='employee_goals.html'"><i class="bi bi-bullseye"></i> <span>Goals & KRAs</span></li>
-            <li onclick="window.location.href='employee_attendance.html'"><i class="bi bi-calendar-check"></i> <span>Attendance</span></li>
-            <li onclick="window.location.href='employee_training.html'"><i class="bi bi-mortarboard"></i> <span>Training</span></li>
+            <li onclick="window.location.href='/employee-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li onclick="window.location.href='/my-appraisals'"><i class="bi bi-clipboard-check"></i> <span>My Appraisals</span></li>
+            <li onclick="window.location.href='/self-appraisal'"><i class="bi bi-person-badge"></i> <span>Self-Appraisal</span></li>
+            <li class="active" onclick="window.location.href='/employee-goals'"><i class="bi bi-bullseye"></i> <span>Goals & KRAs</span></li>
+            <li onclick="window.location.href='/employee-attendance'"><i class="bi bi-calendar-check"></i> <span>Attendance</span></li>
+            <li onclick="window.location.href='/leave-request'"><i class="bi bi-calendar-plus"></i> <span>Leave Request</span></li>
+            <li onclick="window.location.href='/requested-leaves'"><i class="bi bi-clock-history"></i> <span>My Leave Requests</span></li>
+            <li onclick="window.location.href='/employee-training'"><i class="bi bi-mortarboard"></i> <span>Training</span></li>
+            {% endif %}
             <div class="menu-section-header">Account</div>
-            <li onclick="window.location.href='profile.html'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
-            <li onclick="window.location.href='index.html'"><i class="bi bi-box-arrow-right"></i> <span>Portal Home</span></li>
+            <li onclick="window.location.href='/profile'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
+            <li onclick="window.location.href='/logout'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
         </ul>
+        <div class="sidebar-footer-badge">
+            <span>System Build v4.8.2</span>
+            <span class="status-pill">Stable</span>
+        </div>
     </aside>
 
-    <!-- --- MAIN CONTENT WRAPPER --- -->
+    <!-- --- MAIN CONTENT --- -->
     <main class="content">
         
-        <!-- --- TOPBAR NAVBAR --- -->
+        <!-- Top Bar -->
         <nav class="topbar">
             <div class="topbar-left">
                 <button class="topbar-icon-btn d-lg-none" onclick="toggleSidebar()" title="Open Menu">
                     <i class="bi bi-list"></i>
                 </button>
-                <h4>My Goals & KRAs <span class="text-muted fs-6 font-normal">(Employee Progress)</span></h4>
+                <h4>Goals & Key Result Areas</h4>
+                <div class="topbar-cycle-pill d-none d-xl-inline-flex ms-2">
+                    <span class="pulse-dot"></span>
+                    <span class="fw-semibold text-dark">Annual Appraisal 2026-27</span>
+                    <span class="text-muted opacity-50">|</span>
+                    <span class="text-success fw-semibold">Active Cycle</span>
+                </div>
             </div>
             <div class="topbar-right">
                 <div class="topbar-icons">
                     <button class="topbar-icon-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#notificationDrawer" title="Notifications">
                         <i class="bi bi-bell"></i>
-                        <span class="notification-badge" id="unreadBadge">2</span>
+                        <span class="notification-badge" id="unreadBadge" style="display: none;">0</span>
                     </button>
                 </div>
                 
-                <div class="user-badge" onclick="window.location.href='profile.html'" style="cursor: pointer;">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100" alt="Arjun Kumar">
+                <div class="user-badge" onclick="window.location.href='{{ url_for('dashboard.profile') }}'" style="cursor: pointer;">
+                    <div class="user-avatar-circle">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
                     <div class="user-badge-info">
-                        <span class="user-badge-name">Arjun Kumar</span>
-                        <span class="user-badge-role">Software Executive</span>
+                        <span class="user-badge-name">{{ session.get('username', 'Employee') }}</span>
+                        <span class="user-badge-role">{{ session.get('role_name', 'Employee') }}</span>
                     </div>
                 </div>
             </div>
         </nav>
 
-        <!-- --- GOALS & KRAS CONTENT --- -->
-        <div class="card-muthoot mb-4">
-            <div class="card-title-muthoot">
-                <span><i class="bi bi-bullseye me-2"></i> Assigned Key Result Areas (KRAs - Q2 2026)</span>
-                <span class="badge-muthoot completed">Overall Goal Progress: 88%</span>
+        <!-- Dynamic Employee Identity Ribbon (Stitch Screen 3) -->
+        <div class="stitch-hero-banner mb-4">
+            <div class="stitch-hero-orb"></div>
+            <div class="d-flex flex-column flex-xl-row align-items-start align-items-xl-center justify-content-between gap-3 position-relative" style="z-index: 2;">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="user-avatar-circle" style="width: 52px; height: 52px; font-size: 24px;">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                    <div>
+                        <div class="d-flex flex-wrap align-items-center gap-2">
+                            <h2 class="h4 fw-bold mb-0 text-dark">{{ session.get('username', 'Employee') }}</h2>
+                            <span class="badge bg-light text-muted border px-2 py-0.5" style="font-size: 11px;">EMP-{{ '%04d'|format(session.get('user_id', 1)) }}</span>
+                            <span class="stitch-hero-pill">
+                                <span class="pulse-dot" style="width: 6px; height: 6px;"></span> Active Cycle FY26-27
+                            </span>
+                        </div>
+                        <p class="text-muted small mb-0 mt-1">
+                            {{ session.get('role_name', 'Employee') }} • Muthoot Performance System
+                        </p>
+                    </div>
+                </div>
+                <div class="d-flex flex-wrap align-items-center gap-2">
+                    <div class="d-none d-md-flex align-items-center gap-1.5 px-3 py-1.5 bg-light rounded-3 border text-muted small">
+                        <i class="bi bi-calendar-event text-danger"></i>
+                        <span>Review Closes: <strong class="text-dark">31 Dec 2026</strong></span>
+                    </div>
+                    <a href="{{ url_for('dashboard.self_appraisal_page') }}" class="btn btn-muthoot">
+                        <i class="bi bi-pencil-square me-1"></i> Submit Self-Appraisal
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stat Bento Grid -->
+        <div class="row g-3 mb-4">
+            <!-- Card 1: Goal Progress -->
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h6>Overall Goal Progress</h6>
+                        <h2>{{ kra_completion }}%</h2>
+                        <div class="mt-2">
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-danger" style="width: {{ kra_completion }}%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-icon red-icon">
+                        <i class="bi bi-bullseye"></i>
+                    </div>
+                </div>
             </div>
 
-            <div class="row g-4 mt-1">
-                <div class="col-md-6">
-                    <div class="p-3 border rounded-3 bg-light">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h6 class="fw-bold mb-0 text-danger">1. Core Application Delivery</h6>
-                            <span class="badge bg-danger">Weightage: 40%</span>
-                        </div>
-                        <p class="text-muted fs-7 mb-3">Deliver core appraisal system modules on schedule with zero critical bugs.</p>
-                        <div class="progress mb-2" style="height: 8px;">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: 90%;" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <div class="d-flex justify-content-between fs-7 text-muted">
-                            <span>Status: On Track</span>
-                            <span><strong>90% Completed</strong></span>
+            <!-- Card 2: Assigned KRAs Count -->
+            <div class="col-md-4">
+                <div class="stat-card gold-border">
+                    <div class="stat-info">
+                        <h6>Assigned KRAs</h6>
+                        <h2>{{ kras|length }} KRAs</h2>
+                        <div class="text-muted small mt-1" style="font-size: 11px;">
+                            Strategic Objectives
                         </div>
                     </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="p-3 border rounded-3 bg-light">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h6 class="fw-bold mb-0 text-warning text-dark">2. System Performance & Security</h6>
-                            <span class="badge bg-warning text-dark">Weightage: 30%</span>
-                        </div>
-                        <p class="text-muted fs-7 mb-3">Ensure sub-second API responses and 99.9% uptime for branch portals.</p>
-                        <div class="progress mb-2" style="height: 8px;">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <div class="d-flex justify-content-between fs-7 text-muted">
-                            <span>Status: In Progress</span>
-                            <span><strong>85% Completed</strong></span>
-                        </div>
+                    <div class="stat-icon gold-icon">
+                        <i class="bi bi-check2-circle"></i>
                     </div>
                 </div>
+            </div>
 
-                <div class="col-md-6">
-                    <div class="p-3 border rounded-3 bg-light">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h6 class="fw-bold mb-0 text-success">3. Team Mentorship & Code Quality</h6>
-                            <span class="badge bg-success">Weightage: 20%</span>
-                        </div>
-                        <p class="text-muted fs-7 mb-3">Conduct weekly peer code reviews and mentor junior developers in IT team.</p>
-                        <div class="progress mb-2" style="height: 8px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 95%;" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <div class="d-flex justify-content-between fs-7 text-muted">
-                            <span>Status: Exceeded Target</span>
-                            <span><strong>95% Completed</strong></span>
+            <!-- Card 3: Active Indicators -->
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h6>KPI Indicators</h6>
+                        <h2>{{ kpis|length }} Metrics</h2>
+                        <div class="text-success small mt-1" style="font-size: 11px;">
+                            Active Performance Scorecard
                         </div>
                     </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="p-3 border rounded-3 bg-light">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h6 class="fw-bold mb-0 text-primary">4. Compliance & Process Documentation</h6>
-                            <span class="badge bg-primary">Weightage: 10%</span>
-                        </div>
-                        <p class="text-muted fs-7 mb-3">Maintain updated technical architecture documentation and security logs.</p>
-                        <div class="progress mb-2" style="height: 8px;">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <div class="d-flex justify-content-between fs-7 text-muted">
-                            <span>Status: On Track</span>
-                            <span><strong>80% Completed</strong></span>
-                        </div>
+                    <div class="stat-icon" style="background-color: var(--tertiary-light); color: var(--tertiary);">
+                        <i class="bi bi-speedometer2"></i>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- --- KPI PROGRESS TABLE --- -->
+        <!-- --- ASSIGNED KEY RESULT AREAS (KRAS) --- -->
+        <div class="card-muthoot mb-4">
+            <div class="card-title-muthoot border-bottom pb-3 mb-4">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-bullseye text-danger fs-5"></i>
+                    <div>
+                        <span class="fw-bold">Assigned Key Result Areas (KRAs)</span>
+                        <div class="text-muted small fw-normal mt-0.5" style="font-size: 11.5px;">Track objective attainment, calibrated weightage, and deliverables</div>
+                    </div>
+                </div>
+                <span class="badge-muthoot completed">
+                    Goal Completion: {{ kra_completion }}%
+                </span>
+            </div>
+
+            {% if kras %}
+                <div class="row g-3">
+                    {% for kra in kras %}
+                        <div class="col-md-6">
+                            <div class="p-4 border rounded-3 bg-white shadow-xs h-100 d-flex flex-column justify-content-between">
+                                <div class="mb-3">
+                                    <!-- KRA NAME + WEIGHTAGE -->
+                                    <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                                        <h6 class="fw-bold text-dark mb-0 fs-6" style="line-height: 1.4;">
+                                            {{ loop.index }}. {{ kra[1] }}
+                                        </h6>
+                                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1 rounded" style="font-size: 11px;">
+                                            Weight: {{ kra[2] }}%
+                                        </span>
+                                    </div>
+
+                                    <!-- METADATA -->
+                                    <div class="text-muted small mb-2 d-flex flex-wrap align-items-center gap-2" style="font-size: 12px; line-height: 1.6;">
+                                        <span><i class="bi bi-calendar3 me-1 text-danger"></i> Cycle: <strong class="text-dark">{{ kra[6] or '-' }}</strong></span>
+                                        <span class="text-muted opacity-50">•</span>
+                                        <span>Target: <strong class="text-dark">{{ kra[3] or '-' }}</strong></span>
+                                        <span class="text-muted opacity-50">•</span>
+                                        <span>Due: <strong class="text-dark">{% if kra[4] %}{{ kra[4].strftime('%d %B %Y') }}{% else %}-{% endif %}</strong></span>
+                                    </div>
+                                </div>
+
+                                <!-- PROGRESS -->
+                                {% if kra[5]|lower == 'completed' %}
+                                    {% set progress = 100 %}
+                                {% elif kra[5]|lower == 'in progress' %}
+                                    {% set progress = 50 %}
+                                {% elif kra[5]|lower == 'pending' %}
+                                    {% set progress = 0 %}
+                                {% else %}
+                                    {% set progress = 0 %}
+                                {% endif %}
+
+                                <div class="pt-3 border-top">
+                                    <div class="progress mb-2" style="height: 6px;">
+                                        <div class="progress-bar {% if progress == 100 %}bg-success{% else %}bg-danger{% endif %}" role="progressbar" style="width: {{ progress }}%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between text-muted" style="font-size: 12px;">
+                                        <span>Status: <strong class="text-dark">{{ kra[5] or 'Not Started' }}</strong></span>
+                                        <span class="fw-semibold {% if progress == 100 %}text-success{% else %}text-muted{% endif %}">{{ progress }}% Completed</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center text-muted py-5">
+                    <i class="bi bi-bullseye fs-1 d-block mb-3 text-danger opacity-50"></i>
+                    <h6 class="fw-bold text-dark">No KRAs Assigned</h6>
+                    <p class="mb-0 small">No Key Result Areas have been assigned to your profile yet for this cycle.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- --- KPI ACHIEVEMENT RECORDS TABLE --- -->
         <div class="card-muthoot">
-            <div class="card-title-muthoot">
-                <span><i class="bi bi-speedometer2 me-2"></i> My KPI Achievement Records</span>
-                <button class="btn btn-sm btn-muthoot-outline" onclick="generateExcelReport('My_KPI_Progress')"><i class="bi bi-file-earmark-excel me-1"></i> Excel Export</button>
+            <div class="card-title-muthoot border-bottom pb-3 mb-4">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-speedometer2 text-danger fs-5"></i>
+                    <div>
+                        <span class="fw-bold">My KPI Achievement Records</span>
+                        <div class="text-muted small fw-normal mt-0.5" style="font-size: 11.5px;">Recorded metrics, achievement rates, and manager feedback</div>
+                    </div>
+                </div>
             </div>
 
             <div class="table-responsive">
-                <table class="table table-muthoot">
+                <table class="table table-muthoot align-middle">
                     <thead>
                         <tr>
                             <th>KPI Indicator</th>
-                            <th>Target Value</th>
+                            <th>Cycle</th>
+                            <th>Target</th>
                             <th>Current Achieved</th>
                             <th>Completion %</th>
-                            <th>Manager Remarks</th>
-                            <th>Status</th>
+                            <th>Evaluation Month</th>
+                            <th>Remarks</th>
+                            <th class="text-end">Status</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><strong>System Delivery Sprint Targets</strong></td>
-                            <td>10 Sprints</td>
-                            <td>9.5 Sprints</td>
-                            <td><strong>95%</strong></td>
-                            <td>Excellent turnaround time.</td>
-                            <td><span class="badge-muthoot completed">Achieved</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Code Review Accuracy</strong></td>
-                            <td>95% Accuracy</td>
-                            <td>97% Accuracy</td>
-                            <td><strong>102%</strong></td>
-                            <td>Zero critical bugs reported.</td>
-                            <td><span class="badge-muthoot completed">Exceeded</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Biometric Attendance</strong></td>
-                            <td>95% Present</td>
-                            <td>94% Present</td>
-                            <td><strong>98%</strong></td>
-                            <td>Consistent attendance.</td>
-                            <td><span class="badge-muthoot completed">Achieved</span></td>
-                        </tr>
+                        {% if kpis %}
+                            {% for kpi in kpis %}
+                                {% set target = kpi[2] %}
+                                {% set achieved = kpi[8] %}
+                                <tr>
+                                    <td>
+                                        <strong class="text-dark">{{ kpi[1] }}</strong>
+                                    </td>
+                                    <td class="text-muted small">
+                                        {{ kpi[7] or '-' }}
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-light text-dark border">{{ target or '-' }}</span>
+                                    </td>
+                                    <td>
+                                        <strong class="text-dark">{{ achieved if achieved is not none else '-' }}</strong>
+                                    </td>
+                                    <td>
+                                        {% if target is not none and achieved is not none and target|float > 0 %}
+                                            {% set completion = ((achieved|float / target|float) * 100)|round(2) %}
+                                            <span class="fw-bold {% if completion >= 100 %}text-success{% elif completion >= 80 %}text-primary{% else %}text-danger{% endif %}">
+                                                {{ completion }}%
+                                            </span>
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-muted small">
+                                        {% if kpi[10] %}{{ kpi[10].strftime('%B %Y') }}{% else %}-{% endif %}
+                                    </td>
+                                    <td class="text-muted small" style="max-width: 220px;">
+                                        {{ kpi[9] or '-' }}
+                                    </td>
+                                    <td class="text-end">
+                                        {% if kpi[6] %}
+                                            <span class="badge-muthoot completed">
+                                                {{ kpi[6] }}
+                                            </span>
+                                        {% elif achieved is not none %}
+                                            <span class="badge-muthoot completed">
+                                                Recorded
+                                            </span>
+                                        {% else %}
+                                            <span class="badge-muthoot pending">
+                                                Pending
+                                            </span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="8" class="text-center text-muted py-5">
+                                    <i class="bi bi-speedometer2 fs-3 d-block mb-2"></i>
+                                    No KPI records found for this period.
+                                </td>
+                            </tr>
+                        {% endif %}
                     </tbody>
                 </table>
             </div>
@@ -201,10 +371,10 @@
 
     </main>
 
-    <!-- --- NOTIFICATIONS OFFCANVAS DRAWER --- -->
+    <!-- NOTIFICATIONS OFFCANVAS DRAWER -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="notificationDrawer">
         <div class="offcanvas-header border-bottom">
-            <h5 class="offcanvas-title text-danger font-semibold"><i class="bi bi-bell-fill me-2"></i> Notifications</h5>
+            <h5 class="offcanvas-title text-danger fw-bold"><i class="bi bi-bell-fill me-2"></i> Notifications</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body">
@@ -214,9 +384,7 @@
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Export Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <!-- Custom JS -->
-    <script src="../static/js/dashboard.js"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 </body>
 </html>

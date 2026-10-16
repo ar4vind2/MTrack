@@ -3,15 +3,10 @@
    ApexCharts Integration, PDF/Excel Report Exports, Notifications Engine
    ========================================================================== */
 
-// --- GLOBAL STATE & MOCK DATA ---
+// --- GLOBAL STATE ---
 const systemState = {
     currentRole: 'employee',
-    notifications: [
-        { id: 1, type: 'appraisal', title: 'Self-Appraisal Submitted', desc: 'Your Q2 2026 self-appraisal form was submitted to Manager.', time: '10 mins ago', unread: true },
-        { id: 2, type: 'training', title: 'Mandatory Compliance Training', desc: 'Anti-Money Laundering (AML) 2026 module assigned.', time: '2 hours ago', unread: true },
-        { id: 3, type: 'system', title: 'Appraisal Cycle Q2 2026 Active', desc: 'HR has activated the Q2 performance cycle for all branches.', time: '1 day ago', unread: false },
-        { id: 4, type: 'appraisal', title: 'Manager Rating Complete', desc: 'Rajesh Nair completed your Q1 evaluation score (4.5 ⭐).', time: '3 days ago', unread: false }
-    ]
+    notifications: []
 };
 
 let csrfTokenPromise = null;
@@ -37,31 +32,31 @@ async function getCsrfToken() {
     return csrfTokenPromise;
 }
 
-// Mock data per role
+// Default role metadata
 const roleData = {
     employee: {
-        name: "Arjun Kumar",
-        roleTitle: "Software Executive",
+        name: "Employee",
+        roleTitle: "Employee",
         department: "Information Technology",
-        branch: "Kochi Branch",
-        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100",
-        stats: { overallScore: "4.5 / 5", attendance: "94%", goalsCompleted: "88%", trainingStatus: "Completed" }
+        branch: "Main Branch",
+        avatar: "",
+        stats: { overallScore: "—", attendance: "—", goalsCompleted: "—", trainingStatus: "—" }
     },
     manager: {
-        name: "Rajesh Nair",
-        roleTitle: "IT Branch Manager",
-        department: "Information Technology",
-        branch: "Kochi Branch",
-        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=100",
-        stats: { teamAverage: "0", pendingReviews: "0", completedReviews: "0", totalEmployees: "0" }
+        name: "Manager",
+        roleTitle: "Branch Manager",
+        department: "Operations",
+        branch: "Main Branch",
+        avatar: "",
+        stats: { teamAverage: "—", pendingReviews: "0", completedReviews: "0", totalEmployees: "0" }
     },
     hr: {
-        name: "Sunitha Varma",
-        roleTitle: "Head of Human Resources",
+        name: "HR Admin",
+        roleTitle: "Human Resources",
         department: "Human Resources",
         branch: "Head Office",
-        avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100",
-        stats: { totalEmployees: "560", avgRating: "4.3", completedAppraisals: "510", pendingReviews: "50" }
+        avatar: "",
+        stats: { totalEmployees: "0", avgRating: "—", completedAppraisals: "0", pendingReviews: "0" }
     }
 };
 
@@ -117,31 +112,47 @@ function renderSafeChart(key, elementId, options) {
 let employeeDashboardData = null;
 let employeeDashboardLoading = false;
 
-function initEmployeeApexCharts(data = employeeDashboardData) {
+function switchEmpTrendType(type = 'monthly', btnEl = null) {
+    if (!window.empPerformanceTrends) return;
 
-    if (!data) {
-        console.warn("Employee dashboard data is not available yet.");
-        return;
+    // Update active button state
+    const btnGroup = document.getElementById('empTrendFilterGroup');
+    if (btnGroup) {
+        btnGroup.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+    }
+    if (btnEl) {
+        btnEl.classList.add('active');
+    } else {
+        const targetBtn = document.getElementById(`btnTrend${type.charAt(0).toUpperCase() + type.slice(1)}`);
+        if (targetBtn) targetBtn.classList.add('active');
     }
 
-    const performance = data.performance || {};
-    const attendance = data.attendance || {};
-    const kra = data.kra || {};
-    const trend = data.performance_trend || [];
+    const titleEl = document.getElementById('empTrendTitle');
+    const subtitleEl = document.getElementById('empTrendSubtitle');
+    const titleMap = {
+        monthly: 'Monthly Performance Trend',
+        quarterly: 'Quarterly Performance Trend',
+        annual: 'Annual Performance Trend',
+        all: 'All Performance Cycles Trend'
+    };
+    const subMap = {
+        monthly: 'Progression of monthly appraisal assessment ratings',
+        quarterly: 'Progression of quarterly appraisal ratings',
+        annual: 'Progression of annual appraisal cycle ratings',
+        all: 'Comprehensive progression across all appraisal cycles'
+    };
 
-    // ========================================================
-    // 1. PERFORMANCE TREND
-    // ========================================================
+    if (titleEl) titleEl.innerHTML = `<i class="bi bi-graph-up"></i> ${titleMap[type] || 'Performance Trend'}`;
+    if (subtitleEl) subtitleEl.textContent = subMap[type] || 'Progression of periodic assessment ratings';
 
+    const trendData = window.empPerformanceTrends[type] || [];
     renderSafeChart('empTrend', '#empTrendChart', {
-
         series: [
             {
                 name: "Performance Score",
-                data: trend.map(item => Number(item.score || 0))
+                data: trendData.map(item => Number(item.score || 0))
             }
         ],
-
         chart: {
             type: 'line',
             height: 260,
@@ -152,39 +163,31 @@ function initEmployeeApexCharts(data = employeeDashboardData) {
                 enabled: false
             }
         },
-
         colors: ['#C8102E'],
-
         stroke: {
             curve: 'smooth',
             width: 2.5
         },
-
         markers: {
             size: 4,
             colors: ['#D4AF37'],
             strokeColors: '#FFFFFF',
             strokeWidth: 2
         },
-
         xaxis: {
-            categories: trend.map(item => String(item.year))
+            categories: trendData.map(item => String(item.label || item.year))
         },
-
         yaxis: {
             min: 0,
             max: 100,
             tickAmount: 5
         },
-
         grid: {
             borderColor: '#E5E7EB',
             strokeDashArray: 3
         },
-
         tooltip: {
             theme: 'light',
-
             y: {
                 formatter: function(value) {
                     return Number(value).toFixed(2) + '%';
@@ -192,6 +195,30 @@ function initEmployeeApexCharts(data = employeeDashboardData) {
             }
         }
     });
+}
+
+function initEmployeeApexCharts(data = employeeDashboardData) {
+
+    if (!data) {
+        console.warn("Employee dashboard data is not available yet.");
+        return;
+    }
+
+    const performance = data.performance || {};
+    const attendance = data.attendance || {};
+    const kra = data.kra || {};
+
+    window.empPerformanceTrends = data.performance_trends || {
+        monthly: data.performance_trend || [],
+        quarterly: [],
+        annual: [],
+        all: data.performance_trend || []
+    };
+    window.currentCycleId = data.cycle_id || (data.performance && data.performance.cycle_id);
+
+    // Initial render of employee trend (defaults to monthly if present, else all)
+    const initialType = (window.empPerformanceTrends.monthly && window.empPerformanceTrends.monthly.length > 0) ? 'monthly' : 'all';
+    switchEmpTrendType(initialType);
 
 
     // ========================================================
@@ -253,6 +280,10 @@ function initEmployeeApexCharts(data = employeeDashboardData) {
             kraCompletion
         ],
 
+        labels: [
+            'KRA Goals'
+        ],
+
         chart: {
             type: 'radialBar',
             height: 230
@@ -273,11 +304,10 @@ function initEmployeeApexCharts(data = employeeDashboardData) {
                 dataLabels: {
 
                     name: {
-                        show: true,
-                        label: 'KRA Goals',
-                        color: '#6B7280',
-                        fontSize: '12px'
-                    },
+                    show: true,
+                    color: '#6B7280',
+                    fontSize: '12px'
+                },
 
                     value: {
                         show: true,
@@ -296,7 +326,106 @@ function initEmployeeApexCharts(data = employeeDashboardData) {
         colors: [
             '#D4AF37'
         ]
-    });
+        });
+
+    // ========================================================
+    // 4. PERFORMANCE RADAR CHART
+    // ========================================================
+
+    const kpiScore =
+        Number(performance.kpi_score || 0);
+
+    const managerScore =
+        Number(performance.manager_score || 0);
+
+    const attendanceScore =
+        Number(performance.attendance_score || 0);
+
+    const behaviourScore =
+        Number(performance.behaviour_score || 0);
+
+    const selfAppraisalScore =
+        Number(performance.self_appraisal_score || 0);
+
+    const trainingScore =
+        Number(performance.training_score || 0);
+
+
+    renderSafeChart(
+        'empPerformanceRadar',
+        '#empPerformanceRadarChart',
+        {
+
+            series: [
+                {
+                    name: 'Performance Score',
+
+                    data: [
+                        kpiScore,
+                        managerScore,
+                        attendanceScore,
+                        behaviourScore,
+                        selfAppraisalScore,
+                        trainingScore
+                    ]
+                }
+            ],
+
+            chart: {
+                type: 'radar',
+                height: 300,
+                toolbar: {
+                    show: false
+                }
+            },
+
+            xaxis: {
+                categories: [
+                    'KPI',
+                    'Manager',
+                    'Attendance',
+                    'Behaviour',
+                    'Self-Appraisal',
+                    'Training'
+                ]
+            },
+
+            yaxis: {
+                min: 0,
+                max: 100,
+                tickAmount: 5
+            },
+
+            stroke: {
+                width: 2
+            },
+
+            markers: {
+                size: 4
+            },
+
+            dataLabels: {
+                enabled: true,
+
+                formatter: function(value) {
+                    return Number(value).toFixed(0);
+                }
+            },
+
+            tooltip: {
+                y: {
+                    formatter: function(value) {
+                        return Number(value).toFixed(2) + '%';
+                    }
+                }
+            },
+
+            fill: {
+                opacity: 0.2
+            }
+
+        }
+    );
 }
 // ============================================================
 // LOAD EMPLOYEE DASHBOARD DATA FROM FLASK
@@ -393,16 +522,6 @@ async function loadEmployeeDashboardData() {
         updateEmployeeDashboardUI(data);
 
 
-        // ====================================================
-        // UPDATE NOTIFICATIONS
-        // ====================================================
-
-        renderNotificationsFromAPI(
-            data.notifications || []
-        );
-
-
-        // ====================================================
         // UPDATE CHARTS
         // ====================================================
 
@@ -470,17 +589,12 @@ async function loadManagerDashboardData() {
 
 
         // Save API response
-
         managerDashboardData = data;
 
-
         // Update manager dashboard
-
         updateManagerDashboardUI(data);
 
-
         // Render real charts
-
         initManagerApexCharts(data);
 
 
@@ -602,13 +716,17 @@ function updateManagerDashboardUI(data) {
 // ============================================================
 
 function updateManagerAppraisalTable(reviews) {
+    const isMgrPage = window.location.pathname.includes('manager-dashboard') || window.location.pathname.includes('manager_dashboard') || window.location.pathname === '/';
+    if (!isMgrPage) {
+        return;
+    }
 
-    const tbody =
-        document.querySelector(
-            '#manager-view .table-muthoot tbody'
-        );
+    const table = document.querySelector('#manager-view .table-muthoot');
+    if (!table || !table.textContent.includes('Self Rating')) {
+        return;
+    }
 
-
+    const tbody = table.querySelector('tbody');
     if (!tbody) {
         return;
     }
@@ -939,33 +1057,35 @@ function updateEmployeeDashboardUI(data) {
 
 
     // Update appraisal table
-
     updateEmployeeAppraisalSummary(data);
+
+    // Update performance breakdown
+    updateEmployeePerformanceSummary(data);
 }
+// ============================================================
+// EMPLOYEE APPRAISAL SUMMARY
+// ============================================================
+
 // ============================================================
 // EMPLOYEE APPRAISAL SUMMARY
 // ============================================================
 
 function updateEmployeeAppraisalSummary(data) {
 
-    const tbody =
-        document.querySelector(
-            '#employee-view .table-muthoot tbody'
+    const summaryCard =
+        document.getElementById(
+            'employeeAppraisalTable'
         );
 
-
-    if (!tbody) {
+    if (!summaryCard) {
         return;
     }
-
 
     const performance =
         data.performance || {};
 
-
     const year =
-        performance.year || '-';
-
+        performance.year || '—';
 
     const score =
         performance.final_score !== null &&
@@ -975,84 +1095,305 @@ function updateEmployeeAppraisalSummary(data) {
                 performance.final_score
               ).toFixed(2) + '%'
 
-            : '-';
-
+            : '—';
 
     const rating =
         performance.rating ||
         'Not Available';
-
 
     const recommendation =
         performance.recommendation ||
         'Not Available';
 
 
-    tbody.innerHTML = `
+    // --------------------------------------------------------
+    // Appraisal Year
+    // --------------------------------------------------------
 
-        <tr>
+    const yearElement =
+        document.getElementById(
+            'appraisalYear'
+        );
 
-            <td>
-                ${year}
-            </td>
+    if (yearElement) {
+        yearElement.textContent = year;
+    }
 
-            <td>
-                <span class="rating-pill">
-                    ${score}
-                </span>
-            </td>
 
-            <td>
-                System Calculated
-            </td>
+    // --------------------------------------------------------
+    // Final Score
+    // --------------------------------------------------------
 
-            <td>
-                <span class="badge-muthoot completed">
-                    ${escapeHTML(rating)}
-                </span>
-            </td>
+    const scoreElement =
+        document.getElementById(
+            'appraisalScore'
+        );
 
-            <td>
-                ${escapeHTML(recommendation)}
-            </td>
+    if (scoreElement) {
+        scoreElement.textContent = score;
+    }
 
-        </tr>
 
-    `;
+    // --------------------------------------------------------
+    // Reviewer
+    // --------------------------------------------------------
+
+    const reviewerElement =
+        document.getElementById(
+            'appraisalReviewer'
+        );
+
+    if (reviewerElement) {
+        reviewerElement.textContent =
+            'System Calculated';
+    }
+
+
+    // --------------------------------------------------------
+    // Rating
+    // --------------------------------------------------------
+
+    const ratingElement =
+        document.getElementById(
+            'appraisalRating'
+        );
+
+    if (ratingElement) {
+        ratingElement.textContent =
+            rating;
+    }
+
+
+    // --------------------------------------------------------
+    // Recommendation
+    // --------------------------------------------------------
+
+    const recommendationElement =
+        document.getElementById(
+            'appraisalRecommendation'
+        );
+
+    if (recommendationElement) {
+        recommendationElement.textContent =
+            recommendation;
+    }
 }
+
+// ============================================================
+// EMPLOYEE PERFORMANCE SCORE BREAKDOWN
+// ============================================================
+
+function updateEmployeePerformanceSummary(data) {
+
+    const performance =
+        data.performance || {};
+
+    // --------------------------------------------------------
+    // Helper for displaying percentages
+    // --------------------------------------------------------
+
+    function formatScore(value) {
+
+        if (
+            value === null ||
+            value === undefined
+        ) {
+            return '—';
+        }
+
+        return Number(value).toFixed(2) + '%';
+    }
+
+
+    // --------------------------------------------------------
+    // Final Score
+    // --------------------------------------------------------
+
+    const finalScore =
+        document.getElementById(
+            'employeeFinalScore'
+        );
+
+    if (finalScore) {
+
+        finalScore.textContent =
+            formatScore(
+                performance.final_score
+            );
+    }
+
+
+    // --------------------------------------------------------
+    // Rating
+    // --------------------------------------------------------
+
+    const rating =
+        document.getElementById(
+            'employeeRating'
+        );
+
+    if (rating) {
+
+        rating.textContent =
+            performance.rating ||
+            'Not Available';
+    }
+
+
+    // --------------------------------------------------------
+    // Recommendation
+    // --------------------------------------------------------
+
+    const recommendation =
+        document.getElementById(
+            'employeeRecommendation'
+        );
+
+    if (recommendation) {
+
+        recommendation.textContent =
+            performance.recommendation ||
+            'Not Available';
+    }
+
+
+    // --------------------------------------------------------
+    // KPI Score
+    // --------------------------------------------------------
+
+    const kpiScore =
+        document.getElementById(
+            'employeeKpiScore'
+        );
+
+    if (kpiScore) {
+
+        kpiScore.textContent =
+            formatScore(
+                performance.kpi_score
+            );
+    }
+
+
+    // --------------------------------------------------------
+    // Manager Score
+    // --------------------------------------------------------
+
+    const managerScore =
+        document.getElementById(
+            'employeeManagerScore'
+        );
+
+    if (managerScore) {
+
+        managerScore.textContent =
+            formatScore(
+                performance.manager_score
+            );
+    }
+
+
+    // --------------------------------------------------------
+    // Attendance Score
+    // --------------------------------------------------------
+
+    const attendanceScore =
+        document.getElementById(
+            'employeeAttendanceScore'
+        );
+
+    if (attendanceScore) {
+
+        attendanceScore.textContent =
+            formatScore(
+                performance.attendance_score
+            );
+    }
+
+
+    // --------------------------------------------------------
+    // Behaviour Score
+    // --------------------------------------------------------
+
+    const behaviourScore =
+        document.getElementById(
+            'employeeBehaviourScore'
+        );
+
+    if (behaviourScore) {
+
+        behaviourScore.textContent =
+            formatScore(
+                performance.behaviour_score
+            );
+    }
+
+
+    // --------------------------------------------------------
+    // Self-Appraisal Score
+    // --------------------------------------------------------
+
+    const selfAppraisalScore =
+        document.getElementById(
+            'employeeSelfAppraisalScore'
+        );
+
+    if (selfAppraisalScore) {
+
+        selfAppraisalScore.textContent =
+            formatScore(
+                performance.self_appraisal_score
+            );
+    }
+
+
+    // --------------------------------------------------------
+    // Training Score
+    // --------------------------------------------------------
+
+    const trainingScore =
+        document.getElementById(
+            'employeeTrainingScore'
+        );
+
+    if (trainingScore) {
+
+        trainingScore.textContent =
+            formatScore(
+                performance.training_score
+            );
+    }
+}
+
 // ============================================================
 // NOTIFICATIONS FROM FLASK
 // ============================================================
 
 function renderNotificationsFromAPI(notifications) {
+    if (!Array.isArray(notifications)) return;
 
-    systemState.notifications =
-        notifications.map(notification => ({
+    const seen = new Set();
+    const uniqueList = [];
 
-            id: notification.id,
+    for (const notification of notifications) {
+        const title = (notification.title || 'Notification').trim();
+        const desc = (notification.message || notification.desc || '').trim();
+        const key = `${title}:::${desc}`;
 
-            type:
-                notification.type ||
-                'system',
+        if (!seen.has(key)) {
+            seen.add(key);
+            uniqueList.push({
+                id: notification.id,
+                type: notification.type || 'system',
+                title: title,
+                desc: desc,
+                time: formatNotificationTime(notification.created_at),
+                unread: !notification.is_read
+            });
+        }
+    }
 
-            title:
-                notification.title ||
-                'Notification',
-
-            desc:
-                notification.message ||
-                '',
-
-            time:
-                formatNotificationTime(
-                    notification.created_at
-                ),
-
-            unread:
-                !notification.is_read
-        }));
-
-
+    systemState.notifications = uniqueList;
     renderNotifications();
 }
 function formatNotificationTime(createdAt) {
@@ -1253,48 +1594,29 @@ function initManagerApexCharts(data) {
         {
 
             series: [
-
-                Number(
-                    distribution.outstanding || 0
-                ),
-
-                Number(
-                    distribution.excellent || 0
-                ),
-
-                Number(
-                    distribution.very_good || 0
-                ),
-
-                Number(
-                    distribution.average || 0
-                ),
-
-                Number(
-                    distribution.needs_improvement || 0
-                )
-
+                Number(distribution.outstanding || 0),
+                Number(distribution.excellent || 0),
+                Number(distribution.good !== undefined ? distribution.good : (distribution.very_good || 0)),
+                Number(distribution.needs_improvement || 0),
+                Number(distribution.unsatisfactory || 0)
             ],
-
             chart: {
                 type: 'pie',
                 height: 220
             },
-
             labels: [
-                'Outstanding (90-100)',
-                'Excellent (80-89)',
-                'Very Good (70-79)',
-                'Average (50-69)',
-                'Needs Improvement (<50)'
+                'Outstanding (≥90%)',
+                'Excellent (80-89%)',
+                'Good (70-79%)',
+                'Needs Improvement (60-69%)',
+                'Unsatisfactory (<60%)'
             ],
-
             colors: [
                 '#D4AF37',
-                '#C8102E',
-                '#9B0B22',
-                '#6B7280',
-                '#374151'
+                '#0d6efd',
+                '#198754',
+                '#ffc107',
+                '#dc3545'
             ],
 
             legend: {
@@ -1429,37 +1751,177 @@ function initManagerApexCharts(data) {
         }
     );
 }
-// 3. HR / Admin Dashboard Charts
-function initHRApexCharts() {
+// 3. HR / Admin Dashboard Charts (Live Database Data)
+async function initHRApexCharts() {
+    let hrData = null;
+    try {
+        const response = await fetch('/api/hr/dashboard-data', { credentials: 'same-origin' });
+        if (response.ok) {
+            hrData = await response.json();
+        }
+    } catch (e) {
+        console.error("Failed to load HR dashboard data:", e);
+    }
+
+    // Default fallbacks if network or server error
+    const totalEmployees = hrData?.stats?.total_employees ?? 0;
+    const avgRatingDisplay = hrData?.stats?.avg_rating_display ?? "—";
+    const completedDisplay = hrData?.stats?.completed_display ?? "0 (0%)";
+    const pendingReviews = hrData?.stats?.pending_reviews ?? 0;
+
+    const elTotal = document.getElementById('hrTotalEmployees');
+    if (elTotal) elTotal.innerText = `${totalEmployees} Staff`;
+
+    const elAvg = document.getElementById('hrAvgRating');
+    if (elAvg) elAvg.innerText = avgRatingDisplay;
+
+    const elComp = document.getElementById('hrCompletedAppraisals');
+    if (elComp) elComp.innerText = completedDisplay;
+
+    const elPending = document.getElementById('hrPendingReviews');
+    if (elPending) elPending.innerText = `${pendingReviews} Reviews`;
+
+    // 1. Monthly Trend Line Chart
+    const trendCats = hrData?.monthly_trend?.categories ?? ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'];
+    const trendSeries = hrData?.monthly_trend?.series ?? [3.8, 4.0, 4.1, 4.2, 4.3, 4.4];
     renderSafeChart('hrTrendLine', '#hrTrendChart', {
-        series: [{ name: "Organization Score", data: [4.1, 4.2, 4.3, 4.4, 4.5, 4.6] }],
+        series: [{ name: "Organization Score", data: trendSeries }],
         chart: { type: 'line', height: 260, toolbar: { show: false } },
-        colors: ['#C8102E'],
-        stroke: { curve: 'smooth', width: 2.5 },
-        markers: { size: 4, colors: ['#D4AF37'] },
-        xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'] },
-        yaxis: { min: 3.5, max: 5.0 },
-        grid: { borderColor: '#E5E7EB', strokeDashArray: 3 }
+        colors: ['#DD3026'],
+        stroke: { curve: 'smooth', width: 3 },
+        markers: { size: 5, colors: ['#FFFFFF'], strokeColors: '#DD3026', strokeWidth: 2 },
+        xaxis: { categories: trendCats },
+        yaxis: { min: 0, max: 5.0 },
+        grid: { borderColor: '#E2E8F0', strokeDashArray: 3 }
     });
 
+    // 2. Department Comparison Bar Chart
+    const deptCats = hrData?.department_performance?.categories ?? ['HR', 'Finance', 'IT', 'Operations'];
+    const deptScores = hrData?.department_performance?.series ?? [85, 78, 92, 88];
     renderSafeChart('hrDeptBar', '#hrDeptChart', {
-        series: [{ name: "Average Rating Score (%)", data: [82, 89, 91, 84, 80, 86, 88] }],
+        series: [{ name: "Average Rating Score (%)", data: deptScores }],
         chart: { type: 'bar', height: 260, toolbar: { show: false } },
-        colors: ['#C8102E'],
-        plotOptions: { bar: { borderRadius: 5, columnWidth: '40%' } },
-        xaxis: { categories: ['HR', 'Loan Proc', 'Credit & Risk', 'Collections', 'CS', 'Finance', 'IT'] },
-        yaxis: { min: 70, max: 100 },
-        grid: { borderColor: '#E5E7EB', strokeDashArray: 3 }
+        colors: ['#DD3026'],
+        plotOptions: { bar: { borderRadius: 6, columnWidth: '42%' } },
+        xaxis: { categories: deptCats },
+        yaxis: { min: 0, max: 100 },
+        grid: { borderColor: '#E2E8F0', strokeDashArray: 3 }
     });
+
+    // 3. Completion Donut Chart
+    const completed = hrData?.completion?.completed ?? 0;
+    const inReview = hrData?.completion?.in_review ?? 0;
+    const pendingSelf = hrData?.completion?.pending_self ?? 0;
+    const totalComp = completed + inReview + pendingSelf || 1;
+    const compPct = Math.round((completed / totalComp) * 100);
+    const revPct = Math.round((inReview / totalComp) * 100);
+    const pendPct = Math.round((pendingSelf / totalComp) * 100);
 
     renderSafeChart('hrCompDonut', '#hrCompletionChart', {
-        series: [510, 40, 10],
+        series: [completed, inReview, pendingSelf],
         chart: { type: 'donut', height: 230 },
-        labels: ['Completed (91%)', 'In Review (7%)', 'Pending Self (2%)'],
-        colors: ['#137333', '#D4AF37', '#C8102E'],
-        legend: { position: 'bottom', fontSize: '11px' }
+        labels: [`Completed (${compPct}%)`, `In Review (${revPct}%)`, `Pending Self (${pendPct}%)`],
+        colors: ['#00855B', '#565E74', '#DD3026'],
+        legend: { position: 'bottom', fontSize: '11px', fontFamily: 'Inter' }
     });
+
+    // 4. Recommendations Table
+    const tbody = document.getElementById('hrRecommendationsTableBody');
+    if (tbody && hrData?.recommendations) {
+        if (hrData.recommendations.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted py-4">No recommendations found.</td></tr>`;
+        } else {
+            tbody.innerHTML = hrData.recommendations.map(r => {
+                const isNeedsImprovement = (r.rating && r.rating.toLowerCase().includes('needs improvement')) ||
+                                          (r.recommendation && r.recommendation.toLowerCase().includes('training')) ||
+                                          (r.final_score < 70);
+
+                const ratingBadgeClass = r.final_score >= 80 ? 'bg-success' : (r.final_score >= 60 ? 'bg-primary' : 'bg-warning text-dark');
+                const recBadgeClass = isNeedsImprovement ? 'bg-warning-subtle text-warning-emphasis border border-warning' : 'bg-danger-subtle text-danger border border-danger-subtle';
+
+                let actionsHtml = '';
+                if (isNeedsImprovement) {
+                    actionsHtml = `
+                        <a href="/manage-training" class="btn btn-sm btn-muthoot-outline" title="Assign Recommended Training">
+                            <i class="bi bi-mortarboard me-1"></i>Assign Training
+                        </a>
+                    `;
+                } else {
+                    actionsHtml = `
+                        <div class="btn-group btn-group-sm">
+                            ${r.is_promoted
+                                ? '<span class="badge bg-light text-success border border-success"><i class="bi bi-check-circle me-1"></i>Promoted</span>'
+                                : `<button class="btn btn-sm btn-muthoot" onclick="approvePromotion(${r.employee_id}, '${r.employee_name}')"><i class="bi bi-award me-1"></i>Promote</button>`}
+                            ${r.is_incremented
+                                ? '<span class="badge bg-light text-primary border border-primary ms-1"><i class="bi bi-check-circle me-1"></i>Incremented</span>'
+                                : `<button class="btn btn-sm btn-muthoot-outline ms-1" onclick="approveIncrement(${r.employee_id}, '${r.employee_name}')"><i class="bi bi-graph-up-arrow me-1"></i>Increment</button>`}
+                        </div>
+                    `;
+                }
+
+                return `
+                    <tr>
+                        <td><strong>${r.employee_code}</strong></td>
+                        <td>${r.employee_name}</td>
+                        <td>${r.department}</td>
+                        <td><span class="badge ${ratingBadgeClass}">${r.rating} (${r.final_score}%)</span></td>
+                        <td><span class="${isNeedsImprovement ? 'text-muted' : 'text-primary fw-semibold'}">${r.suggested_increment}</span></td>
+                        <td><span class="badge ${recBadgeClass}">${r.recommendation}</span></td>
+                        <td class="text-end">
+                            ${actionsHtml}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+    }
 }
+
+async function approvePromotion(employeeId, employeeName) {
+    if (!confirm(`Are you sure you want to approve the promotion for ${employeeName}?`)) return;
+    try {
+        const csrfToken = await getCsrfToken();
+        const res = await fetch('/api/hr/approve-promotion', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+            body: JSON.stringify({ employee_id: employeeId })
+        });
+        const json = await res.json();
+        if (json.success) {
+            alert(json.message);
+            initHRApexCharts();
+        } else {
+            alert(json.message || "Failed to approve promotion.");
+        }
+    } catch (e) {
+        alert("Error approving promotion: " + e.message);
+    }
+}
+
+async function approveIncrement(employeeId, employeeName) {
+    const amount = prompt(`Enter annual increment amount for ${employeeName} (INR):`, "5000");
+    if (!amount) return;
+    try {
+        const csrfToken = await getCsrfToken();
+        const res = await fetch('/api/hr/approve-increment', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+            body: JSON.stringify({ employee_id: employeeId, increment_amount: parseFloat(amount) })
+        });
+        const json = await res.json();
+        if (json.success) {
+            alert(json.message);
+            initHRApexCharts();
+        } else {
+            alert(json.message || "Failed to approve increment.");
+        }
+    } catch (e) {
+        alert("Error approving increment: " + e.message);
+    }
+}
+
 
 // --- NOTIFICATIONS ENGINE ---
 function renderNotifications() {
@@ -1471,7 +1933,9 @@ function renderNotifications() {
         if (unreadCount > 0) {
             badgeEl.innerText = unreadCount;
             badgeEl.style.display = 'inline-block';
+            badgeEl.classList.remove('d-none');
         } else {
+            badgeEl.innerText = '0';
             badgeEl.style.display = 'none';
         }
     }
@@ -1483,10 +1947,27 @@ function renderNotifications() {
         return;
     }
 
-    listEl.innerHTML = systemState.notifications.map(n => `
+    const hasUnread = systemState.notifications.some(n => n.unread);
+    const headerHtml = `
+        <div class="d-flex justify-content-between align-items-center mb-2 px-1">
+            <span class="text-muted fs-7 fw-semibold">Recent Alerts</span>
+            ${hasUnread ? '<button class="btn btn-link btn-sm p-0 text-danger text-decoration-none fs-7 fw-semibold" onclick="markAllNotificationsRead()">Mark all read</button>' : ''}
+        </div>
+    `;
+
+    const itemsHtml = systemState.notifications.map(n => {
+        const type = (n.type || '').toLowerCase();
+        let iconClass = 'bi-bell';
+        if (type.includes('appraisal')) iconClass = 'bi-file-earmark-check';
+        else if (type.includes('training')) iconClass = 'bi-mortarboard';
+        else if (type.includes('leave')) iconClass = 'bi-calendar-check';
+        else if (type.includes('promotion') || type.includes('increment') || type.includes('award')) iconClass = 'bi-award';
+        else if (type.includes('goal') || type.includes('kra') || type.includes('kpi')) iconClass = 'bi-bullseye';
+
+        return `
         <div class="notification-item ${n.unread ? 'unread' : ''}" onclick="markNotificationRead(${n.id})">
             <div class="notification-icon">
-                <i class="bi ${n.type === 'appraisal' ? 'bi-file-earmark-check' : n.type === 'training' ? 'bi-mortarboard' : 'bi-bell'}"></i>
+                <i class="bi ${iconClass}"></i>
             </div>
             <div style="flex-grow: 1;">
                 <div class="notification-title">${n.title}</div>
@@ -1495,7 +1976,10 @@ function renderNotifications() {
             </div>
             ${n.unread ? '<span class="badge bg-danger rounded-circle p-1" style="width: 7px; height: 7px;"></span>' : ''}
         </div>
-    `).join('');
+        `;
+    }).join('');
+
+    listEl.innerHTML = headerHtml + itemsHtml;
 }
 
 async function markNotificationRead(id) {
@@ -1593,95 +2077,133 @@ function addSampleNotification(title, desc, type = 'system') {
     renderNotifications();
 }
 
-// --- REPORT EXPORTS ENGINE (PDF & EXCEL) ---
-function generatePDFReport(reportTitle = "Employee Performance Report") {
-    const role = systemState.currentRole;
-    const user = roleData[role];
+// --- HELPER: EXTRACT ACTIVE TABLE DATA FOR EXPORT ---
+function getActiveTableData() {
+    const table = document.querySelector('.table-muthoot') || document.querySelector('table');
+    if (!table) return { headers: [], rows: [] };
 
-    if (window.jspdf && window.jspdf.jsPDF) {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
+    const thEls = Array.from(table.querySelectorAll('thead th'));
+    const headers = thEls.map(th => th.innerText.trim()).filter(h => h && !['action', 'actions'].includes(h.toLowerCase()));
 
-        doc.setFillColor(200, 16, 46);
-        doc.rect(0, 0, 210, 24, 'F');
-
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(15);
-        doc.setFont('helvetica', 'bold');
-        doc.text("MUTHOOT FINANCE - APPRAISAL REPORT", 14, 16);
-
-        doc.setTextColor(31, 41, 55);
-        doc.setFontSize(12);
-        doc.text(`Report Type: ${reportTitle}`, 14, 34);
-        doc.setFontSize(10);
-        doc.setFont('helvetica', 'normal');
-        doc.text(`Generated By: ${user.name} (${user.roleTitle})`, 14, 41);
-        doc.text(`Branch: ${user.branch} | Department: ${user.department}`, 14, 47);
-        doc.text(`Date: ${new Date().toLocaleDateString()}`, 14, 53);
-
-        const headers = [["Employee ID", "Name", "Department", "Score / Rating", "Status"]];
-        const data = [
-            ["M0018", "Arjun Kumar", "Information Technology", "4.7 ⭐", "In Review"],
-            ["M0024", "Meera Jasmine", "Loan Processing", "4.3 ⭐", "Approved"],
-            ["M0092", "Vikram Seth", "Credit & Risk", "4.1 ⭐", "Approved"],
-            ["M0054", "Reshma Nair", "Customer Service", "4.5 ⭐", "Pending HR"],
-            ["M0081", "Siddharth V", "Information Technology", "4.0 ⭐", "Self Submitted"]
-        ];
-
-        if (doc.autoTable) {
-            doc.autoTable({
-                head: headers,
-                body: data,
-                startY: 59,
-                headStyles: { fillColor: [200, 16, 46], textColor: [255, 255, 255] },
-                alternateRowStyles: { fillColor: [249, 250, 251] }
-            });
+    const rowEls = Array.from(table.querySelectorAll('tbody tr'));
+    const rows = [];
+    for (const tr of rowEls) {
+        const text = tr.innerText.trim();
+        if (text.toLowerCase().includes('no records') ||
+            text.toLowerCase().includes('no appraisal') ||
+            text.toLowerCase().includes('no training') ||
+            text.toLowerCase().includes('no recommendations') ||
+            text.toLowerCase().includes('no employees') ||
+            text.toLowerCase().includes('loading')) {
+            continue;
         }
-
-        doc.save(`${reportTitle.replace(/\s+/g, '_')}_${Date.now()}.pdf`);
-    } else {
-        alert(`Generating PDF: ${reportTitle}...\n(Print preview will open)`);
-        window.print();
+        const tdEls = Array.from(tr.querySelectorAll('td'));
+        if (tdEls.length === 0) continue;
+        const rowData = tdEls.slice(0, headers.length).map(td => td.innerText.trim().replace(/\s+/g, ' '));
+        rows.push(rowData);
     }
+    return { headers, rows };
+}
 
-    addSampleNotification('PDF Export Generated', `Downloaded ${reportTitle} in PDF format.`, 'system');
+// --- REPORT EXPORTS ENGINE (REPORTLAB PDF & OPENPYXL EXCEL VIA SERVER) ---
+function generatePDFReport(reportTitle = "Employee Performance Report") {
+    const encodedTitle = encodeURIComponent(reportTitle);
+    const cycleQuery = window.currentCycleId ? `&cycle_id=${window.currentCycleId}` : '';
+    window.location.href = `/api/reports/generate-pdf?title=${encodedTitle}${cycleQuery}`;
+    if (typeof addSampleNotification === 'function') {
+        addSampleNotification('PDF Export Generated', `Downloaded ${reportTitle} in ReportLab PDF format.`, 'system');
+    }
 }
 
 function generateExcelReport(reportTitle = "Appraisal_Summary_Report") {
-    const data = [
-        ["Muthoot Finance - Performance Appraisal Export"],
-        ["Generated Date", new Date().toLocaleDateString()],
-        [],
-        ["Employee ID", "Name", "Department", "Designation", "KPI Score", "Manager Score", "Overall Rating", "Status"],
-        ["M0018", "Arjun Kumar", "IT", "Software Executive", "92%", "94%", "4.7 ⭐", "Completed"],
-        ["M0024", "Meera Jasmine", "Loan Processing", "Senior Loan Officer", "88%", "86%", "4.3 ⭐", "Approved"],
-        ["M0092", "Vikram Seth", "Credit & Risk", "Credit Analyst", "82%", "84%", "4.1 ⭐", "Approved"],
-        ["M0054", "Reshma Nair", "Customer Service", "Support Lead", "90%", "90%", "4.5 ⭐", "In Review"],
-        ["M0081", "Siddharth V", "IT", "Systems Admin", "80%", "82%", "4.0 ⭐", "Pending"]
-    ];
+    const encodedTitle = encodeURIComponent(reportTitle);
+    const cycleQuery = window.currentCycleId ? `&cycle_id=${window.currentCycleId}` : '';
+    window.location.href = `/api/reports/generate-excel?title=${encodedTitle}${cycleQuery}`;
+    if (typeof addSampleNotification === 'function') {
+        addSampleNotification('Excel Export Downloaded', `Exported data for ${reportTitle} in OpenPyXL Excel format.`, 'system');
+    }
+}
 
-    if (window.XLSX) {
-        const ws = XLSX.utils.aoa_to_sheet(data);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Appraisal Report");
-        XLSX.writeFile(wb, `${reportTitle}_${Date.now()}.xlsx`);
-    } else {
-        let csvContent = "data:text/csv;charset=utf-8,";
-        data.forEach(row => { csvContent += row.join(",") + "\n"; });
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", `${reportTitle}.csv`);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+// --- DETECT LOGGED IN USER ROLE ACCURATELY ---
+function detectUserRole() {
+    // 1. Check meta tag (highest priority, set by server template)
+    const metaEl = document.querySelector('meta[name="user-role"]');
+    if (metaEl && metaEl.content) {
+        const metaRole = metaEl.content.toLowerCase().trim();
+        if (metaRole.includes('hr') || metaRole.includes('admin') || metaRole.includes('human')) return 'hr';
+        if (metaRole.includes('manager')) return 'manager';
+        if (metaRole.includes('employee')) return 'employee';
     }
 
-    addSampleNotification('Excel Export Downloaded', `Exported data for ${reportTitle}.`, 'system');
+    // 2. Explicit Pathname detection
+    const path = window.location.pathname.toLowerCase();
+    const employeePaths = [
+        'employee-dashboard', 'employee_dashboard',
+        'appraisal-form', 'appraisal_form',
+        'self-appraisal', 'self_appraisal',
+        'leave-request', 'leave_request',
+        'requested-leaves', 'requested_leaves',
+        'employee-training', 'employee_training',
+        'employee-goals', 'employee_goals',
+        'employee-attendance', 'employee_attendance',
+        'my-appraisals', 'my_appraisals'
+    ];
+    if (employeePaths.some(p => path.includes(p))) {
+        return 'employee';
+    }
+
+    const managerPaths = [
+        'manager-dashboard', 'manager_dashboard',
+        'team-evaluation', 'team_evaluation',
+        'review-appraisal', 'review_appraisal',
+        'review-employee-appraisal',
+        'manager/appraisal', 'manager-appraisal', 'manager_appraisal',
+        'review-attendance', 'review_attendance',
+        'behaviour-rating', 'behaviour_rating',
+        'approve-leaves', 'approve_leaves'
+    ];
+    if (managerPaths.some(p => path.includes(p))) {
+        return 'manager';
+    }
+
+    const hrPaths = [
+        'hr-dashboard', 'hr_dashboard',
+        'admin-dashboard', 'admin_dashboard',
+        'performance-results', 'performance_results',
+        'employee-performance',
+        'manage-training', 'manage_training',
+        'training-details', 'training_details',
+        'kra-management', 'kra_management',
+        'kpi-management', 'kpi_management',
+        'assign-kra', 'assign-kpi',
+        'kpi-records', 'appraisal-cycles', 'kra-kpi-report',
+        'admin/employees', 'admin/hierarchy', 'admin/departments',
+        'admin/branches', 'admin/designations', 'admin/users',
+        'employee_management', 'employee-management',
+        'employee_hierarchy', 'employee-hierarchy',
+        'department_management', 'branch_management',
+        'designation_management', 'user_management',
+        'add_employee', 'edit_employee', 'employee_profile'
+    ];
+    if (hrPaths.some(p => path.includes(p))) {
+        return 'hr';
+    }
+
+    // 3. Check welcome / badge role text (rendered by Flask {{ session.get('role_name') }})
+    const roleEl = document.getElementById('welcomeRole') || document.getElementById('userBadgeRole');
+    if (roleEl) {
+        const text = roleEl.textContent.trim().toLowerCase();
+        if (text === 'human resources' || text === 'hr' || text.startsWith('hr ') || text === 'admin') return 'hr';
+        if (text === 'manager') return 'manager';
+        if (text === 'employee') return 'employee';
+    }
+
+    return 'employee';
 }
 
 // --- DYNAMIC ROLE SWITCHER & SIDEBAR NAVIGATION CONTROLLER ---
 function switchRole(role) {
+    if (!roleData[role]) return;
     systemState.currentRole = role;
 
     // 1. Update dropdown items
@@ -1705,19 +2227,28 @@ function switchRole(role) {
     const targetView = document.getElementById(`${role}-view`);
     if (targetView) targetView.classList.add('active');
 
-    // 3. Update topbar user details
-    const data = roleData[role];
-    const nameEl = document.getElementById('welcomeName');
-    const roleEl = document.getElementById('welcomeRole');
-    const avatarEl = document.getElementById('userAvatar');
-    const badgeNameEl = document.getElementById('userBadgeName');
-    const badgeRoleEl = document.getElementById('userBadgeRole');
+    // 3. Update topbar user details ONLY if on multi-view prototype index.html
+    const isMultiViewDemo = document.querySelectorAll('.dashboard-view').length > 1;
+    if (isMultiViewDemo) {
+        const data = roleData[role];
+        const nameEl = document.getElementById('welcomeName');
+        const roleEl = document.getElementById('welcomeRole');
+        const avatarEl = document.getElementById('userAvatar');
+        const badgeNameEl = document.getElementById('userBadgeName');
+        const badgeRoleEl = document.getElementById('userBadgeRole');
 
-    if (nameEl) nameEl.innerText = data.name;
-    if (roleEl) roleEl.innerText = `(${data.roleTitle})`;
-    if (avatarEl) avatarEl.src = data.avatar;
-    if (badgeNameEl) badgeNameEl.innerText = data.name;
-    if (badgeRoleEl) badgeRoleEl.innerText = data.roleTitle;
+        if (nameEl) nameEl.innerText = data.name;
+        if (roleEl) roleEl.innerText = data.roleTitle;
+        if (avatarEl) {
+            if (data.avatar) {
+                avatarEl.src = data.avatar;
+            } else {
+                avatarEl.style.display = 'none';
+            }
+        }
+        if (badgeNameEl) badgeNameEl.innerText = data.name;
+        if (badgeRoleEl) badgeRoleEl.innerText = data.roleTitle;
+    }
 
     // 4. Update Sidebar Menu
     updateSidebarMenu(role);
@@ -1732,61 +2263,209 @@ function switchRole(role) {
     }, 100);
 }
 
+// --- NORMALIZE ROLE HELPER ---
+function normalizeRole(role) {
+    if (!role) return 'employee';
+    const r = role.toString().trim().toLowerCase();
+    if (r.includes('hr') || r.includes('admin') || r.includes('human')) return 'hr';
+    if (r.includes('manager') || r.includes('lead') || r.includes('supervisor')) return 'manager';
+    return 'employee';
+}
+
+// --- GLOBAL GO BACK DASHBOARD HELPER ---
+function goBackDashboard() {
+    const metaRole = (document.querySelector('meta[name="user-role"]')?.content || '').toLowerCase();
+    const role = normalizeRole(metaRole);
+    if (window.history.length > 1 && document.referrer && document.referrer.includes(window.location.host) && !document.referrer.includes('login') && !document.referrer.includes('profile')) {
+        window.history.back();
+    } else {
+        if (role === 'hr') {
+            window.location.href = '/hr-dashboard';
+        } else if (role === 'manager') {
+            window.location.href = '/manager-dashboard';
+        } else {
+            window.location.href = '/employee-dashboard';
+        }
+    }
+}
+
 // --- UPDATE SIDEBAR MENU WITH CONNECTED PAGE LINKS ---
 function updateSidebarMenu(role) {
     const menuContainer = document.getElementById('sidebarMenu');
     if (!menuContainer) return;
 
+    role = normalizeRole(role);
+
     // Determine current active page filename / route
-    const path = window.location.pathname.toLowerCase();
-    const page = path.substring(path.lastIndexOf('/') + 1) || 'index.html';
+    const rawPath = window.location.pathname.toLowerCase().replace(/\/+$/, '') || '/';
+    const page = rawPath.substring(rawPath.lastIndexOf('/') + 1);
 
     let html = '';
     if (role === 'employee') {
+        const isDash = page === 'employee-dashboard' || page === 'employee_dashboard.html' || (rawPath === '/' && role === 'employee');
+        const isAppraisal = page === 'my-appraisals' || page === 'my_appraisals.html' || (page.includes('appraisal') && !page.includes('self') && !page.includes('review') && !page.includes('cycle'));
+        const isSelf = page === 'self-appraisal' || page === 'self_appraisal.html' || page === 'appraisal-form' || page === 'appraisal_form.html';
+        const isGoals = page === 'employee-goals' || page === 'employee_goals.html' || (page.includes('goals') && !page.includes('dashboard'));
+        const isAttend = page === 'employee-attendance' || page === 'employee_attendance.html';
+        const isLeave = page === 'leave-request' || page === 'leave_request.html';
+        const isMyLeaves = page === 'requested-leaves' || page === 'requested_leaves.html';
+        const isTrain = page === 'employee-training' || page === 'employee_training.html';
+
         html = `
             <div class="menu-section-header">Main Menu</div>
-            <li class="${page.includes('employee') || page.includes('dashboard') || page === 'index.html' ? 'active' : ''}" onclick="window.location.href='/employee-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
-            <li class="${page.includes('appraisal') && !page.includes('self') && !page.includes('review') ? 'active' : ''}" onclick="window.location.href='my_appraisals.html'"><i class="bi bi-clipboard-check"></i> <span>My Appraisals</span></li>
-            <li class="${page.includes('self') ? 'active' : ''}" onclick="window.location.href='self_appraisal.html'"><i class="bi bi-person-badge"></i> <span>Self-Appraisal</span></li>
-            <li class="${page.includes('goals') ? 'active' : ''}" onclick="window.location.href='employee_goals.html'"><i class="bi bi-bullseye"></i> <span>Goals & KRAs</span></li>
-            <li class="${page.includes('attendance') && !page.includes('review') ? 'active' : ''}" onclick="window.location.href='employee_attendance.html'"><i class="bi bi-calendar-check"></i> <span>Attendance</span></li>
-            <li class="${page.includes('leave') ? 'active' : ''}" onclick="window.location.href='leave_request.html'"><i class="bi bi-calendar-plus"></i> <span>Leave Request</span></li>
-            <li class="${page.includes('training') && !page.includes('manage') ? 'active' : ''}" onclick="window.location.href='employee_training.html'"><i class="bi bi-mortarboard"></i> <span>Training</span></li>
+            <li class="${isDash ? 'active' : ''}" onclick="window.location.href='/employee-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li class="${isAppraisal ? 'active' : ''}" onclick="window.location.href='/my-appraisals'"><i class="bi bi-clipboard-check"></i> <span>My Appraisals</span></li>
+            <li class="${isSelf ? 'active' : ''}" onclick="window.location.href='/self-appraisal'"><i class="bi bi-person-badge"></i> <span>Self-Appraisal</span></li>
+            <li class="${isGoals ? 'active' : ''}" onclick="window.location.href='/employee-goals'"><i class="bi bi-bullseye"></i> <span>Goals & KRAs</span></li>
+            <li class="${isAttend ? 'active' : ''}" onclick="window.location.href='/employee-attendance'"><i class="bi bi-calendar-check"></i> <span>Attendance</span></li>
+            <li class="${isLeave ? 'active' : ''}" onclick="window.location.href='/leave-request'"><i class="bi bi-calendar-plus"></i> <span>Leave Request</span></li>
+            <li class="${isMyLeaves ? 'active' : ''}" onclick="window.location.href='/requested-leaves'"><i class="bi bi-clock-history"></i> <span>My Leave Requests</span></li>
+            <li class="${isTrain ? 'active' : ''}" onclick="window.location.href='/employee-training'"><i class="bi bi-mortarboard"></i> <span>Training</span></li>
         `;
     } else if (role === 'manager') {
+        const isDash = page === 'manager-dashboard' || page === 'manager_dashboard.html';
+        const isManagerApp = rawPath === '/manager/appraisal' || page === 'manager_appraisal.html' || page === 'manager-appraisal';
+        const isTeam = page === 'team-evaluation' || page === 'team_evaluation.html';
+        const isReviewApp = page === 'review-appraisal' || page === 'review_appraisal.html' || page.includes('review-employee-appraisal');
+        const isReviewAtt = page === 'review-attendance' || page === 'review_attendance.html';
+        const isBehaviour = page === 'behaviour-rating' || page === 'behaviour_rating.html';
+        const isFeedback = page === 'feedback-360' || page === 'feedback_360.html';
+        const isApproveLeaves = page === 'approve-leaves' || page === 'approve_leaves.html';
+
+        const isMyAppraisal = page === 'my-appraisals' || page === 'my_appraisals.html';
+        const isSelfAppraisal = page === 'self-appraisal' || page === 'self_appraisal.html' || page === 'appraisal-form' || page === 'appraisal_form.html';
+        const isMyGoals = page === 'employee-goals' || page === 'employee_goals.html';
+        const isMyAttendance = page === 'employee-attendance' || page === 'employee_attendance.html';
+        const isApplyLeave = page === 'leave-request' || page === 'leave_request.html';
+        const isMyLeaves = page === 'requested-leaves' || page === 'requested_leaves.html';
+        const isMyTraining = page === 'employee-training' || page === 'employee_training.html';
+
         html = `
             <div class="menu-section-header">Manager Overview</div>
-            <li class="${page.includes('manager') || page === 'manager_dashboard.html' ? 'active' : ''}" onclick="window.location.href='/manager-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
-            <li class="${page.includes('team') ? 'active' : ''}" onclick="window.location.href='/team-evaluation'"><i class="bi bi-people"></i> <span>Team Evaluation</span></li>
-            <li class="${page.includes('review') && page.includes('appraisal') ? 'active' : ''}" onclick="window.location.href='/review-appraisal'"><i class="bi bi-clipboard-check"></i> <span>Review Appraisal</span></li>
-            <li class="${page.includes('review') && page.includes('attendance') ? 'active' : ''}" onclick="window.location.href='review_attendance.html'"><i class="bi bi-calendar-range"></i> <span>Review Attendance</span></li>
-            <li class="${page.includes('behaviour') ? 'active' : ''}" onclick="window.location.href='behaviour_rating.html'"><i class="bi bi-star-half"></i> <span>Behaviour Rating</span></li>
-            <li class="${page.includes('feedback') || page.includes('360') ? 'active' : ''}" onclick="window.location.href='feedback_360.html'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
-            <li class="${page.includes('assign') && page.includes('kra') ? 'active' : ''}" onclick="window.location.href='assign_kra.html'"><i class="bi bi-ui-checks"></i> <span>Assign KRAs</span></li>
-            <li class="${page.includes('kpi_records') || page.includes('kpi-records') ? 'active' : ''}" onclick="window.location.href='kpi_records.html'"><i class="bi bi-speedometer2"></i> <span>KPI Records</span></li>
+            <li class="${isDash ? 'active' : ''}" onclick="window.location.href='/manager-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li class="${isManagerApp ? 'active' : ''}" onclick="window.location.href='/manager/appraisal'"><i class="bi bi-clipboard-check"></i> <span>Manager Appraisal</span></li>
+            <li class="${isTeam ? 'active' : ''}" onclick="window.location.href='/team-evaluation'"><i class="bi bi-people"></i> <span>Team Evaluation</span></li>
+            <li class="${isReviewApp ? 'active' : ''}" onclick="window.location.href='/review-appraisal'"><i class="bi bi-clipboard-data"></i> <span>Review Appraisal</span></li>
+            <li class="${isReviewAtt ? 'active' : ''}" onclick="window.location.href='/review-attendance'"><i class="bi bi-calendar-range"></i> <span>Review Attendance</span></li>
+            <li class="${isBehaviour ? 'active' : ''}" onclick="window.location.href='/behaviour-rating'"><i class="bi bi-star-half"></i> <span>Behaviour Rating</span></li>
+            <li class="${isFeedback ? 'active' : ''}" onclick="window.location.href='/feedback-360'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
+            <li class="${isApproveLeaves ? 'active' : ''}" onclick="window.location.href='/approve-leaves'"><i class="bi bi-calendar-check"></i> <span>Approve Leaves</span></li>
+
+            <div class="menu-section-header">Self Service</div>
+            <li class="${isMyAppraisal ? 'active' : ''}" onclick="window.location.href='/my-appraisals'"><i class="bi bi-award"></i> <span>My Appraisals</span></li>
+            <li class="${isSelfAppraisal ? 'active' : ''}" onclick="window.location.href='/self-appraisal'"><i class="bi bi-person-badge"></i> <span>Self-Appraisal</span></li>
+            <li class="${isMyGoals ? 'active' : ''}" onclick="window.location.href='/employee-goals'"><i class="bi bi-bullseye"></i> <span>Goals & KRAs</span></li>
+            <li class="${isMyAttendance ? 'active' : ''}" onclick="window.location.href='/employee-attendance'"><i class="bi bi-calendar-check"></i> <span>Attendance</span></li>
+            <li class="${isApplyLeave ? 'active' : ''}" onclick="window.location.href='/leave-request'"><i class="bi bi-calendar-plus"></i> <span>Leave Request</span></li>
+            <li class="${isMyLeaves ? 'active' : ''}" onclick="window.location.href='/requested-leaves'"><i class="bi bi-clock-history"></i> <span>My Leave Requests</span></li>
+            <li class="${isMyTraining ? 'active' : ''}" onclick="window.location.href='/employee-training'"><i class="bi bi-mortarboard"></i> <span>Training</span></li>
         `;
-    } else if (role === 'hr') {
+    } else if (role === 'hr' || role === 'admin') {
+        const isDash = page === 'hr-dashboard' || page === 'hr_dashboard.html' || page === 'admin-dashboard' || page === 'admin_dashboard.html';
+        const isPerf = page === 'performance-results' || page === 'performance_results.html' || page === 'employee-performance-details' || page === 'employee_performance_details.html';
+        const isTrain = page === 'manage-training' || page === 'manage_training.html' || page === 'training-details' || page === 'training_details.html';
+        const isFeedback = page === 'feedback-360' || page === 'feedback_360.html';
+        const isApproveLeaves = page === 'approve-leaves' || page === 'approve_leaves.html';
+        const isKra = page === 'kra-management' || page === 'kra_management.html' || page.includes('edit-kra') || page === 'add-kra';
+        const isKpi = page === 'kpi-management' || page === 'kpi_management.html' || page.includes('edit-kpi') || page === 'add-kpi';
+        const isAsgKra = page === 'assign-kra' || page === 'assign_kra.html';
+        const isAsgKpi = page === 'assign-kpi' || page === 'assign_kpi.html';
+        const isRec = page === 'kpi-records' || page === 'kpi_records.html' || page === 'add-kpi-record';
+        const isCycles = page === 'appraisal-cycles' || page === 'appraisal_cycles.html' || page.includes('edit-appraisal-cycle') || page === 'add-appraisal-cycle';
+        const isReport = page === 'kra-kpi-report' || page === 'kra_kpi_report.html';
+
+        const isEmpDir = rawPath.startsWith('/admin/employees') || page === 'employees' || page === 'employee_management.html' || page === 'add_employee.html' || page === 'edit_employee.html' || page.includes('employee_profile');
+        const isHierarchy = rawPath.startsWith('/admin/hierarchy') || page === 'hierarchy' || page === 'employee_hierarchy.html';
+        const isDepts = rawPath.startsWith('/admin/departments') || page === 'departments' || page === 'department_management.html';
+        const isBranches = rawPath.startsWith('/admin/branches') || page === 'branches' || page === 'branch_management.html';
+        const isDesigs = rawPath.startsWith('/admin/designations') || page === 'designations' || page === 'designation_management.html';
+        const isUsers = rawPath.startsWith('/admin/users') || page === 'users' || page === 'user_management.html';
+
         html = `
             <div class="menu-section-header">HR Administration</div>
-            <li class="${page.includes('hr_dashboard') || page.includes('hr-dashboard') ? 'active' : ''}" onclick="window.location.href='hr_dashboard.html'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
-            <li class="${page.includes('performance') ? 'active' : ''}" onclick="window.location.href='performance_results.html'"><i class="bi bi-award"></i> <span>Performance Results</span></li>
-            <li class="${page.includes('manage_training') || page.includes('manage-training') || page.includes('training_details') ? 'active' : ''}" onclick="window.location.href='manage_training.html'"><i class="bi bi-mortarboard-fill"></i> <span>Manage Training</span></li>
-            <li class="${page.includes('kra_management') || page.includes('kra-management') ? 'active' : ''}" onclick="window.location.href='kra_management.html'"><i class="bi bi-bullseye"></i> <span>KRA Management</span></li>
-            <li class="${page.includes('kpi_management') || page.includes('kpi-management') ? 'active' : ''}" onclick="window.location.href='kpi_management.html'"><i class="bi bi-speedometer2"></i> <span>KPI Management</span></li>
-            <li class="${page.includes('assign_kra') || page.includes('assign-kra') ? 'active' : ''}" onclick="window.location.href='assign_kra.html'"><i class="bi bi-person-check"></i> <span>Assign KRA</span></li>
-            <li class="${page.includes('assign_kpi') || page.includes('assign-kpi') ? 'active' : ''}" onclick="window.location.href='assign_kpi.html'"><i class="bi bi-person-lines-fill"></i> <span>Assign KPI</span></li>
-            <li class="${page.includes('report') ? 'active' : ''}" onclick="window.location.href='kra_kpi_report.html'"><i class="bi bi-file-earmark-bar-graph"></i> <span>KRA / KPI Report</span></li>
+            <li class="${isDash ? 'active' : ''}" onclick="window.location.href='/hr-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li class="${isPerf ? 'active' : ''}" onclick="window.location.href='/performance-results'"><i class="bi bi-award"></i> <span>Performance Results</span></li>
+            <li class="${isTrain ? 'active' : ''}" onclick="window.location.href='/manage-training'"><i class="bi bi-mortarboard-fill"></i> <span>Manage Training</span></li>
+            <li class="${isFeedback ? 'active' : ''}" onclick="window.location.href='/feedback-360'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
+            <li class="${isApproveLeaves ? 'active' : ''}" onclick="window.location.href='/approve-leaves'"><i class="bi bi-calendar-check"></i> <span>Approve Leaves</span></li>
+            <li class="${isKra ? 'active' : ''}" onclick="window.location.href='/kra-management'"><i class="bi bi-bullseye"></i> <span>KRA Management</span></li>
+            <li class="${isKpi ? 'active' : ''}" onclick="window.location.href='/kpi-management'"><i class="bi bi-speedometer2"></i> <span>KPI Management</span></li>
+            <li class="${isAsgKra ? 'active' : ''}" onclick="window.location.href='/assign-kra'"><i class="bi bi-person-check"></i> <span>Assign KRA</span></li>
+            <li class="${isAsgKpi ? 'active' : ''}" onclick="window.location.href='/assign-kpi'"><i class="bi bi-person-lines-fill"></i> <span>Assign KPI</span></li>
+            <li class="${isRec ? 'active' : ''}" onclick="window.location.href='/kpi-records'"><i class="bi bi-speedometer2"></i> <span>KPI Records</span></li>
+            <li class="${isCycles ? 'active' : ''}" onclick="window.location.href='/appraisal-cycles'"><i class="bi bi-calendar-range"></i> <span>Appraisal Cycles</span></li>
+            <li class="${isReport ? 'active' : ''}" onclick="window.location.href='/kra-kpi-report'"><i class="bi bi-file-earmark-bar-graph"></i> <span>KRA / KPI Report</span></li>
+
+            <div class="menu-section-header">Organization & Staff</div>
+            <li class="${isEmpDir ? 'active' : ''}" onclick="window.location.href='/admin/employees'"><i class="bi bi-people-fill"></i> <span>Employee Directory</span></li>
+            <li class="${isHierarchy ? 'active' : ''}" onclick="window.location.href='/admin/hierarchy'"><i class="bi bi-diagram-3-fill"></i> <span>Employee Hierarchy</span></li>
+            <li class="${isDepts ? 'active' : ''}" onclick="window.location.href='/admin/departments'"><i class="bi bi-building"></i> <span>Departments</span></li>
+            <li class="${isBranches ? 'active' : ''}" onclick="window.location.href='/admin/branches'"><i class="bi bi-geo-alt-fill"></i> <span>Branches</span></li>
+            <li class="${isDesigs ? 'active' : ''}" onclick="window.location.href='/admin/designations'"><i class="bi bi-award-fill"></i> <span>Designations</span></li>
+            <li class="${isUsers ? 'active' : ''}" onclick="window.location.href='/admin/users'"><i class="bi bi-person-badge-fill"></i> <span>User Accounts</span></li>
         `;
     }
 
+    const isProfile = page === 'profile' || page === 'profile.html';
     html += `
         <div class="menu-section-header">Account</div>
-        <li class="${page.includes('profile') ? 'active' : ''}" onclick="window.location.href='profile.html'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
-        <li onclick="window.location.href='login.html'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
+        <li class="${isProfile ? 'active' : ''}" onclick="window.location.href='/profile'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
+        <li onclick="window.location.href='/logout'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
     `;
 
     menuContainer.innerHTML = html;
+    initSidebarScrollTracker();
+    restoreSidebarScroll();
+    requestAnimationFrame(restoreSidebarScroll);
+    setTimeout(restoreSidebarScroll, 50);
 }
+
+// --- SIDEBAR SCROLL PERSISTENCE ENGINE ---
+function initSidebarScrollTracker() {
+    const menuContainer = document.getElementById('sidebarMenu');
+    if (!menuContainer) return;
+
+    if (!menuContainer.dataset.scrollTracked) {
+        menuContainer.dataset.scrollTracked = 'true';
+
+        menuContainer.addEventListener('scroll', () => {
+            sessionStorage.setItem('mtrack_sidebar_scroll', menuContainer.scrollTop);
+        }, { passive: true });
+
+        menuContainer.addEventListener('click', (e) => {
+            const li = e.target.closest('li');
+            if (li) {
+                sessionStorage.setItem('mtrack_sidebar_scroll', menuContainer.scrollTop);
+            }
+        });
+    }
+}
+
+function restoreSidebarScroll() {
+    const menuContainer = document.getElementById('sidebarMenu');
+    if (!menuContainer) return;
+
+    const saved = sessionStorage.getItem('mtrack_sidebar_scroll');
+    if (saved !== null && !isNaN(parseInt(saved, 10))) {
+        menuContainer.scrollTop = parseInt(saved, 10);
+    } else {
+        const activeLi = menuContainer.querySelector('li.active');
+        if (activeLi) {
+            const menuHeight = menuContainer.clientHeight;
+            const itemTop = activeLi.offsetTop;
+            if (itemTop > menuHeight - 80) {
+                menuContainer.scrollTop = Math.max(0, itemTop - (menuHeight / 2));
+            }
+        }
+    }
+}
+
+window.addEventListener('beforeunload', () => {
+    const menuContainer = document.getElementById('sidebarMenu');
+    if (menuContainer) {
+        sessionStorage.setItem('mtrack_sidebar_scroll', menuContainer.scrollTop);
+    }
+});
 
 // ============================================================
 // PAGE INITIALIZATION
@@ -1795,59 +2474,25 @@ function updateSidebarMenu(role) {
 window.addEventListener(
     'DOMContentLoaded',
     () => {
+        initSidebarScrollTracker();
+        restoreSidebarScroll();
+        requestAnimationFrame(restoreSidebarScroll);
+        setTimeout(restoreSidebarScroll, 60);
 
-        const activeView =
-            document.querySelector(
-                '.dashboard-view.active'
-            );
+        const allViews = document.querySelectorAll('.dashboard-view');
+        const isMultiViewDemo = allViews.length > 1;
 
-
-        if (activeView) {
-
-            const viewId =
-                activeView.id.replace(
-                    '-view',
-                    ''
-                );
-
-
-            switchRole(viewId);
-
-        } else {
-
-            const path =
-                window.location.pathname.toLowerCase();
-
-
-            if (
-                path.includes('manager') ||
-                path.includes('team') ||
-                path.includes('team_evaluation') ||
-                path.includes('team-evaluation') ||
-                path.includes('review') ||
-                path.includes('behaviour') ||
-                path.includes('feedback') ||
-                path.includes('kpi_records') ||
-                path.includes('kpi-records')
-            ) {
-
-                updateSidebarMenu('manager');
-
-            } else if (
-                path.includes('hr') ||
-                path.includes('kra') ||
-                path.includes('kpi') ||
-                path.includes('assign') ||
-                path.includes('manage_training') ||
-                path.includes('manage-training')
-            ) {
-
-                updateSidebarMenu('hr');
-
-            } else {
-
-                updateSidebarMenu('employee');
+        if (isMultiViewDemo) {
+            const activeView = document.querySelector('.dashboard-view.active');
+            if (activeView && activeView.id) {
+                const viewId = activeView.id.replace('-view', '').toLowerCase();
+                if (['employee', 'manager', 'hr'].includes(viewId)) {
+                    switchRole(viewId);
+                }
             }
+        } else {
+            const role = detectUserRole();
+            updateSidebarMenu(role);
         }
 
 
@@ -1855,7 +2500,9 @@ window.addEventListener(
         // EMPLOYEE DASHBOARD
         // ================================================
 
+        const isEmpDash = window.location.pathname.includes('employee-dashboard') || window.location.pathname.includes('employee_dashboard') || (window.location.pathname === '/' && isMultiViewDemo);
         if (
+            isEmpDash &&
             document.getElementById(
                 'employee-view'
             )
@@ -1863,11 +2510,14 @@ window.addEventListener(
 
             loadEmployeeDashboardData();
         }
+
         // ================================================
         // MANAGER DASHBOARD
         // ================================================
 
+        const isMgrDash = window.location.pathname.includes('manager-dashboard') || window.location.pathname.includes('manager_dashboard') || (window.location.pathname === '/' && isMultiViewDemo);
         if (
+            isMgrDash &&
             document.getElementById(
                 'manager-view'
             )
@@ -1877,50 +2527,124 @@ window.addEventListener(
 
         }
 
-        // Initialize Muthoot Interactive Button Animations
-        initInteractiveButtons();
+        // ================================================
+        // HR DASHBOARD
+        // ================================================
 
+        const isHRDash = window.location.pathname.includes('hr-dashboard') || window.location.pathname.includes('hr_dashboard') || (window.location.pathname === '/' && isMultiViewDemo);
+        if (
+            isHRDash &&
+            document.getElementById(
+                'hr-view'
+            )
+        ) {
+
+            initHRApexCharts();
+
+        }
+
+        // Load profile data dynamically if on profile page
+        if (document.getElementById('profileViewContainer') || window.location.pathname.includes('profile')) {
+            loadProfilePage();
+        }
+
+        // Load notifications globally across all pages
+        loadGlobalNotifications();
     }
 );
 
-// --- MUTHOOT INTERACTIVE BUTTON ANIMATION ENGINE ---
-function initInteractiveButtons() {
-    document.addEventListener('click', (e) => {
-        const btn = e.target.closest('.btn-muthoot, .btn-muthoot-outline, .btn-muthoot-interactive, [data-interactive="true"]');
-        if (!btn || btn.disabled || btn.classList.contains('btn-animating')) return;
+// --- PROFILE PAGE DYNAMIC LOADER ---
+async function loadProfilePage() {
+    try {
+        const response = await fetch('/api/auth/me', {
+            method: 'GET',
+            credentials: 'same-origin',
+            headers: { 'Accept': 'application/json' }
+        });
 
-        // Skip dropdown toggles
-        if (btn.hasAttribute('data-bs-toggle') && btn.getAttribute('data-bs-toggle') === 'dropdown') return;
+        const data = await response.json();
+        if (data && data.authenticated && data.user) {
+            const role = normalizeRole(data.user.role);
+            
+            // Update sidebar menu for active role
+            updateSidebarMenu(role);
 
-        // Create Gold/Red Ripple
-        const rect = btn.getBoundingClientRect();
-        const ripple = document.createElement('span');
-        const diameter = Math.max(rect.width, rect.height);
-        const radius = diameter / 2;
+            // Determine user profile object from session/user
+            const username = data.user.username || 'User';
+            const roleName = data.user.role || (role.charAt(0).toUpperCase() + role.slice(1));
+            const userObj = {
+                name: data.user.full_name || username,
+                roleTitle: data.user.designation || roleName,
+                department: data.user.department || 'Not Assigned',
+                empId: data.user.employee_code || username.toUpperCase(),
+                branch: data.user.branch || 'Head Office',
+                email: data.user.email || `${username.toLowerCase()}@muthoot.com`,
+                manager: data.user.manager_name || '—',
+                joined: data.user.joined_date || '—',
+                phone: data.user.phone || '—',
+                avatar: ""
+            };
 
-        ripple.style.width = ripple.style.height = `${diameter}px`;
-        ripple.style.left = `${e.clientX - rect.left - radius}px`;
-        ripple.style.top = `${e.clientY - rect.top - radius}px`;
-        ripple.classList.add('btn-ripple');
+            // Update DOM elements if present
+            const avatarImg = document.getElementById('profileAvatarImg');
+            const fullName = document.getElementById('profileFullName');
+            const roleDept = document.getElementById('profileRoleDept');
+            const empBadge = document.getElementById('profileEmpBadge');
+            const branch = document.getElementById('profileBranch');
+            const email = document.getElementById('profileEmail');
+            const manager = document.getElementById('profileManager');
+            const joined = document.getElementById('profileJoined');
 
-        const existingRipple = btn.querySelector('.btn-ripple');
-        if (existingRipple) existingRipple.remove();
-        btn.appendChild(ripple);
+            const inputFullName = document.getElementById('inputFullName');
+            const inputEmail = document.getElementById('inputEmail');
+            const inputPhone = document.getElementById('inputPhone');
+            const inputBranch = document.getElementById('inputBranch');
 
-        // Interactive Success Feedback for Submit & Action buttons
-        if (btn.type === 'submit' || btn.getAttribute('data-action') === 'submit' || btn.classList.contains('btn-submit-anim') || btn.classList.contains('btn-muthoot-interactive')) {
-            btn.classList.add('btn-animating');
-            const originalHTML = btn.innerHTML;
+            if (fullName) fullName.innerText = userObj.name;
+            if (roleDept) roleDept.innerText = `${userObj.roleTitle} • ${userObj.department}`;
+            if (empBadge) empBadge.innerText = `Employee ID: ${userObj.empId}`;
+            if (branch) branch.innerText = userObj.branch;
+            if (email) email.innerText = userObj.email;
+            if (manager) manager.innerText = userObj.manager;
+            if (joined) joined.innerText = userObj.joined;
 
-            setTimeout(() => {
-                btn.classList.add('btn-success-animated');
-                btn.innerHTML = `<i class="bi bi-check-circle-fill me-1 btn-success-icon"></i> Done!`;
-            }, 180);
+            if (inputFullName) inputFullName.value = userObj.name;
+            if (inputEmail) inputEmail.value = userObj.email;
+            if (inputPhone) inputPhone.value = userObj.phone;
+            if (inputBranch) inputBranch.value = userObj.branch;
 
-            setTimeout(() => {
-                btn.innerHTML = originalHTML;
-                btn.classList.remove('btn-success-animated', 'btn-animating');
-            }, 1800);
+            // Update Topbar badge
+            const badgeName = document.querySelector('.user-badge-name');
+            const badgeRole = document.querySelector('.user-badge-role');
+            if (badgeName) badgeName.innerText = userObj.name;
+            if (badgeRole) badgeRole.innerText = userObj.roleTitle;
         }
-    });
+    } catch (e) {
+        console.error('Profile Load Error:', e);
+    }
 }
+
+// --- GLOBAL NOTIFICATIONS LOADER ---
+async function loadGlobalNotifications() {
+    try {
+        const response = await fetch('/api/notifications/');
+        if (!response.ok) return;
+        const data = await response.json();
+        if (data.success && Array.isArray(data.notifications)) {
+            renderNotificationsFromAPI(data.notifications);
+        }
+    } catch (e) {
+        console.error('Global notifications load error:', e);
+    }
+}
+
+// Global modal cleanup: guarantees that dismissing any Bootstrap modal clears stranded dim backdrops
+document.addEventListener('hidden.bs.modal', function () {
+    if (!document.querySelector('.modal.show')) {
+        document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+        document.body.classList.remove('modal-open');
+        document.body.style.removeProperty('overflow');
+        document.body.style.removeProperty('padding-right');
+    }
+});
+

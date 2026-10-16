@@ -3,27 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="user-role" content="{{ (session.get('role_name') or 'employee').lower() }}">
     <title>My Profile - Muthoot Employee Appraisal System</title>
+    <!-- Google Fonts Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Google Fonts Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Custom Muthoot Minimal CSS -->
-    <link rel="stylesheet" href="../static/css/style.css">
+    <!-- Custom Muthoot Stitch CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
     <!-- Mobile Backdrop Overlay -->
     <div class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
 
-    <!-- --- SIDEBAR WITH INSIDE TOGGLE BUTTON --- -->
+    <!-- --- SIDEBAR --- -->
     <aside class="sidebar">
         <div class="brand">
             <div class="brand-logo-container">
-                <img src="../static/images/muthoot-logo.png" alt="Muthoot Finance Logo" class="brand-full-logo">
-                <img src="../static/images/muthoot-logo-toggle.png" alt="Muthoot Finance Icon" class="brand-icon-logo">
+                <img src="{{ url_for('static', filename='images/muthoot-logo.png') }}" alt="Muthoot Finance Logo" class="brand-full-logo">
+                <img src="{{ url_for('static', filename='images/muthoot-logo-toggle.png') }}" alt="Muthoot Finance Icon" class="brand-icon-logo">
             </div>
             <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
                 <i class="bi bi-chevron-left"></i>
@@ -31,99 +34,232 @@
         </div>
         
         <ul class="menu" id="sidebarMenu">
+            {% set r_lower = (session.get('role_name') or 'employee').lower() %}
+            {% if 'hr' in r_lower or 'admin' in r_lower or 'human' in r_lower %}
+            <div class="menu-section-header">HR Administration</div>
+            <li onclick="window.location.href='/hr-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li onclick="window.location.href='/performance-results'"><i class="bi bi-award"></i> <span>Performance Results</span></li>
+            <li onclick="window.location.href='/manage-training'"><i class="bi bi-mortarboard-fill"></i> <span>Manage Training</span></li>
+            <li onclick="window.location.href='/feedback-360'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
+            <li onclick="window.location.href='/approve-leaves'"><i class="bi bi-calendar-check"></i> <span>Approve Leaves</span></li>
+            <li onclick="window.location.href='/kra-management'"><i class="bi bi-bullseye"></i> <span>KRA Management</span></li>
+            <li onclick="window.location.href='/kpi-management'"><i class="bi bi-speedometer2"></i> <span>KPI Management</span></li>
+            <li onclick="window.location.href='/assign-kra'"><i class="bi bi-person-check"></i> <span>Assign KRA</span></li>
+            <li onclick="window.location.href='/assign-kpi'"><i class="bi bi-person-lines-fill"></i> <span>Assign KPI</span></li>
+            <li onclick="window.location.href='/kpi-records'"><i class="bi bi-speedometer2"></i> <span>KPI Records</span></li>
+            <li onclick="window.location.href='/appraisal-cycles'"><i class="bi bi-calendar-range"></i> <span>Appraisal Cycles</span></li>
+            <li onclick="window.location.href='/kra-kpi-report'"><i class="bi bi-file-earmark-bar-graph"></i> <span>KRA / KPI Report</span></li>
+            <div class="menu-section-header">Organization & Staff</div>
+            <li onclick="window.location.href='/admin/employees'"><i class="bi bi-people-fill"></i> <span>Employee Directory</span></li>
+            <li onclick="window.location.href='/admin/hierarchy'"><i class="bi bi-diagram-3-fill"></i> <span>Employee Hierarchy</span></li>
+            <li onclick="window.location.href='/admin/departments'"><i class="bi bi-building"></i> <span>Departments</span></li>
+            <li onclick="window.location.href='/admin/branches'"><i class="bi bi-geo-alt-fill"></i> <span>Branches</span></li>
+            <li onclick="window.location.href='/admin/designations'"><i class="bi bi-award-fill"></i> <span>Designations</span></li>
+            <li onclick="window.location.href='/admin/users'"><i class="bi bi-person-badge-fill"></i> <span>User Accounts</span></li>
+            {% elif 'manager' in r_lower or 'lead' in r_lower or 'supervisor' in r_lower %}
+            <div class="menu-section-header">Manager Overview</div>
+            <li onclick="window.location.href='/manager-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li onclick="window.location.href='/manager/appraisal'"><i class="bi bi-clipboard-check"></i> <span>Manager Appraisal</span></li>
+            <li onclick="window.location.href='/team-evaluation'"><i class="bi bi-people"></i> <span>Team Evaluation</span></li>
+            <li onclick="window.location.href='/review-appraisal'"><i class="bi bi-clipboard-data"></i> <span>Review Appraisal</span></li>
+            <li onclick="window.location.href='/review-attendance'"><i class="bi bi-calendar-range"></i> <span>Review Attendance</span></li>
+            <li onclick="window.location.href='/behaviour-rating'"><i class="bi bi-star-half"></i> <span>Behaviour Rating</span></li>
+            <li onclick="window.location.href='/feedback-360'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
+            <li onclick="window.location.href='/approve-leaves'"><i class="bi bi-calendar-check"></i> <span>Approve Leaves</span></li>
+            <div class="menu-section-header">Self Service</div>
+            <li onclick="window.location.href='/my-appraisals'"><i class="bi bi-award"></i> <span>My Appraisals</span></li>
+            <li onclick="window.location.href='/self-appraisal'"><i class="bi bi-person-badge"></i> <span>Self-Appraisal</span></li>
+            <li onclick="window.location.href='/employee-goals'"><i class="bi bi-bullseye"></i> <span>Goals & KRAs</span></li>
+            <li onclick="window.location.href='/employee-attendance'"><i class="bi bi-calendar-check"></i> <span>Attendance</span></li>
+            <li onclick="window.location.href='/leave-request'"><i class="bi bi-calendar-plus"></i> <span>Leave Request</span></li>
+            <li onclick="window.location.href='/requested-leaves'"><i class="bi bi-clock-history"></i> <span>My Leave Requests</span></li>
+            <li onclick="window.location.href='/employee-training'"><i class="bi bi-mortarboard"></i> <span>Training</span></li>
+            {% else %}
             <div class="menu-section-header">Main Menu</div>
-            <li onclick="window.location.href='employee_dashboard.html'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
-            <li onclick="window.location.href='my_appraisals.html'"><i class="bi bi-clipboard-check"></i> <span>My Appraisals</span></li>
-            <li onclick="window.location.href='employee_goals.html'"><i class="bi bi-bullseye"></i> <span>Goals & KRAs</span></li>
-            <li onclick="window.location.href='employee_attendance.html'"><i class="bi bi-calendar-check"></i> <span>Attendance</span></li>
-            <li onclick="window.location.href='employee_training.html'"><i class="bi bi-mortarboard"></i> <span>Training</span></li>
+            <li onclick="window.location.href='/employee-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li onclick="window.location.href='/my-appraisals'"><i class="bi bi-clipboard-check"></i> <span>My Appraisals</span></li>
+            <li onclick="window.location.href='/self-appraisal'"><i class="bi bi-person-badge"></i> <span>Self-Appraisal</span></li>
+            <li onclick="window.location.href='/employee-goals'"><i class="bi bi-bullseye"></i> <span>Goals & KRAs</span></li>
+            <li onclick="window.location.href='/employee-attendance'"><i class="bi bi-calendar-check"></i> <span>Attendance</span></li>
+            <li onclick="window.location.href='/leave-request'"><i class="bi bi-calendar-plus"></i> <span>Leave Request</span></li>
+            <li onclick="window.location.href='/requested-leaves'"><i class="bi bi-clock-history"></i> <span>My Leave Requests</span></li>
+            <li onclick="window.location.href='/employee-training'"><i class="bi bi-mortarboard"></i> <span>Training</span></li>
+            {% endif %}
             <div class="menu-section-header">Account</div>
-            <li class="active" onclick="window.location.href='profile.html'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
-            <li onclick="window.location.href='index.html'"><i class="bi bi-box-arrow-right"></i> <span>Portal Home</span></li>
+            <li class="active" onclick="window.location.href='/profile'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
+            <li onclick="window.location.href='/logout'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
         </ul>
+        <div class="sidebar-footer-badge">
+            <span>System Build v4.8.2</span>
+            <span class="status-pill">Stable</span>
+        </div>
     </aside>
 
-    <!-- --- MAIN CONTENT WRAPPER --- -->
+    <!-- --- MAIN CONTENT --- -->
     <main class="content">
         
-        <!-- --- TOPBAR NAVBAR --- -->
+        <!-- Top Bar -->
         <nav class="topbar">
-            <div class="topbar-left">
+            <div class="topbar-left d-flex align-items-center gap-2">
                 <button class="topbar-icon-btn d-lg-none" onclick="toggleSidebar()" title="Open Menu">
                     <i class="bi bi-list"></i>
                 </button>
-                <h4>User Profile & Account Settings</h4>
+                <button class="btn btn-sm btn-muthoot-outline d-inline-flex align-items-center gap-1 me-2" onclick="goBackDashboard()" title="Go Back">
+                    <i class="bi bi-arrow-left"></i> <span>Back</span>
+                </button>
+                <h4 class="mb-0">User Profile & Account Settings</h4>
             </div>
             <div class="topbar-right">
                 <div class="topbar-icons">
                     <button class="topbar-icon-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#notificationDrawer" title="Notifications">
                         <i class="bi bi-bell"></i>
-                        <span class="notification-badge" id="unreadBadge">2</span>
+                        <span class="notification-badge" id="unreadBadge" style="display: none;">0</span>
                     </button>
                 </div>
                 
                 <div class="user-badge">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100" alt="Arjun Kumar">
+                    <div class="user-avatar-circle">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
                     <div class="user-badge-info">
-                        <span class="user-badge-name">Arjun Kumar</span>
-                        <span class="user-badge-role">Software Executive</span>
+                        <span class="user-badge-name">{{ session.get('username', 'User') }}</span>
+                        <span class="user-badge-role">{{ session.get('role_name', 'Employee') }}</span>
                     </div>
                 </div>
             </div>
         </nav>
 
-        <!-- --- PROFILE CONTENT --- -->
-        <div class="row g-4">
+        <!-- PROFILE CONTENT (35% / 65% Grid) -->
+        <div class="row g-4" id="profileViewContainer">
+            <!-- Left Column: Corporate Identity & Security Status -->
             <div class="col-lg-4">
-                <div class="card-muthoot text-center">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100" class="rounded-circle mb-3 border border-3 border-danger p-1" style="width: 100px; height: 100px; object-fit: cover;">
-                    <h5 class="fw-bold mb-1">Arjun Kumar</h5>
-                    <p class="text-muted fs-7 mb-2">Software Executive • IT Department</p>
-                    <span class="badge bg-danger mb-3">Employee ID: M0018</span>
+                <!-- Profile Identity Card -->
+                <div class="card-muthoot text-center position-relative overflow-hidden mb-4">
+                    <div class="position-absolute top-0 start-0 end-0" style="height: 4px; background: linear-gradient(90deg, var(--primary-red) 0%, var(--primary-red-dark) 100%);"></div>
+                    
+                    <div class="position-relative d-inline-block mt-2 mb-3">
+                        <div class="user-avatar-circle mx-auto p-1 shadow-sm" style="width: 90px; height: 90px; font-size: 42px;">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <span class="position-absolute bottom-0 end-0 bg-danger text-white rounded-circle p-1 shadow-sm d-flex align-items-center justify-content-center" style="width: 26px; height: 26px; font-size: 12px;" title="Profile Avatar">
+                            <i class="bi bi-camera"></i>
+                        </span>
+                    </div>
 
-                    <hr>
+                    <h5 class="fw-bold mb-1 text-dark" id="profileFullName">{{ session.get('username', 'User') }}</h5>
+                    <p class="text-muted small mb-2" id="profileRoleDept">{{ session.get('role_name', 'Employee') }}</p>
+                    
+                    <div class="d-flex justify-content-center gap-2 mb-3">
+                        <span class="badge bg-light text-muted border px-2.5 py-1" id="profileEmpBadge">User ID: {{ session.get('user_id', '—') }}</span>
+                        <span class="badge bg-success-subtle text-success border border-success-subtle px-2.5 py-1">Active Status</span>
+                    </div>
 
-                    <div class="text-start fs-7 text-muted">
-                        <p class="mb-2"><i class="bi bi-building me-2 text-danger"></i><strong>Branch:</strong> Kochi Branch</p>
-                        <p class="mb-2"><i class="bi bi-envelope me-2 text-danger"></i><strong>Email:</strong> arjun.kumar@muthoot.com</p>
-                        <p class="mb-2"><i class="bi bi-person-badge me-2 text-danger"></i><strong>Reporting Manager:</strong> Rajesh Nair</p>
-                        <p class="mb-0"><i class="bi bi-calendar-event me-2 text-danger"></i><strong>Joined Date:</strong> 15 Jan 2024</p>
+                    <div class="p-3 bg-light rounded-3 text-start mb-3 border">
+                        <div class="text-muted small mb-2 d-flex align-items-center gap-2">
+                            <i class="bi bi-building text-danger"></i>
+                            <span class="text-dark fw-medium" id="profileBranch">—</span>
+                        </div>
+                        <div class="text-muted small mb-2 d-flex align-items-center gap-2">
+                            <i class="bi bi-envelope text-danger"></i>
+                            <span class="text-dark fw-medium text-truncate" id="profileEmail">—</span>
+                        </div>
+                        <div class="text-muted small d-flex align-items-center gap-2">
+                            <i class="bi bi-geo-alt text-danger"></i>
+                            <span class="text-dark fw-medium">Regional Operations Network</span>
+                        </div>
+                    </div>
+
+                    <!-- Metadata Table -->
+                    <div class="text-start border-top pt-3">
+                        <div class="d-flex justify-content-between py-1.5 text-muted small border-bottom">
+                            <span>Reporting To</span>
+                            <strong class="text-dark" id="profileManager">—</strong>
+                        </div>
+                        <div class="d-flex justify-content-between py-1.5 text-muted small border-bottom">
+                            <span>Date of Joining</span>
+                            <strong class="text-dark" id="profileJoined">—</strong>
+                        </div>
+                        <div class="d-flex justify-content-between py-1.5 text-muted small">
+                            <span>Access Privilege</span>
+                            <strong class="text-danger">Enterprise Member</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security & Session Card -->
+                <div class="card-muthoot">
+                    <div class="card-title-muthoot border-bottom pb-2 mb-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-shield-lock text-danger"></i>
+                            <span>Security & Authentication</span>
+                        </div>
+                        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-0.5 rounded-pill" style="font-size: 10px;">Protected</span>
+                    </div>
+                    <div class="p-2.5 bg-light rounded-2 border mb-2 d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-phone text-muted fs-5"></i>
+                            <div>
+                                <div class="text-dark fw-semibold small">2-Factor Auth (2FA)</div>
+                                <div class="text-muted" style="font-size: 11px;">Enforced by Administrator</div>
+                            </div>
+                        </div>
+                        <span class="text-success small fw-semibold">Active</span>
+                    </div>
+                    <div class="p-2.5 bg-light rounded-2 border d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-clock-history text-muted fs-5"></i>
+                            <div>
+                                <div class="text-dark fw-semibold small">Session Timeout</div>
+                                <div class="text-muted" style="font-size: 11px;">Automatic idle sign-out</div>
+                            </div>
+                        </div>
+                        <span class="text-dark small fw-medium">30 Mins</span>
                     </div>
                 </div>
             </div>
 
+            <!-- Right Column: Account Details & Password Settings -->
             <div class="col-lg-8">
                 <div class="card-muthoot">
-                    <div class="card-title-muthoot">
-                        <span><i class="bi bi-gear-fill me-2"></i> Account Details & Password Settings</span>
+                    <div class="card-title-muthoot border-bottom pb-3 mb-4">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-gear-fill text-danger fs-5"></i>
+                            <div>
+                                <span class="fw-bold">Account Details & Password Settings</span>
+                                <div class="text-muted small fw-normal mt-0.5" style="font-size: 11.5px;">Update personal contact information and authentication credentials</div>
+                            </div>
+                        </div>
                     </div>
 
                     <form onsubmit="event.preventDefault(); alert('Profile information updated successfully!');">
+                        <h6 class="fw-bold text-dark mb-3">Personal & Corporate Details</h6>
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
                                 <label class="form-label font-medium">Full Name</label>
-                                <input type="text" class="form-control" value="Arjun Kumar" required>
+                                <input type="text" id="inputFullName" class="form-control" value="{{ session.get('username', '') }}" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label font-medium">Corporate Email</label>
-                                <input type="email" class="form-control" value="arjun.kumar@muthoot.com" readonly>
+                                <input type="email" id="inputEmail" class="form-control" value="" placeholder="email@muthootfinance.com" readonly>
                             </div>
                         </div>
 
-                        <div class="row g-3 mb-3">
+                        <div class="row g-3 mb-4">
                             <div class="col-md-6">
-                                <label class="form-label font-medium">Phone Number</label>
-                                <input type="text" class="form-control" value="+91 98470 12345">
+                                <label class="form-label font-medium">Contact Phone Number</label>
+                                <input type="text" id="inputPhone" class="form-control" value="" placeholder="+91 ...">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label font-medium">Branch Location</label>
-                                <input type="text" class="form-control" value="Kochi Main Branch" readonly>
+                                <label class="form-label font-medium">Assigned Branch Location</label>
+                                <input type="text" id="inputBranch" class="form-control" value="" placeholder="Branch Location" readonly>
                             </div>
                         </div>
 
-                        <hr class="my-4">
+                        <hr class="my-4 border-light-subtle">
 
-                        <h6 class="fw-bold text-danger mb-3"><i class="bi bi-lock me-1"></i> Change Password</h6>
+                        <h6 class="fw-bold text-danger mb-3 d-flex align-items-center gap-2">
+                            <i class="bi bi-lock-fill"></i> Change Authentication Password
+                        </h6>
                         <div class="row g-3 mb-4">
                             <div class="col-md-4">
                                 <label class="form-label font-medium">Current Password</label>
@@ -139,9 +275,11 @@
                             </div>
                         </div>
 
-                        <div class="d-flex justify-content-end gap-2">
+                        <div class="d-flex justify-content-end gap-2 pt-3 border-top">
                             <button type="reset" class="btn btn-muthoot-outline">Cancel</button>
-                            <button type="submit" class="btn btn-muthoot"><i class="bi bi-save me-1"></i> Save Profile Changes</button>
+                            <button type="submit" class="btn btn-muthoot">
+                                <i class="bi bi-check-circle me-1"></i> Save Profile Changes
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -150,10 +288,10 @@
 
     </main>
 
-    <!-- --- NOTIFICATIONS OFFCANVAS DRAWER --- -->
+    <!-- NOTIFICATIONS OFFCANVAS DRAWER -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="notificationDrawer">
         <div class="offcanvas-header border-bottom">
-            <h5 class="offcanvas-title text-danger font-semibold"><i class="bi bi-bell-fill me-2"></i> Notifications</h5>
+            <h5 class="offcanvas-title text-danger fw-bold"><i class="bi bi-bell-fill me-2"></i> Notifications</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body">
@@ -163,6 +301,6 @@
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../static/js/dashboard.js"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 </body>
 </html>

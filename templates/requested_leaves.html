@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="user-role" content="{{ (session.get('role_name') or 'employee').lower() }}">
+    <title>My Leave Requests - Muthoot Employee Appraisal System</title>
+
+    <!-- Google Fonts Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom Muthoot Stitch CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- Mobile Backdrop Overlay -->
+    <div class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-logo-container">
+                <img src="{{ url_for('static', filename='images/muthoot-logo.png') }}" alt="Muthoot Finance Logo" class="brand-full-logo">
+                <img src="{{ url_for('static', filename='images/muthoot-logo-toggle.png') }}" alt="Muthoot Finance Icon" class="brand-icon-logo">
+            </div>
+            <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+        </div>
+
+        <ul class="menu" id="sidebarMenu">
+            {% set r_lower = (session.get('role_name') or 'employee').lower() %}
+            {% if 'manager' in r_lower or 'lead' in r_lower or 'supervisor' in r_lower %}
+            <div class="menu-section-header">Manager Overview</div>
+            <li onclick="window.location.href='/manager-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li onclick="window.location.href='/manager/appraisal'"><i class="bi bi-clipboard-check"></i> <span>Manager Appraisal</span></li>
+            <li onclick="window.location.href='/team-evaluation'"><i class="bi bi-people"></i> <span>Team Evaluation</span></li>
+            <li onclick="window.location.href='/review-appraisal'"><i class="bi bi-clipboard-data"></i> <span>Review Appraisal</span></li>
+            <li onclick="window.location.href='/review-attendance'"><i class="bi bi-calendar-range"></i> <span>Review Attendance</span></li>
+            <li onclick="window.location.href='/behaviour-rating'"><i class="bi bi-star-half"></i> <span>Behaviour Rating</span></li>
+            <li onclick="window.location.href='/feedback-360'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
+            <li onclick="window.location.href='/approve-leaves'"><i class="bi bi-calendar-check"></i> <span>Approve Leaves</span></li>
+            <div class="menu-section-header">Self Service</div>
+            <li onclick="window.location.href='/my-appraisals'"><i class="bi bi-award"></i> <span>My Appraisals</span></li>
+            <li onclick="window.location.href='/self-appraisal'"><i class="bi bi-person-badge"></i> <span>Self-Appraisal</span></li>
+            <li onclick="window.location.href='/employee-goals'"><i class="bi bi-bullseye"></i> <span>Goals & KRAs</span></li>
+            <li onclick="window.location.href='/employee-attendance'"><i class="bi bi-calendar-check"></i> <span>Attendance</span></li>
+            <li onclick="window.location.href='/leave-request'"><i class="bi bi-calendar-plus"></i> <span>Leave Request</span></li>
+            <li class="active" onclick="window.location.href='/requested-leaves'"><i class="bi bi-clock-history"></i> <span>My Leave Requests</span></li>
+            <li onclick="window.location.href='/employee-training'"><i class="bi bi-mortarboard"></i> <span>Training</span></li>
+            {% elif 'hr' in r_lower or 'admin' in r_lower or 'human' in r_lower %}
+            <div class="menu-section-header">HR Administration</div>
+            <li onclick="window.location.href='/hr-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li onclick="window.location.href='/performance-results'"><i class="bi bi-award"></i> <span>Performance Results</span></li>
+            <li onclick="window.location.href='/manage-training'"><i class="bi bi-mortarboard-fill"></i> <span>Manage Training</span></li>
+            <li onclick="window.location.href='/feedback-360'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
+            <li onclick="window.location.href='/approve-leaves'"><i class="bi bi-calendar-check"></i> <span>Approve Leaves</span></li>
+            <li class="active" onclick="window.location.href='/requested-leaves'"><i class="bi bi-clock-history"></i> <span>My Leave Requests</span></li>
+            {% else %}
+            <div class="menu-section-header">Main Menu</div>
+            <li onclick="window.location.href='/employee-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li onclick="window.location.href='/my-appraisals'"><i class="bi bi-clipboard-check"></i> <span>My Appraisals</span></li>
+            <li onclick="window.location.href='/self-appraisal'"><i class="bi bi-person-badge"></i> <span>Self-Appraisal</span></li>
+            <li onclick="window.location.href='/employee-goals'"><i class="bi bi-bullseye"></i> <span>Goals & KRAs</span></li>
+            <li onclick="window.location.href='/employee-attendance'"><i class="bi bi-calendar-check"></i> <span>Attendance</span></li>
+            <li onclick="window.location.href='/leave-request'"><i class="bi bi-calendar-plus"></i> <span>Leave Request</span></li>
+            <li class="active" onclick="window.location.href='/requested-leaves'"><i class="bi bi-clock-history"></i> <span>My Leave Requests</span></li>
+            <li onclick="window.location.href='/employee-training'"><i class="bi bi-mortarboard"></i> <span>Training</span></li>
+            {% endif %}
+            <div class="menu-section-header">Account</div>
+            <li onclick="window.location.href='/profile'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
+            <li onclick="window.location.href='/logout'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
+        </ul>
+        <div class="sidebar-footer-badge">
+            <span>System Build v4.8.2</span>
+            <span class="status-pill">Stable</span>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="content">
+
+        <!-- ================= TOPBAR ================= -->
+        <nav class="topbar">
+            <div class="topbar-left">
+                <button class="topbar-icon-btn d-lg-none" onclick="toggleSidebar()" title="Open Menu">
+                    <i class="bi bi-list"></i>
+                </button>
+                <h4>My Leave Requests</h4>
+            </div>
+
+            <div class="topbar-right">
+                <button class="btn btn-muthoot" onclick="window.location.href='/leave-request'">
+                    <i class="bi bi-plus-circle me-1"></i> Request Leave
+                </button>
+
+                <div class="topbar-icons">
+                    <button class="topbar-icon-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#notificationDrawer" title="Notifications">
+                        <i class="bi bi-bell"></i>
+                        <span class="notification-badge" id="unreadBadge" style="display: none;">0</span>
+                    </button>
+                </div>
+
+                <div class="user-badge" onclick="window.location.href='/profile'" style="cursor: pointer;">
+                    <div class="user-avatar-circle">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                    <div class="user-badge-info">
+                        <span class="user-badge-name">{{ employee.name }}</span>
+                        <span id="userBadgeRole" class="user-badge-role">{{ session.get('role_name', 'Employee') }}</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- ================= QUICK METRICS BENTO BANNER ================= -->
+        <div class="row g-3 mb-4">
+            <div class="col-sm-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h6>Total Requested</h6>
+                        <h2>{{ leave_requests|length if leave_requests else 0 }}</h2>
+                        <small class="text-muted"><i class="bi bi-file-earmark-text me-1"></i> Applications Logged</small>
+                    </div>
+                    <div class="stat-icon red-icon">
+                        <i class="bi bi-calendar2-range"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h6>Pending Approval</h6>
+                        <h2>
+                            {% set pending_val = namespace(v=0) %}
+                            {% if leave_requests %}
+                                {% for l in leave_requests %}
+                                    {% if l.status|lower == 'pending' %}
+                                        {% set pending_val.v = pending_val.v + 1 %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            {{ pending_val.v }}
+                        </h2>
+                        <small class="text-warning"><i class="bi bi-clock-history me-1"></i> Awaiting Manager</small>
+                    </div>
+                    <div class="stat-icon amber-icon">
+                        <i class="bi bi-hourglass-split"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h6>Approved Leaves</h6>
+                        <h2>
+                            {% set app_val = namespace(v=0) %}
+                            {% if leave_requests %}
+                                {% for l in leave_requests %}
+                                    {% if l.status|lower == 'approved' %}
+                                        {% set app_val.v = app_val.v + 1 %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            {{ app_val.v }}
+                        </h2>
+                        <small class="text-success"><i class="bi bi-check-circle me-1"></i> Granted Absences</small>
+                    </div>
+                    <div class="stat-icon green-icon">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="stat-card gold-border">
+                    <div class="stat-info">
+                        <h6>Leave Balances</h6>
+                        <h2 style="font-size: 1.15rem; line-height: 1.4; padding-top: 4px;">Active Allocation</h2>
+                        <small class="text-muted"><i class="bi bi-shield-check me-1"></i> FY 2026 Quota</small>
+                    </div>
+                    <div class="stat-icon red-icon">
+                        <i class="bi bi-wallet2"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PAGE CONTENT ================= -->
+        <div class="card-muthoot mb-4">
+            <div class="card-title-muthoot">
+                <span>
+                    <i class="bi bi-calendar2-check me-2 text-danger"></i>
+                    Leave Application History
+                </span>
+                <span class="badge bg-light text-dark border px-3 py-1">
+                    {{ leave_requests|length if leave_requests else 0 }} Recorded
+                </span>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-muthoot align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Leave Type</th>
+                            <th>From Date</th>
+                            <th>To Date</th>
+                            <th>Days</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                            <th>Applied On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if leave_requests %}
+                            {% for leave in leave_requests %}
+                                <tr>
+                                    <td>
+                                        <strong class="text-dark">{{ leave.leave_type }}</strong>
+                                    </td>
+                                    <td>
+                                        {% if leave.from_date %}
+                                            <span class="fw-medium text-dark">{{ leave.from_date.strftime('%d %b %Y') }}</span>
+                                        {% else %}
+                                            <span class="text-muted">—</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if leave.to_date %}
+                                            <span class="fw-medium text-dark">{{ leave.to_date.strftime('%d %b %Y') }}</span>
+                                        {% else %}
+                                            <span class="text-muted">—</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-secondary-subtle text-secondary-emphasis px-2 py-1 rounded-pill">
+                                            {{ leave.number_of_days }} Days
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="text-muted small" style="min-width: 170px; max-width: 250px;">
+                                            {{ leave.reason or '—' }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {% if leave.status|lower == 'approved' %}
+                                            <span class="badge-muthoot completed">
+                                                <i class="bi bi-check-circle-fill me-1"></i> Approved
+                                            </span>
+                                        {% elif leave.status|lower == 'rejected' %}
+                                            <span class="badge-muthoot rejected">
+                                                <i class="bi bi-x-circle-fill me-1"></i> Rejected
+                                            </span>
+                                        {% else %}
+                                            <span class="badge-muthoot review">
+                                                <i class="bi bi-clock me-1"></i> Pending
+                                            </span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="text-muted small">
+                                            {% if leave.applied_on %}
+                                                {{ leave.applied_on.strftime('%d %b %Y') if leave.applied_on.strftime is defined else leave.applied_on }}
+                                            {% else %}
+                                                —
+                                            {% endif %}
+                                        </span>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="7" class="text-center py-5">
+                                    <div class="text-muted">
+                                        <i class="bi bi-calendar-x fs-1 d-block mb-3 text-secondary"></i>
+                                        <h6 class="fw-bold">No Leave Requests Found</h6>
+                                        <p class="mb-0 fs-7">You have not submitted any leave requests yet.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ================= NOTIFICATION DRAWER ================= -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="notificationDrawer">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="offcanvas-title text-danger font-semibold">
+                <i class="bi bi-bell-fill me-2"></i> Notifications
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div id="notificationList"></div>
+        </div>
+    </div>
+
+    <!-- ================= BOOTSTRAP JS ================= -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

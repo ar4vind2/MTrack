@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-tertiary-fixed":"#002113","tertiary-fixed":"#6ffbbe","tertiary":"#006947","surface-dim":"#cbdbf5","surface-container-high":"#dce9ff","outline-variant":"#e5bdb8","secondary-fixed":"#dae2fd","secondary-container":"#dae2fd","on-tertiary-container":"#f4fff6","on-background":"#0b1c30","primary-fixed":"#ffdad5","surface-bright":"#f8f9ff","on-secondary-container":"#5c647a","on-primary-fixed":"#410001","error":"#ba1a1a","on-surface-variant":"#5c403c","on-primary-fixed-variant":"#930005","surface-container-low":"#eff4ff","surface-tint":"#bc1412","inverse-surface":"#213145","on-tertiary-fixed-variant":"#005236","surface-container-highest":"#d3e4fe","error-container":"#ffdad6","on-primary":"#ffffff","primary-container":"#dd3026","primary":"#b9100f","inverse-primary":"#ffb4a9","on-surface":"#0b1c30","on-tertiary":"#ffffff","tertiary-container":"#00855b","on-secondary-fixed":"#131b2e","surface-container":"#e5eeff","on-error-container":"#93000a","surface-container-lowest":"#ffffff","tertiary-fixed-dim":"#4edea3","surface":"#f8f9ff","secondary-fixed-dim":"#bec6e0","background":"#f8f9ff","secondary":"#565e74","outline":"#906f6b","on-secondary-fixed-variant":"#3f465c","on-secondary":"#ffffff","primary-fixed-dim":"#ffb4a9","on-error":"#ffffff","surface-variant":"#d3e4fe","on-primary-container":"#fffcff","inverse-on-surface":"#eaf1ff"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-xl":"2rem",gutter:"1.5rem","space-xs":"0.25rem","margin-sm":"1rem","space-md":"1rem","space-lg":"1.5rem",margin:"2rem","space-sm":"0.5rem","gutter-sm":"1rem"},fontFamily:{"label-md":["Inter"],"headline-sm":["Plus Jakarta Sans"],"body-sm":["Inter"],"body-md":["Inter"],"headline-xl-mobile":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"headline-xl":["Plus Jakarta Sans"],"label-sm":["Inter"],"body-lg":["Inter"],"headline-lg":["Plus Jakarta Sans"],"label-lg":["Inter"],"numeric-stat":["Plus Jakarta Sans"]},fontSize:{"label-md":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"500"}],"headline-sm":["16px",{lineHeight:"24px",letterSpacing:"-0.005em",fontWeight:"600"}],"body-sm":["12px",{lineHeight:"16px",fontWeight:"400"}],"body-md":["14px",{lineHeight:"20px",fontWeight:"400"}],"headline-xl-mobile":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"700"}],"headline-lg-mobile":["22px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-md":["20px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-xl":["36px",{lineHeight:"44px",letterSpacing:"-0.02em",fontWeight:"700"}],"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.04em",fontWeight:"600"}],"body-lg":["16px",{lineHeight:"24px",fontWeight:"400"}],"headline-lg":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"700"}],"label-lg":["14px",{lineHeight:"20px",letterSpacing:"0.01em",fontWeight:"600"}],"numeric-stat":["32px",{lineHeight:"38px",letterSpacing:"-0.02em",fontWeight:"700"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-64 bg-inverse-surface z-50 flex flex-col justify-between overflow-y-auto"><div class="flex flex-col"><div class="h-16 flex items-center gap-3 px-space-md border-b border-outline/20"><img alt="Muthoot Finance Performance Portal Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VB6Z87SH1QrpxMP5OTwZCoGMPnCsdG-nI70bttJU_E1L6TLJATayL0_19dJu9qqcg9RxJroXdAcRKbTMdLViJAUTy2BwGe9vy1GYXrsxqN210O4jEqSICsT2MLmBD5Vi6fR8ioXVL6cFlauP3Pg12DGkVawtce4GzZtDhy7H_s5pJkXSG0hXylK3mHgLQe82yKV-1XFvhVQBvQDg2ohY0GfttgPLkSkKKS7O4I5jlK5ayNbDojh9WoTvk"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-surface-container-lowest font-bold leading-tight">MUTHOOT</span><span class="font-label-sm text-[10px] text-surface-dim uppercase tracking-wider">Performance PMS</span></div></div><nav class="flex-1 px-space-sm py-space-md space-y-space-md" data-active-classes="bg-primary-container text-on-primary-container font-semibold shadow-sm"><div class="space-y-space-xs"><div class="px-space-sm py-space-xs font-label-sm text-label-sm text-surface-dim/70 uppercase tracking-wider">HR Administration</div><div class="space-y-1"><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-surface-dim hover:bg-surface-dim/10 hover:text-surface-container-lowest transition-colors" data-path="hr-administration-dashboard" href="#"><span class="material-symbols-outlined text-[18px]">dashboard</span><span class="font-body-md text-body-md">Dashboard</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-surface-dim hover:bg-surface-dim/10 hover:text-surface-container-lowest transition-colors" data-path="performance-results" href="#"><span class="material-symbols-outlined text-[18px]">analytics</span><span class="font-body-md text-body-md">Performance Results</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-surface-dim hover:bg-surface-dim/10 hover:text-surface-container-lowest transition-colors" data-path="appraisal-cycles-management" href="#"><span class="material-symbols-outlined text-[18px]">event_repeat</span><span class="font-body-md text-body-md">Appraisal Cycles</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-surface-dim hover:bg-surface-dim/10 hover:text-surface-container-lowest transition-colors" data-path="kra-kpi-management" href="#"><span class="material-symbols-outlined text-[18px]">track_changes</span><span class="font-body-md text-body-md">KRA &amp; KPI Management</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-surface-dim hover:bg-surface-dim/10 hover:text-surface-container-lowest transition-colors" data-path="assign-kpi-kra-management" href="#"><span class="material-symbols-outlined text-[18px]">assignment_ind</span><span class="font-body-md text-body-md">Assign KRA/KPI</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-surface-dim hover:bg-surface-dim/10 hover:text-surface-container-lowest transition-colors" data-path="manage-training" href="#"><span class="material-symbols-outlined text-[18px]">model_training</span><span class="font-body-md text-body-md">Manage Training</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-surface-dim hover:bg-surface-dim/10 hover:text-surface-container-lowest transition-colors" data-path="approve-leaves" href="#"><span class="material-symbols-outlined text-[18px]">fact_check</span><span class="font-body-md text-body-md">Approve Leaves</span></a></div></div><div class="space-y-space-xs"><div class="px-space-sm py-space-xs font-label-sm text-label-sm text-surface-dim/70 uppercase tracking-wider">Employee Portal</div><div class="space-y-1"><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-surface-dim hover:bg-surface-dim/10 hover:text-surface-container-lowest transition-colors" data-path="my-performance-goals" href="#"><span class="material-symbols-outlined text-[18px]">flag</span><span class="font-body-md text-body-md">My Performance &amp; Goals</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-surface-dim hover:bg-surface-dim/10 hover:text-surface-container-lowest transition-colors" data-path="self-appraisal" href="#"><span class="material-symbols-outlined text-[18px]">rate_review</span><span class="font-body-md text-body-md">Self-Appraisal</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-surface-dim hover:bg-surface-dim/10 hover:text-surface-container-lowest transition-colors" data-path="leave-requests" href="#"><span class="material-symbols-outlined text-[18px]">date_range</span><span class="font-body-md text-body-md">Leave Requests</span></a></div></div><div class="space-y-space-xs"><div class="px-space-sm py-space-xs font-label-sm text-label-sm text-surface-dim/70 uppercase tracking-wider">Account</div><div class="space-y-1"><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-surface-dim hover:bg-surface-dim/10 hover:text-surface-container-lowest transition-colors" data-path="user-profile-account-settings" href="#"><span class="material-symbols-outlined text-[18px]">account_circle</span><span class="font-body-md text-body-md">My Profile</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-surface-dim hover:bg-surface-dim/10 hover:text-surface-container-lowest transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-[18px]">settings</span><span class="font-body-md text-body-md">Settings</span></a><a class="flex items-center gap-3 px-space-sm py-2 rounded-lg text-surface-dim hover:bg-error-container hover:text-on-error-container transition-colors" data-path="sign-out" href="#"><span class="material-symbols-outlined text-[18px]">logout</span><span class="font-body-md text-body-md">Sign Out</span></a></div></div></nav></div><div class="p-space-sm border-t border-outline/20"><div class="bg-inverse-surface/60 rounded-lg p-space-sm flex items-center justify-between text-surface-dim"><span class="font-label-sm text-[10px]">System Build v4.8.2</span><span class="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] bg-tertiary-container/30 text-tertiary-fixed font-semibold">Stable</span></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 border-b border-surface-container"><div class="h-16 w-full px-space-lg flex items-center justify-between"><div class="flex items-center gap-space-md"><div class="hidden md:flex items-center relative w-72"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]">search</span><input class="w-full h-9 pl-9 pr-3 rounded-md bg-surface-container-low border border-surface-container text-body-sm font-body-sm text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container" placeholder="Search employees, KPIs, branch..." type="text"/></div><div class="hidden xl:flex items-center gap-2 px-space-sm py-1 rounded-full bg-surface-container-low border border-surface-container text-secondary text-label-sm font-label-sm"><span class="h-2 w-2 rounded-full bg-tertiary animate-pulse"></span><span class="font-medium text-on-surface">Annual Appraisal 2026-27</span><span class="text-outline">|</span><span class="text-tertiary font-semibold">Active Cycle</span></div></div><div class="flex items-center gap-space-md"><button aria-label="Notifications" class="relative p-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary-container text-[10px] font-bold text-on-primary-container">4</span></button><div class="h-6 w-px bg-surface-container"></div><a class="flex items-center gap-space-sm pl-space-xs hover:opacity-85 transition-opacity" data-path="user-profile-account-settings" href="#"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRca130lUW4QFVtSfNDRKmmqHqhA3NTmaTCCw5AJ8PVrERvEK7F1kLfvTREJHR5SqIXPqJWGCv39QIko5RKeliOZNOFEsypwAAgGkbBApvRcr1jAHCE0NN4d0ptYj3DurpyIT_SjUsnbsTSUX-1zmO-0LN8ah4FQWRsx3NBvysAk5ZPpEHw8X_upWFnJAga_wCJhzAkAk0p6loLXHfQi1Jg6pZ1rBxOJ5BsyPEab6wek-dF3I5behj"/><div class="flex flex-col text-left"><span class="font-label-lg text-label-md font-semibold text-on-surface leading-tight">Priya Sharma</span><span class="font-label-sm text-[11px] text-secondary leading-tight">HR Admin</span></div></a></div></div></header><main class="relative w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<div class="px-gutter lg:px-margin py-space-lg flex flex-col gap-space-lg max-w-[1600px] mx-auto w-full">
+<!-- Breadcrumb & Top Bar -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex flex-col gap-1">
+<nav class="flex items-center gap-2 text-label-sm font-label-sm text-secondary">
+<a class="hover:text-primary transition-colors flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[16px]">home</span>
+<span>Account</span>
+</a>
+<span class="material-symbols-outlined text-[14px] text-secondary/60">chevron_right</span>
+<span class="text-on-surface font-medium">My Profile &amp; Settings</span>
+</nav>
+<div class="flex items-baseline gap-3">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">User Profile &amp; Account Settings</h1>
+</div>
+<p class="font-body-md text-body-md text-secondary">
+          Manage personal corporate credentials, contact information, authentication preferences, and notification settings.
+        </p>
+</div>
+<!-- Action Buttons -->
+<div class="flex items-center gap-3 self-start md:self-auto shrink-0">
+<button class="inline-flex items-center gap-2 h-10 px-4 rounded-lg bg-surface-container-lowest text-on-surface shadow-sm hover:bg-surface-container-low transition-colors font-label-lg text-label-lg font-semibold" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary">description</span>
+<span>Download Employee Dossier</span>
+</button>
+<button class="inline-flex items-center gap-2 h-10 px-5 rounded-lg bg-primary-container text-on-primary font-label-lg text-label-lg font-semibold shadow-sm hover:bg-primary transition-all" id="save-settings-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">check</span>
+<span>Save Changes</span>
+</button>
+</div>
+</div>
+<!-- Alert / Sync Banner -->
+<div class="flex items-center justify-between px-space-md py-3 rounded-lg bg-surface-container-low shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-tertiary-container/15 flex items-center justify-center text-tertiary shrink-0">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+</div>
+<div>
+<span class="font-label-lg text-label-lg font-semibold text-on-surface">Enterprise Single Sign-On Active:</span>
+<span class="font-body-md text-body-md text-secondary ml-1">Your corporate profile credentials are synced with Muthoot Corporate Directory (LDAP).</span>
+</div>
+</div>
+<span class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-lowest text-tertiary font-label-sm text-label-sm font-semibold shadow-sm">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+        Synchronized Just Now
+      </span>
+</div>
+<!-- Main Content Layout (35% / 65%) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- Left Column (35%): Corporate Identity & Security Status -->
+<div class="lg:col-span-4 xl:col-span-4 flex flex-col gap-space-lg">
+<!-- Profile Card -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col items-center text-center relative overflow-hidden">
+<!-- Top Decorative Accent -->
+<div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-primary via-primary-container to-primary"></div>
+<!-- Avatar Section -->
+<div class="relative mt-2 mb-4 group">
+<div class="w-28 h-28 rounded-full p-1 bg-surface-container-low shadow-sm">
+<img alt="Priya Sharma Profile Photo" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1XHGh1dqf9tFLeWRRF0F4mhvw6-fI3d9rAHbob1ZhpUrMihQPeEUg85Q-GLRbwzkGwAQAm4op_HwSohmN2hyDLH5jUDLilih3psn1Y_d2q6Es2Mbt8t-ZGe2D8CIb5jt9SzE5ftsiWlU_2btpm1ADKJF45W8EgBYoDN2Kbwk58sZcRkhxylGHts7u3o7C0KSmsMH8tVjG2_ikFuDTeogpMRgTaZGuwH1Jb3kTIUrPBsWeqiSz9pgYui5MM"/>
+</div>
+<button aria-label="Upload new photograph" class="absolute bottom-1 right-1 w-9 h-9 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-md hover:bg-primary transition-colors cursor-pointer" type="button">
+<span class="material-symbols-outlined text-[18px]">photo_camera</span>
+</button>
+</div>
+<!-- Name & Role -->
+<h2 class="font-headline-md text-headline-md text-on-surface">Priya Sharma</h2>
+<p class="font-label-md text-label-md text-secondary mt-0.5">Lead HR Administrator / Regional Manager</p>
+<!-- Badges -->
+<div class="flex flex-wrap items-center justify-center gap-2 mt-3">
+<span class="font-label-sm text-label-sm px-2.5 py-0.5 rounded-full bg-surface-container font-semibold text-secondary">
+              EMP-001928
+            </span>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-2.5 py-0.5 rounded-full bg-tertiary-container/15 text-tertiary font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+              Active Status
+            </span>
+</div>
+<!-- Department and Main Info -->
+<div class="w-full mt-6 pt-5 bg-surface-container-low/60 rounded-lg p-space-md text-left flex flex-col gap-2.5">
+<div class="flex items-center gap-2.5 text-body-sm font-body-sm text-secondary">
+<span class="material-symbols-outlined text-[18px] text-primary shrink-0">apartment</span>
+<span class="font-medium text-on-surface">Corporate HR &amp; Talent Mgmt.</span>
+</div>
+<div class="flex items-center gap-2.5 text-body-sm font-body-sm text-secondary truncate">
+<span class="material-symbols-outlined text-[18px] text-primary shrink-0">mail</span>
+<span class="truncate text-on-surface">priya.sharma@muthootfinance.com</span>
+</div>
+<div class="flex items-center gap-2.5 text-body-sm font-body-sm text-secondary">
+<span class="material-symbols-outlined text-[18px] text-primary shrink-0">location_on</span>
+<span class="text-on-surface">Kochi Corporate HQ, Kerala</span>
+</div>
+</div>
+<!-- Detailed Corporate Metadata -->
+<div class="w-full mt-5 flex flex-col gap-3 text-left">
+<div class="flex items-start justify-between py-2 bg-surface-container-lowest">
+<div class="flex items-center gap-2 text-secondary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px] text-secondary/70">corporate_fare</span>
+<span>Assigned Branch</span>
+</div>
+<span class="font-label-md text-label-md font-semibold text-on-surface text-right">Head Office - Ernakulam</span>
+</div>
+<div class="flex items-start justify-between py-2 bg-surface-container-lowest">
+<div class="flex items-center gap-2 text-secondary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px] text-secondary/70">supervisor_account</span>
+<span>Reporting To</span>
+</div>
+<span class="font-label-md text-label-md font-semibold text-on-surface text-right">George Alexander <span class="text-secondary font-normal block text-xs">(Exec. Director)</span></span>
+</div>
+<div class="flex items-start justify-between py-2 bg-surface-container-lowest">
+<div class="flex items-center gap-2 text-secondary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px] text-secondary/70">calendar_month</span>
+<span>Date of Joining</span>
+</div>
+<span class="font-label-md text-label-md font-semibold text-on-surface text-right">12 Mar 2019 <span class="text-tertiary block font-normal text-xs font-semibold">(5y 8m)</span></span>
+</div>
+<div class="flex items-start justify-between py-2 bg-surface-container-lowest">
+<div class="flex items-center gap-2 text-secondary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px] text-secondary/70">shield_person</span>
+<span>Access Privilege</span>
+</div>
+<span class="font-label-md text-label-md font-semibold text-primary-container text-right">Level 4 Moderator</span>
+</div>
+</div>
+</div>
+<!-- Security & Session Status Card -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-secondary">security</span>
+              Security &amp; Session
+            </h3>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-tertiary-container/15 text-tertiary font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">shield</span>
+              Protected
+            </span>
+</div>
+<div class="flex flex-col gap-3">
+<!-- 2FA -->
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-tertiary-container/20 text-tertiary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">phonelink_lock</span>
+</div>
+<div>
+<p class="font-label-md text-label-md font-semibold text-on-surface">2-Factor Auth (2FA)</p>
+<p class="font-body-sm text-body-sm text-secondary">Corporate OTP Authenticator</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm font-semibold text-tertiary px-2 py-0.5 bg-surface-container-lowest rounded shadow-sm">Enabled</span>
+</div>
+<!-- Last Login -->
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container/50 text-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">history</span>
+</div>
+<div>
+<p class="font-label-md text-label-md font-semibold text-on-surface">Last Authentication</p>
+<p class="font-body-sm text-body-sm text-secondary">Today, 09:42 AM</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm font-medium text-secondary">IP 10.24.180.44</span>
+</div>
+<!-- Password Age -->
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container/50 text-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">key</span>
+</div>
+<div>
+<p class="font-label-md text-label-md font-semibold text-on-surface">Password Age</p>
+<p class="font-body-sm text-body-sm text-secondary">Updated 45 days ago</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-secondary">Valid (45d left)</span>
+</div>
+</div>
+</div>
+<!-- Archival Legacy Reference (from original Image 18) -->
+<div class="p-space-md rounded-xl bg-surface-container-low shadow-sm flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary-container shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[22px]">badge</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">Legacy Record ID</span>
+<span class="font-body-sm text-body-sm text-secondary">PMS-V3 Reference #MUT-2022-7718</span>
+</div>
+</div>
+</div>
+<!-- Right Column (65%): Form Controls & Security Configuration -->
+<div class="lg:col-span-8 xl:col-span-8 flex flex-col gap-space-lg">
+<!-- SECTION A: Personal & Corporate Contact Details -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 bg-surface-container-lowest gap-2">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[22px] text-primary-container">person</span>
+                Personal &amp; Corporate Contact Details
+              </h3>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Primary personal information and physical desk location within Muthoot network.</p>
+</div>
+<span class="self-start sm:self-auto px-2.5 py-1 rounded bg-surface-container-low text-secondary font-label-sm text-label-sm font-semibold">
+              Section 1 of 3
+            </span>
+</div>
+<form class="grid grid-cols-1 md:grid-cols-2 gap-space-md pt-2">
+<!-- Full Legal Name -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface font-semibold flex items-center justify-between" for="fullName">
+<span>Full Legal Name</span>
+<span class="text-primary font-normal text-xs">*Required</span>
+</label>
+<div class="relative">
+<input class="w-full h-10 px-3.5 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary-container shadow-inner transition-all" id="fullName" type="text" value="Priya Sharma"/>
+</div>
+<span class="font-body-sm text-[11px] text-secondary">Matches payroll and official Government ID proofs.</span>
+</div>
+<!-- Corporate Email (Read-only) -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface font-semibold flex items-center justify-between" for="corporateEmail">
+<span>Corporate Email Address</span>
+<span class="text-tertiary flex items-center gap-1 text-xs font-semibold">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+                  Verified Active
+                </span>
+</label>
+<div class="relative">
+<input class="w-full h-10 pl-3.5 pr-10 rounded-lg bg-surface-container-high/60 text-secondary cursor-not-allowed font-body-md text-body-md focus:outline-none" id="corporateEmail" readonly="" type="email" value="priya.sharma@muthootfinance.com"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-secondary/60 text-[18px]">verified</span>
+</div>
+<span class="font-body-sm text-[11px] text-secondary">Controlled via Corporate Google Workspace SSO.</span>
+</div>
+<!-- Direct Contact Number -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface font-semibold" for="directPhone">
+                Direct Contact Phone
+              </label>
+<div class="flex items-center rounded-lg bg-surface-container-low shadow-inner focus-within:ring-2 focus-within:ring-primary-container focus-within:bg-surface-container-lowest transition-all overflow-hidden">
+<div class="h-10 px-3 flex items-center gap-1.5 bg-surface-container text-on-surface font-label-md text-label-md font-semibold shrink-0">
+<span>🇮🇳 +91</span>
+</div>
+<input class="w-full h-10 px-3 bg-transparent text-on-surface font-body-md text-body-md focus:outline-none" id="directPhone" type="tel" value="98470 12345"/>
+</div>
+<span class="font-body-sm text-[11px] text-secondary">Used for 2FA security prompt verifications.</span>
+</div>
+<!-- Alternate / Emergency Contact -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface font-semibold" for="altPhone">
+                Emergency Contact Phone
+              </label>
+<div class="flex items-center rounded-lg bg-surface-container-low shadow-inner focus-within:ring-2 focus-within:ring-primary-container focus-within:bg-surface-container-lowest transition-all overflow-hidden">
+<div class="h-10 px-3 flex items-center gap-1.5 bg-surface-container text-on-surface font-label-md text-label-md font-semibold shrink-0">
+<span>🇮🇳 +91</span>
+</div>
+<input class="w-full h-10 px-3 bg-transparent text-on-surface font-body-md text-body-md focus:outline-none" id="altPhone" type="tel" value="94460 98765"/>
+</div>
+<span class="font-body-sm text-[11px] text-secondary">Contact person: Rajesh Sharma (Spouse)</span>
+</div>
+<!-- Branch / Work Station -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface font-semibold" for="workStation">
+                Branch Work Station
+              </label>
+<div class="relative">
+<input class="w-full h-10 pl-9 pr-3 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary-container shadow-inner transition-all" id="workStation" type="text" value="Kochi Regional Hub, Floor 4, Desk #402"/>
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[18px]">desk</span>
+</div>
+<span class="font-body-sm text-[11px] text-secondary">Desk allocation assigned by Facilities Admin.</span>
+</div>
+<!-- Work Shift & Timezone -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface font-semibold" for="workShift">
+                Work Shift &amp; Working Timezone
+              </label>
+<div class="relative">
+<select class="w-full h-10 pl-9 pr-8 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary-container shadow-inner transition-all appearance-none cursor-pointer" id="workShift">
+<option selected="">IST (UTC+05:30) - Standard Day Shift (09:00 - 18:00)</option>
+<option>IST (UTC+05:30) - Early Shift (08:00 - 17:00)</option>
+<option>IST (UTC+05:30) - Management Flexi-Hours</option>
+</select>
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[18px]">schedule</span>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[20px]">arrow_drop_down</span>
+</div>
+<span class="font-body-sm text-[11px] text-secondary">Governed by Kerala Regional Labor regulations.</span>
+</div>
+</form>
+</div>
+<!-- SECTION B: Security & Password Management (Redesigned from Image 18) -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 bg-surface-container-lowest gap-2">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[22px] text-primary-container">lock_reset</span>
+                Change Password &amp; Authentication
+              </h3>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Ensure your password is at least 8 characters long with alphanumeric and special characters.</p>
+</div>
+<span class="self-start sm:self-auto px-2.5 py-1 rounded bg-surface-container-low text-secondary font-label-sm text-label-sm font-semibold">
+              Section 2 of 3
+            </span>
+</div>
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col gap-4">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Current Password -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface font-semibold" for="currentPassword">
+                  Current Password
+                </label>
+<div class="relative">
+<input class="w-full h-10 pl-3.5 pr-10 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary-container shadow-sm transition-all" id="currentPassword" placeholder="••••••••••••" type="password" value="SuperSecret123!"/>
+<button aria-label="Toggle password visibility" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-secondary hover:text-on-surface p-1" onclick="togglePass('currentPassword', this)" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+<span class="font-body-sm text-[11px] text-secondary">Enter existing login passphrase.</span>
+</div>
+<!-- New Password -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface font-semibold" for="newPassword">
+                  New Password
+                </label>
+<div class="relative">
+<input class="w-full h-10 pl-3.5 pr-10 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary-container shadow-sm transition-all" id="newPassword" type="password" value="MuthootCorporate#2026"/>
+<button aria-label="Toggle new password visibility" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-secondary hover:text-on-surface p-1" onclick="togglePass('newPassword', this)" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+<!-- Strength Indicator -->
+<div class="flex items-center gap-2 mt-1">
+<div class="flex-1 h-1.5 rounded-full bg-surface-container overflow-hidden flex gap-1">
+<div class="h-full w-1/3 bg-tertiary rounded-full"></div>
+<div class="h-full w-1/3 bg-tertiary rounded-full"></div>
+<div class="h-full w-1/3 bg-tertiary rounded-full"></div>
+</div>
+<span class="font-label-sm text-[11px] font-semibold text-tertiary">Strong</span>
+</div>
+</div>
+<!-- Confirm New Password -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface font-semibold" for="confirmPassword">
+                  Confirm New Password
+                </label>
+<div class="relative">
+<input class="w-full h-10 pl-3.5 pr-10 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary-container shadow-sm transition-all" id="confirmPassword" type="password" value="MuthootCorporate#2026"/>
+<button aria-label="Toggle confirm password visibility" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-secondary hover:text-on-surface p-1" onclick="togglePass('confirmPassword', this)" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+<span class="font-body-sm text-[11px] text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">check_circle</span>
+                  Passwords match
+                </span>
+</div>
+</div>
+<!-- Password Policy Checklist & Action Button -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 bg-surface-container-low">
+<div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-secondary">
+<span class="inline-flex items-center gap-1 text-tertiary font-medium">
+<span class="material-symbols-outlined text-[13px]">done</span> Min 8 chars
+                </span>
+<span class="inline-flex items-center gap-1 text-tertiary font-medium">
+<span class="material-symbols-outlined text-[13px]">done</span> 1 uppercase
+                </span>
+<span class="inline-flex items-center gap-1 text-tertiary font-medium">
+<span class="material-symbols-outlined text-[13px]">done</span> 1 special symbol
+                </span>
+<span class="inline-flex items-center gap-1 text-tertiary font-medium">
+<span class="material-symbols-outlined text-[13px]">done</span> 1 number
+                </span>
+</div>
+<button class="inline-flex items-center justify-center gap-2 h-9 px-4 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md font-semibold hover:bg-primary shadow-sm transition-colors shrink-0" id="update-pass-btn" type="button">
+<span class="material-symbols-outlined text-[16px]">sync_lock</span>
+<span>Update Password</span>
+</button>
+</div>
+</div>
+</div>
+<!-- SECTION C: Notification & System Preferences -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 bg-surface-container-lowest gap-2">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[22px] text-primary-container">notifications_active</span>
+                Notification &amp; System Preferences
+              </h3>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Control automated communications for reviews, appraisal submissions, and critical leaves.</p>
+</div>
+<span class="self-start sm:self-auto px-2.5 py-1 rounded bg-surface-container-low text-secondary font-label-sm text-label-sm font-semibold">
+              Section 3 of 3
+            </span>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Toggle Item 1: Email alerts for appraisal submissions -->
+<div class="flex items-center justify-between p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors">
+<div class="flex items-start gap-3 max-w-xl">
+<div class="w-9 h-9 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary-container shadow-sm shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">rate_review</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg font-semibold text-on-surface">Email alerts for appraisal submissions</span>
+<span class="font-body-sm text-body-sm text-secondary">
+                    Receive immediate notifications when regional subordinates or department leads finalize their self-appraisals and annual KPI ratings.
+                  </span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer shrink-0 ml-4">
+<input checked="" class="sr-only peer" id="toggle-appraisal" type="checkbox"/>
+<div class="w-12 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[3px] after:bg-surface-container-lowest after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+<!-- Toggle Item 2: SMS notifications for emergency leave requests -->
+<div class="flex items-center justify-between p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors">
+<div class="flex items-start gap-3 max-w-xl">
+<div class="w-9 h-9 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary-container shadow-sm shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">sms</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg font-semibold text-on-surface">SMS notifications for emergency leave requests</span>
+<span class="font-body-sm text-body-sm text-secondary">
+                    Send urgent text dispatch to registered direct phone (+91 98470 12345) for medical leaves requiring same-day sign-off.
+                  </span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer shrink-0 ml-4">
+<input checked="" class="sr-only peer" id="toggle-leaves" type="checkbox"/>
+<div class="w-12 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[3px] after:bg-surface-container-lowest after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+<!-- Toggle Item 3: Weekly digest of pending team reviews -->
+<div class="flex items-center justify-between p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors">
+<div class="flex items-start gap-3 max-w-xl">
+<div class="w-9 h-9 rounded-lg bg-surface-container-lowest flex items-center justify-center text-secondary shadow-sm shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">forward_to_inbox</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg font-semibold text-on-surface">Weekly digest of pending team reviews</span>
+<span class="font-body-sm text-body-sm text-secondary">
+                    Consolidated email summary distributed every Monday morning detailing unreviewed appraisal goals and training completions.
+                  </span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer shrink-0 ml-4">
+<input class="sr-only peer" id="toggle-digest" type="checkbox"/>
+<div class="w-12 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[3px] after:bg-surface-container-lowest after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+</div>
+<!-- Bottom Footer Buttons -->
+<div class="flex items-center justify-end gap-3 pt-4">
+<button class="h-10 px-4 rounded-lg bg-surface-container-low text-secondary font-label-lg text-label-lg font-semibold hover:bg-surface-container hover:text-on-surface transition-colors" type="button">
+              Reset to Defaults
+            </button>
+<button class="h-10 px-6 rounded-lg bg-primary-container text-on-primary font-label-lg text-label-lg font-semibold hover:bg-primary shadow-sm transition-all flex items-center gap-2" id="save-all-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">save</span>
+<span>Save Account Settings</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed bottom-6 right-6 bg-inverse-surface text-inverse-on-surface px-5 py-3 rounded-lg shadow-xl flex items-center gap-3 transform translate-y-24 opacity-0 transition-all duration-300 z-50" id="toast">
+<span class="material-symbols-outlined text-tertiary-fixed text-[20px]">check_circle</span>
+<span class="font-label-md text-label-md" id="toast-message">Settings updated successfully!</span>
+</div>
+<script>
+    function togglePass(inputId, btn) {
+      const input = document.getElementById(inputId);
+      const icon = btn.querySelector('.material-symbols-outlined');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.textContent = 'visibility_off';
+      } else {
+        input.type = 'password';
+        icon.textContent = 'visibility';
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-message');
+      toastMsg.textContent = msg;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3500);
+    }
+
+    document.getElementById('save-settings-btn').addEventListener('click', () => {
+      showToast('Profile and account details saved successfully!');
+    });
+
+    document.getElementById('save-all-btn').addEventListener('click', () => {
+      showToast('All corporate preferences synchronized with server!');
+    });
+
+    document.getElementById('update-pass-btn').addEventListener('click', () => {
+      showToast('Corporate credentials updated! Please verify on next login.');
+    });
+  </script>
+</div></main></div></body></html>

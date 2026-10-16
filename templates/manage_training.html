@@ -1,54 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>HR Training Management - Muthoot Appraisal System</title>
 
+    <!-- Google Fonts Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
-    <!-- Google Fonts Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <!-- ApexCharts CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/apexcharts@3.45.1/dist/apexcharts.css" rel="stylesheet" />
-    <!-- Custom Muthoot Minimal CSS -->
-    <link href="../static/css/style.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom Muthoot Stitch CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
     <!-- Mobile Backdrop Overlay -->
     <div class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
 
-    <!-- --- SIDEBAR WITH TOGGLE BUTTON INSIDE --- -->
+    <!-- --- SIDEBAR --- -->
     <aside class="sidebar">
         <div class="brand">
             <div class="brand-logo-container">
-                <img alt="Muthoot Finance Logo" class="brand-full-logo" src="../static/images/muthoot-logo.png" />
-                <img alt="Muthoot Finance Icon" class="brand-icon-logo" src="../static/images/muthoot-logo-toggle.png" />
+                <img alt="Muthoot Finance Logo" class="brand-full-logo" src="{{ url_for('static', filename='images/muthoot-logo.png') }}" />
+                <img alt="Muthoot Finance Icon" class="brand-icon-logo" src="{{ url_for('static', filename='images/muthoot-logo-toggle.png') }}" />
             </div>
             <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
                 <i class="bi bi-chevron-left"></i>
             </button>
         </div>
 
-                <ul class="menu" id="sidebarMenu">
+        <ul class="menu" id="sidebarMenu">
             <div class="menu-section-header">HR Administration</div>
-            <li class="" onclick="window.location.href='hr_dashboard.html'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
-            <li class="" onclick="window.location.href='performance_results.html'"><i class="bi bi-award"></i> <span>Performance Results</span></li>
-            <li class="active" onclick="window.location.href='manage_training.html'"><i class="bi bi-mortarboard-fill"></i> <span>Manage Training</span></li>
-            <li class="" onclick="window.location.href='kra_management.html'"><i class="bi bi-bullseye"></i> <span>KRA Management</span></li>
-            <li class="" onclick="window.location.href='kpi_management.html'"><i class="bi bi-speedometer2"></i> <span>KPI Management</span></li>
-            <li class="" onclick="window.location.href='assign_kra.html'"><i class="bi bi-person-check"></i> <span>Assign KRA</span></li>
-            <li class="" onclick="window.location.href='assign_kpi.html'"><i class="bi bi-person-lines-fill"></i> <span>Assign KPI</span></li>
-            <li class="" onclick="window.location.href='kra_kpi_report.html'"><i class="bi bi-file-earmark-bar-graph"></i> <span>KRA / KPI Report</span></li>
+            <li class="" onclick="window.location.href='/hr-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li class="" onclick="window.location.href='/performance-results'"><i class="bi bi-award"></i> <span>Performance Results</span></li>
+            <li class="active" onclick="window.location.href='/manage-training'"><i class="bi bi-mortarboard-fill"></i> <span>Manage Training</span></li>
+            <li class="" onclick="window.location.href='/feedback-360'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
+            <li class="" onclick="window.location.href='/approve-leaves'"><i class="bi bi-calendar-check"></i> <span>Approve Leaves</span></li>
+            <li class="" onclick="window.location.href='/kra-management'"><i class="bi bi-bullseye"></i> <span>KRA Management</span></li>
+            <li class="" onclick="window.location.href='/kpi-management'"><i class="bi bi-speedometer2"></i> <span>KPI Management</span></li>
+            <li class="" onclick="window.location.href='/assign-kra'"><i class="bi bi-person-check"></i> <span>Assign KRA</span></li>
+            <li class="" onclick="window.location.href='/assign-kpi'"><i class="bi bi-person-lines-fill"></i> <span>Assign KPI</span></li>
+            <li class="" onclick="window.location.href='/kpi-records'"><i class="bi bi-speedometer2"></i> <span>KPI Records</span></li>
+            <li class="" onclick="window.location.href='/appraisal-cycles'"><i class="bi bi-calendar-range"></i> <span>Appraisal Cycles</span></li>
+            <li class="" onclick="window.location.href='/kra-kpi-report'"><i class="bi bi-file-earmark-bar-graph"></i> <span>KRA / KPI Report</span></li>
+            <div class="menu-section-header">Organization & Staff</div>
+            <li class="" onclick="window.location.href='/admin/employees'"><i class="bi bi-people-fill"></i> <span>Employee Directory</span></li>
+            <li class="" onclick="window.location.href='/admin/hierarchy'"><i class="bi bi-diagram-3-fill"></i> <span>Employee Hierarchy</span></li>
+            <li class="" onclick="window.location.href='/admin/departments'"><i class="bi bi-building"></i> <span>Departments</span></li>
+            <li class="" onclick="window.location.href='/admin/branches'"><i class="bi bi-geo-alt-fill"></i> <span>Branches</span></li>
+            <li class="" onclick="window.location.href='/admin/designations'"><i class="bi bi-award-fill"></i> <span>Designations</span></li>
+            <li class="" onclick="window.location.href='/admin/users'"><i class="bi bi-person-badge-fill"></i> <span>User Accounts</span></li>
             <div class="menu-section-header">Account</div>
-            <li class="" onclick="window.location.href='profile.html'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
-            <li onclick="window.location.href='login.html'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
+            <li class="" onclick="window.location.href='/profile'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
+            <li onclick="window.location.href='/logout'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
         </ul>
+        <div class="sidebar-footer-badge">
+            <span>System Build v4.8.2</span>
+            <span class="status-pill">Stable</span>
+        </div>
     </aside>
 
     <!-- --- MAIN CONTENT WRAPPER --- -->
@@ -59,33 +73,30 @@
                 <button class="topbar-icon-btn d-lg-none" onclick="toggleSidebar()" title="Open Menu">
                     <i class="bi bi-list"></i>
                 </button>
-                <h4>
-                    Welcome, Sunitha Varma
-                    <span class="text-muted fs-6 font-normal">(Head of HR)</span>
-                </h4>
+                <h4>Training Program Management</h4>
             </div>
 
             <div class="topbar-right">
                 <div class="topbar-icons">
-                    <button class="topbar-icon-btn" data-bs-target="#notificationDrawer" data-bs-toggle="offcanvas"
-                        type="button">
+                    <button class="topbar-icon-btn" data-bs-target="#notificationDrawer" data-bs-toggle="offcanvas" type="button" title="Notifications">
                         <i class="bi bi-bell"></i>
-                        <span class="notification-badge">4</span>
+                        <span class="notification-badge" id="unreadBadge" style="display: none;">0</span>
                     </button>
-                    <button class="topbar-icon-btn" onclick="generatePDFReport('Organization Performance Summary')">
+                    <button class="topbar-icon-btn" onclick="generatePDFReport('Organization Performance Summary')" title="Export PDF">
                         <i class="bi bi-file-earmark-pdf"></i>
                     </button>
-                    <button class="topbar-icon-btn" onclick="generateExcelReport('HR_Promotion_Increments')">
+                    <button class="topbar-icon-btn" onclick="generateExcelReport('HR_Promotion_Increments')" title="Export Excel">
                         <i class="bi bi-file-earmark-excel"></i>
                     </button>
                 </div>
 
-                <div class="user-badge">
-                    <img alt="Sunitha Varma"
-                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&amp;fit=crop&amp;q=80&amp;w=100" />
+                <div class="user-badge" onclick="window.location.href='{{ url_for('dashboard.profile') }}'" style="cursor: pointer;">
+                    <div class="user-avatar-circle">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
                     <div class="user-badge-info">
-                        <span class="user-badge-name">Sunitha Varma</span>
-                        <span class="user-badge-role">Head Office</span>
+                        <span id="userBadgeName" class="user-badge-name">{{ session.get('username', 'HR Admin') }}</span>
+                        <span id="userBadgeRole" class="user-badge-role">{{ session.get('role_name', 'Human Resources') }}</span>
                     </div>
                 </div>
             </div>
@@ -93,20 +104,14 @@
 
         <!-- --- HR DASHBOARD CONTENT --- -->
         <div class="dashboard-view active" id="hr-view">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div>
-                    <h3 class="fw-bold">Manage Training Programs</h3>
-                    <p class="text-muted mb-2">Create, assign and monitor employee training programs.</p>
-                </div>
-            </div>
-
+            <!-- STITCH QUICK METRICS BENTO BANNER -->
             <div class="row g-3 mb-4">
-                <div class="col-md-3">
+                <div class="col-sm-6 col-xl-3">
                     <div class="stat-card">
                         <div class="stat-info">
                             <h6>Total Trainings</h6>
-                            <h2>24</h2>
-                            <p class="text-muted mb-0">Training Programs</p>
+                            <h2 id="totalTrainings">0</h2>
+                            <small class="text-muted"><i class="bi bi-journal-bookmark me-1"></i> Programs Created</small>
                         </div>
                         <div class="stat-icon red-icon">
                             <i class="bi bi-journal-bookmark-fill"></i>
@@ -114,40 +119,40 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-sm-6 col-xl-3">
                     <div class="stat-card gold-border">
                         <div class="stat-info">
-                            <h6>Active</h6>
-                            <h2>18</h2>
-                            <p class="text-muted mb-0">Currently Active</p>
+                            <h6>Active Programs</h6>
+                            <h2 id="activeTrainings">0</h2>
+                            <small class="text-primary"><i class="bi bi-play-circle me-1"></i> Currently Underway</small>
                         </div>
-                        <div class="stat-icon gold-icon">
+                        <div class="stat-icon amber-icon">
                             <i class="bi bi-play-circle-fill"></i>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-sm-6 col-xl-3">
                     <div class="stat-card">
                         <div class="stat-info">
                             <h6>Completed</h6>
-                            <h2>5</h2>
-                            <p class="text-muted mb-0">Completed</p>
+                            <h2 id="completedTrainings">0</h2>
+                            <small class="text-success"><i class="bi bi-check-circle me-1"></i> Finished Batches</small>
                         </div>
-                        <div class="stat-icon red-icon">
+                        <div class="stat-icon green-icon">
                             <i class="bi bi-check-circle-fill"></i>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-sm-6 col-xl-3">
                     <div class="stat-card gold-border">
                         <div class="stat-info">
-                            <h6>Pending</h6>
-                            <h2>1</h2>
-                            <p class="text-muted mb-0">Pending Approval</p>
+                            <h6>Pending Batches</h6>
+                            <h2 id="pendingTrainings">0</h2>
+                            <small class="text-muted"><i class="bi bi-hourglass-split me-1"></i> Scheduled to Start</small>
                         </div>
-                        <div class="stat-icon gold-icon">
+                        <div class="stat-icon red-icon">
                             <i class="bi bi-hourglass-split"></i>
                         </div>
                     </div>
@@ -157,8 +162,8 @@
             <div class="card-muthoot">
                 <div class="card-title-muthoot d-flex justify-content-between align-items-center flex-wrap">
                     <span>
-                        <i class="bi bi-book me-2"></i>
-                        Training Programs
+                        <i class="bi bi-book me-2 text-danger"></i>
+                        Training Programs Catalog
                     </span>
                 </div>
 
@@ -177,13 +182,14 @@
                             <option>HR</option>
                             <option>Compliance</option>
                             <option>Soft Skills</option>
+                            <option>Professional</option>
                         </select>
                     </div>
 
                     <div class="col-md-3">
                         <select id="statusFilter" class="form-select">
                             <option>All Status</option>
-                            <option>Active</option>
+                            <option>In Progress</option>
                             <option>Completed</option>
                             <option>Pending</option>
                         </select>
@@ -202,205 +208,19 @@
                     <table class="table table-muthoot align-middle">
                         <thead>
                             <tr>
-                                <th style="width: 8%;">ID</th>
-                                <th style="width: 28%;">Training</th>
+                                <th style="width: 10%;">ID</th>
+                                <th style="width: 25%;">Training Name</th>
                                 <th style="width: 15%;">Type</th>
-                                <th style="width: 18%;">Trainer</th>
-                                <th style="width: 10%;">Start</th>
-                                <th style="width: 10%;">End</th>
-                                <th style="width: 6%;">Status</th>
-                                <th class="text-center" style="width: 5%;">Actions</th>
+                                <th style="width: 15%;">Trainer</th>
+                                <th style="width: 10%;">Start Date</th>
+                                <th style="width: 10%;">End Date</th>
+                                <th style="width: 8%;">Status</th>
+                                <th class="text-center" style="width: 7%;">Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="trainingTableBody">
                             <tr>
-                                <td>TR001</td>
-                                <td>Python Basics</td>
-                                <td>Technical</td>
-                                <td>John Mathew</td>
-                                <td>01-08-2026</td>
-                                <td>03-08-2026</td>
-                                <td><span class="badge-muthoot completed">Active</span></td>
-                                <td class="text-center">
-                                    <div class="dropdown text-center">
-                                        <button class="btn btn-sm btn-light rounded-circle" aria-expanded="false"
-                                            data-bs-toggle="dropdown" type="button">
-                                            <i class="bi bi-three-dots-vertical"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end shadow">
-                                            <li>
-                                                <a class="dropdown-item" href="training_details.html"><i class="bi bi-eye me-2"></i> View</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="bi bi-pencil me-2"></i>
-                                                    Edit
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <hr class="dropdown-divider" />
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item text-danger" href="#">
-                                                    <i class="bi bi-trash me-2"></i>
-                                                    Delete
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>TR002</td>
-                                <td>HR Compliance</td>
-                                <td>Compliance</td>
-                                <td>Sarah Joseph</td>
-                                <td>08-08-2026</td>
-                                <td>09-08-2026</td>
-                                <td><span class="badge-muthoot completed">Completed</span></td>
-                                <td class="text-center">
-                                    <div class="dropdown text-center">
-                                        <button class="btn btn-sm btn-light rounded-circle" aria-expanded="false"
-                                            data-bs-toggle="dropdown" type="button">
-                                            <i class="bi bi-three-dots-vertical"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end shadow">
-                                            <li>
-                                                <a class="dropdown-item" href="training_details.html"><i class="bi bi-eye me-2"></i> View</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="bi bi-pencil me-2"></i>
-                                                    Edit
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <hr class="dropdown-divider" />
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item text-danger" href="#">
-                                                    <i class="bi bi-trash me-2"></i>
-                                                    Delete
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>TR003</td>
-                                <td>Communication Skills</td>
-                                <td>Soft Skills</td>
-                                <td>David Thomas</td>
-                                <td>08-08-2026</td>
-                                <td>09-08-2026</td>
-                                <td><span class="badge-muthoot completed">Completed</span></td>
-                                <td class="text-center">
-                                    <div class="dropdown text-center">
-                                        <button class="btn btn-sm btn-light rounded-circle" aria-expanded="false"
-                                            data-bs-toggle="dropdown" type="button">
-                                            <i class="bi bi-three-dots-vertical"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end shadow">
-                                            <li>
-                                                <a class="dropdown-item" href="training_details.html"><i class="bi bi-eye me-2"></i> View</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="bi bi-pencil me-2"></i>
-                                                    Edit
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <hr class="dropdown-divider" />
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item text-danger" href="#">
-                                                    <i class="bi bi-trash me-2"></i>
-                                                    Delete
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>TR004</td>
-                                <td>Leadership Training</td>
-                                <td>Soft Skills</td>
-                                <td>Maria George</td>
-                                <td>08-08-2026</td>
-                                <td>09-08-2026</td>
-                                <td><span class="badge-muthoot completed">Completed</span></td>
-                                <td class="text-center">
-                                    <div class="dropdown text-center">
-                                        <button class="btn btn-sm btn-light rounded-circle" aria-expanded="false"
-                                            data-bs-toggle="dropdown" type="button">
-                                            <i class="bi bi-three-dots-vertical"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end shadow">
-                                            <li>
-                                                <a class="dropdown-item" href="training_details.html"><i class="bi bi-eye me-2"></i> View</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="bi bi-pencil me-2"></i>
-                                                    Edit
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <hr class="dropdown-divider" />
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item text-danger" href="#">
-                                                    <i class="bi bi-trash me-2"></i>
-                                                    Delete
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>TR005</td>
-                                <td>Customer Service</td>
-                                <td>HR</td>
-                                <td>Anjali Nair</td>
-                                <td>08-08-2026</td>
-                                <td>09-08-2026</td>
-                                <td><span class="badge-muthoot completed">Active</span></td>
-                                <td class="text-center">
-                                    <div class="dropdown text-center">
-                                        <button class="btn btn-sm btn-light rounded-circle" aria-expanded="false"
-                                            data-bs-toggle="dropdown" type="button">
-                                            <i class="bi bi-three-dots-vertical"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end shadow">
-                                            <li>
-                                                <a class="dropdown-item" href="training_details.html"><i class="bi bi-eye me-2"></i> View</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="bi bi-pencil me-2"></i>
-                                                    Edit
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <hr class="dropdown-divider" />
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item text-danger" href="#">
-                                                    <i class="bi bi-trash me-2"></i>
-                                                    Delete
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
+                                <td colspan="8" class="text-center text-muted py-4">Loading training programs...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -408,34 +228,17 @@
 
                 <div class="d-flex justify-content-between align-items-center mt-3">
                     <div class="text-muted">
-                        Showing 1–8 of 24 Training Programs
-                        <br />
-                        <small>Last Updated : 03 Aug 2026</small>
+                        <span id="trainingShowingText">Showing 0 Training Programs</span>
                     </div>
                     <nav>
-                        <ul class="pagination pagination-sm mb-0">
-                            <li class="page-item disabled">
-                                <a class="page-link">Previous</a>
-                            </li>
-                            <li class="page-item active">
-                                <a class="page-link">1</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link">2</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link">3</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link">Next</a>
-                            </li>
-                        </ul>
+                        <ul class="pagination pagination-sm mb-0" id="trainingPagination"></ul>
                     </nav>
                 </div>
             </div>
 
         </div>
     </main>
+
     <!-- add training modal -->
     <div class="modal fade" id="addTrainingModal">
         <div class="modal-dialog modal-lg">
@@ -447,39 +250,40 @@
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label">Training Name</label>
-                            <input class="form-control" />
+                            <label class="form-label font-medium">Training Name <span class="text-danger">*</span></label>
+                            <input class="form-control" id="trainingName" placeholder="e.g. AML Compliance 2026" required />
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Training Type</label>
-                            <select class="form-select">
+                            <label class="form-label font-medium">Training Type <span class="text-danger">*</span></label>
+                            <select class="form-select" id="trainingType">
                                 <option>Technical</option>
                                 <option>HR</option>
                                 <option>Compliance</option>
                                 <option>Soft Skills</option>
+                                <option>Professional</option>
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Trainer Name</label>
-                            <input class="form-control" />
+                            <label class="form-label font-medium">Trainer Name <span class="text-danger">*</span></label>
+                            <input class="form-control" id="trainerName" placeholder="e.g. John Doe" required />
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label">Start Date</label>
-                            <input class="form-control" type="date" />
+                            <label class="form-label font-medium">Start Date</label>
+                            <input class="form-control" id="startDate" type="date" />
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label">End Date</label>
-                            <input class="form-control" type="date" />
+                            <label class="form-label font-medium">End Date</label>
+                            <input class="form-control" id="endDate" type="date" />
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Assignment Type</label>
+                            <label class="form-label font-medium">Assignment Type</label>
                             <select class="form-select" id="assignmentType" onchange="toggleAssignmentFields()">
                                 <option value="individual">Individual Employees</option>
                                 <option value="department">Department</option>
                             </select>
                         </div>
                         <div class="col-md-6" id="employeeAssignment">
-                            <label class="form-label">Select Employees</label>
+                            <label class="form-label font-medium">Select Employees <span class="text-danger">*</span></label>
                             <div class="position-relative">
                                 <div class="input-group">
                                     <span class="input-group-text">
@@ -491,26 +295,21 @@
                                 </div>
                                 <div id="employeeSearchResults"
                                     class="list-group position-absolute w-100 shadow-sm d-none"
-                                    style="z-index: 1056;">
+                                    style="z-index: 1056; max-height: 200px; overflow-y: auto;">
                                 </div>
                             </div>
                             <div id="selectedEmployees" class="d-flex flex-wrap gap-2 mt-2"></div>
                             <small class="text-muted" id="selectedEmployeeCount">0 employees selected</small>
                         </div>
                         <div class="col-md-6 d-none" id="departmentAssignment">
-                            <label class="form-label">Select Department</label>
-                            <select class="form-select">
+                            <label class="form-label font-medium">Select Department</label>
+                            <select class="form-select" id="trainingDepartment">
                                 <option selected disabled>Select Department</option>
-                                <option>Finance</option>
-                                <option>Human Resources</option>
-                                <option>Operations</option>
-                                <option>IT</option>
-                                <option>Marketing</option>
                             </select>
                         </div>
                         <div class="col-12">
-                            <label class="form-label">Description</label>
-                            <textarea class="form-control" rows="3"></textarea>
+                            <label class="form-label font-medium">Description / Remarks</label>
+                            <textarea class="form-control" id="trainingDescription" rows="3" placeholder="Additional details about this training..."></textarea>
                         </div>
                     </div>
                 </div>
@@ -518,8 +317,8 @@
                     <button class="btn btn-muthoot-outline px-4" data-bs-dismiss="modal">
                         Cancel
                     </button>
-                    <button class="btn btn-muthoot px-4">
-                        Save
+                    <button class="btn btn-muthoot px-4" id="saveTrainingBtn">
+                        Save Program
                     </button>
                 </div>
             </div>
@@ -542,28 +341,58 @@
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- ApexCharts JS -->
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.1/dist/apexcharts.min.js"></script>
-    <!-- Export Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <!-- Custom JS -->
-    <script src="../static/js/dashboard.js"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
     <script>
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content || "{{ csrf_token() }}";
+        const trainingsPerPage = 8;
+        let currentPage = 1;
+        let employees = [];
+        let selectedEmployees = [];
+        window.trainingRecords = [];
 
         function resetFilters() {
             document.getElementById("searchTraining").value = "";
             document.getElementById("typeFilter").selectedIndex = 0;
             document.getElementById("statusFilter").selectedIndex = 0;
+            currentPage = 1;
+            displayPage(window.trainingRecords || []);
+            renderPagination(window.trainingRecords || []);
         }
 
-        const employees = [
-            { id: "EMP001", name: "Rahul Nair", department: "Finance" },
-            { id: "EMP002", name: "Anjali Thomas", department: "HR" },
-            { id: "EMP003", name: "Arun Joseph", department: "Operations" },
-            { id: "EMP004", name: "Priya Menon", department: "IT" }
-        ];
+        async function loadEmployees() {
+            try {
+                const response = await fetch("/api/employees");
+                const data = await response.json();
+                employees = data.map(employee => ({
+                    id: employee.employee_code,
+                    employee_id: employee.employee_id,
+                    name: employee.name,
+                    department: employee.department || ""
+                }));
+            } catch (error) {
+                console.error("Failed to load employees:", error);
+            }
+        }
+        loadEmployees();
 
-        let selectedEmployees = [];
+        async function loadDepartments() {
+            try {
+                const response = await fetch("/api/departments");
+                const departments = await response.json();
+                const select = document.getElementById("trainingDepartment");
+                select.innerHTML = '<option value="" selected disabled>Select Department</option>';
+                departments.forEach(department => {
+                    const option = document.createElement("option");
+                    option.value = department.department_name;
+                    option.textContent = department.department_name;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error("Failed to load departments:", error);
+            }
+        }
+        loadDepartments();
 
         function toggleAssignmentFields() {
             const assignmentType = document.getElementById("assignmentType").value;
@@ -580,6 +409,12 @@
             }
         }
 
+        document.getElementById("trainingDepartment").addEventListener("change", function () {
+            const dept = this.value;
+            selectedEmployees = employees.filter(emp => emp.department.toLowerCase() === dept.toLowerCase());
+            renderSelectedEmployees();
+        });
+
         function searchEmployees() {
             const input = document.getElementById("employeeSearchInput");
             const results = document.getElementById("employeeSearchResults");
@@ -592,35 +427,28 @@
             }
 
             const matches = employees.filter(employee => {
-                const alreadySelected = selectedEmployees.some(
-                    selected => selected.id === employee.id
+                const alreadySelected = selectedEmployees.some(selected => selected.employee_id === employee.employee_id);
+                return !alreadySelected && (
+                    employee.name.toLowerCase().includes(query) ||
+                    employee.id.toLowerCase().includes(query)
                 );
-
-                return !alreadySelected &&
-                    (employee.name.toLowerCase().includes(query) ||
-                     employee.id.toLowerCase().includes(query));
             });
 
             results.innerHTML = matches.length
                 ? matches.map(employee => `
-                    <button type="button"
-                        class="list-group-item list-group-item-action"
-                        onclick="selectEmployee('${employee.id}')">
+                    <button type="button" class="list-group-item list-group-item-action" onclick="selectEmployee(${employee.employee_id})">
                         <div class="fw-semibold">${employee.name}</div>
                         <small class="text-muted">${employee.id} • ${employee.department}</small>
                     </button>
                 `).join("")
-                : `<div class="list-group-item text-muted">No employees found</div>`;
+                : '<div class="list-group-item text-muted">No employees found</div>';
 
             results.classList.remove("d-none");
         }
 
         function selectEmployee(employeeId) {
-            const employee = employees.find(item => item.id === employeeId);
-
-            if (!employee || selectedEmployees.some(item => item.id === employeeId)) {
-                return;
-            }
+            const employee = employees.find(item => item.employee_id === employeeId);
+            if (!employee || selectedEmployees.some(item => item.employee_id === employeeId)) return;
 
             selectedEmployees.push(employee);
             renderSelectedEmployees();
@@ -630,9 +458,7 @@
         }
 
         function removeSelectedEmployee(employeeId) {
-            selectedEmployees = selectedEmployees.filter(
-                employee => employee.id !== employeeId
-            );
+            selectedEmployees = selectedEmployees.filter(emp => emp.employee_id !== employeeId);
             renderSelectedEmployees();
         }
 
@@ -643,42 +469,205 @@
             container.innerHTML = selectedEmployees.map(employee => `
                 <span class="badge rounded-pill bg-light text-dark border px-3 py-2">
                     ${employee.name}
-                    <button type="button"
-                        class="btn-close ms-1"
-                        style="font-size: 0.55rem;"
-                        aria-label="Remove ${employee.name}"
-                        onclick="removeSelectedEmployee('${employee.id}')">
+                    <button type="button" class="btn-close ms-1" style="font-size: 0.55rem;"
+                        aria-label="Remove ${employee.name}" onclick="removeSelectedEmployee(${employee.employee_id})">
                     </button>
                 </span>
             `).join("");
 
-            count.textContent =
-                `${selectedEmployees.length} employee${selectedEmployees.length === 1 ? "" : "s"} selected`;
+            count.textContent = `${selectedEmployees.length} employee${selectedEmployees.length === 1 ? "" : "s"} selected`;
         }
 
         function hideEmployeeSearchResults() {
             document.getElementById("employeeSearchResults").classList.add("d-none");
         }
 
-        document.addEventListener("click", function(event) {
+        document.addEventListener("click", function (event) {
             const assignmentSection = document.getElementById("employeeAssignment");
-
             if (assignmentSection && !assignmentSection.contains(event.target)) {
                 hideEmployeeSearchResults();
             }
         });
 
-        document.getElementById("addTrainingModal").addEventListener(
-            "hidden.bs.modal",
-            function() {
-                selectedEmployees = [];
-                document.getElementById("employeeSearchInput").value = "";
-                renderSelectedEmployees();
-                document.getElementById("assignmentType").value = "individual";
-                toggleAssignmentFields();
-            }
-        );
+        document.getElementById("addTrainingModal").addEventListener("hidden.bs.modal", function () {
+            selectedEmployees = [];
+            document.getElementById("employeeSearchInput").value = "";
+            renderSelectedEmployees();
+            document.getElementById("assignmentType").value = "individual";
+            toggleAssignmentFields();
+        });
 
+        function displayPage(records) {
+            const tbody = document.getElementById("trainingTableBody");
+            const start = (currentPage - 1) * trainingsPerPage;
+            const end = start + trainingsPerPage;
+            const pageRecords = records.slice(start, end);
+            const showingText = document.getElementById("trainingShowingText");
+
+            if (records.length === 0) {
+                showingText.textContent = "Showing 0 Training Programs";
+                tbody.innerHTML = '<tr><td colspan="8" class="text-center text-muted py-4">No training programs found.</td></tr>';
+                return;
+            }
+
+            const showingStart = start + 1;
+            const showingEnd = Math.min(end, records.length);
+            showingText.textContent = `Showing ${showingStart}–${showingEnd} of ${records.length} Training Programs`;
+
+            tbody.innerHTML = "";
+            pageRecords.forEach(training => {
+                const row = document.createElement("tr");
+                const statusBadge = training.status === "Completed"
+                    ? "bg-success text-white"
+                    : training.status === "In Progress"
+                        ? "bg-primary text-white"
+                        : "bg-warning text-dark";
+
+                row.innerHTML = `
+                    <td><strong>TR${String(training.training_id || training.program_id).padStart(3, "0")}</strong></td>
+                    <td>${training.training_name}</td>
+                    <td><span class="badge bg-light text-dark border">${training.training_type}</span></td>
+                    <td>${training.trainer_name}</td>
+                    <td>${training.start_date || "—"}</td>
+                    <td>${training.end_date || "—"}</td>
+                    <td><span class="badge ${statusBadge}">${training.status}</span></td>
+                    <td class="text-center">
+                        <a class="btn btn-sm btn-muthoot-outline py-1 px-2" href="/training-details?training_id=${training.training_id || training.program_id}" title="View Details">
+                            <i class="bi bi-eye"></i> Details
+                        </a>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function renderPagination(records) {
+            const pagination = document.getElementById("trainingPagination");
+            const totalPages = Math.ceil(records.length / trainingsPerPage);
+            pagination.innerHTML = "";
+            if (totalPages <= 1) return;
+
+            pagination.innerHTML += `
+                <li class="page-item ${currentPage === 1 ? "disabled" : ""}">
+                    <a class="page-link" href="#" onclick="changeTrainingPage(${currentPage - 1}); return false;">Previous</a>
+                </li>
+            `;
+
+            for (let i = 1; i <= totalPages; i++) {
+                pagination.innerHTML += `
+                    <li class="page-item ${i === currentPage ? "active" : ""}">
+                        <a class="page-link" href="#" onclick="changeTrainingPage(${i}); return false;">${i}</a>
+                    </li>
+                `;
+            }
+
+            pagination.innerHTML += `
+                <li class="page-item ${currentPage === totalPages ? "disabled" : ""}">
+                    <a class="page-link" href="#" onclick="changeTrainingPage(${currentPage + 1}); return false;">Next</a>
+                </li>
+            `;
+        }
+
+        function changeTrainingPage(page) {
+            const records = window.trainingRecords || [];
+            const totalPages = Math.ceil(records.length / trainingsPerPage);
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            displayPage(records);
+            renderPagination(records);
+        }
+
+        function applyTrainingFilters() {
+            const search = document.getElementById("searchTraining").value.toLowerCase().trim();
+            const type = document.getElementById("typeFilter").value;
+            const status = document.getElementById("statusFilter").value;
+            const records = window.trainingRecords || [];
+
+            const filteredRecords = records.filter(training => {
+                const matchesSearch = training.training_name.toLowerCase().includes(search) ||
+                                      (training.trainer_name && training.trainer_name.toLowerCase().includes(search));
+                const matchesType = type === "All Types" || training.training_type === type;
+                const matchesStatus = status === "All Status" || training.status === status;
+                return matchesSearch && matchesType && matchesStatus;
+            });
+
+            currentPage = 1;
+            displayPage(filteredRecords);
+            renderPagination(filteredRecords);
+        }
+
+        document.getElementById("searchTraining").addEventListener("input", applyTrainingFilters);
+        document.getElementById("typeFilter").addEventListener("change", applyTrainingFilters);
+        document.getElementById("statusFilter").addEventListener("change", applyTrainingFilters);
+
+        document.getElementById("saveTrainingBtn").addEventListener("click", async function () {
+            const trainingData = {
+                employee_ids: selectedEmployees.map(employee => employee.employee_id),
+                training_name: document.getElementById("trainingName").value.trim(),
+                training_type: document.getElementById("trainingType").value,
+                trainer_name: document.getElementById("trainerName").value.trim(),
+                start_date: document.getElementById("startDate").value || null,
+                end_date: document.getElementById("endDate").value || null,
+                remarks: document.getElementById("trainingDescription").value.trim()
+            };
+
+            if (trainingData.employee_ids.length === 0) {
+                alert("Please select at least one employee.");
+                return;
+            }
+
+            if (!trainingData.training_name || !trainingData.trainer_name) {
+                alert("Please fill in all required fields.");
+                return;
+            }
+
+            try {
+                const response = await fetch("/api/training", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-Token": csrfToken
+                    },
+                    body: JSON.stringify(trainingData)
+                });
+
+                const result = await response.json();
+                if (!response.ok) {
+                    alert(result.error || "Failed to add training.");
+                    return;
+                }
+
+                alert("Training program created successfully!");
+                const modalEl = document.getElementById("addTrainingModal");
+                const modal = bootstrap.Modal.getInstance(modalEl);
+                if (modal) modal.hide();
+
+                loadTrainingRecords();
+            } catch (error) {
+                console.error(error);
+                alert("Unable to connect to the server.");
+            }
+        });
+
+        async function loadTrainingRecords() {
+            try {
+                const response = await fetch("/api/training");
+                const records = await response.json();
+                window.trainingRecords = records;
+
+                document.getElementById("totalTrainings").textContent = records.length;
+                document.getElementById("activeTrainings").textContent = records.filter(t => t.status === "In Progress").length;
+                document.getElementById("completedTrainings").textContent = records.filter(t => t.status === "Completed").length;
+                document.getElementById("pendingTrainings").textContent = records.filter(t => t.status === "Pending").length;
+
+                currentPage = 1;
+                displayPage(records);
+                renderPagination(records);
+            } catch (err) {
+                console.error("Error fetching training records:", err);
+            }
+        }
+        loadTrainingRecords();
     </script>
 </body>
 

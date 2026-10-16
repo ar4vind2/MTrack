@@ -1,54 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>HR Performance Results - Muthoot Appraisal System</title>
 
+    <!-- Google Fonts Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
-    <!-- Google Fonts Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <!-- ApexCharts CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/apexcharts@3.45.1/dist/apexcharts.css" rel="stylesheet" />
-    <!-- Custom Muthoot Minimal CSS -->
-    <link href="../static/css/style.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom Muthoot Stitch CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
     <!-- Mobile Backdrop Overlay -->
     <div class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
 
-    <!-- --- SIDEBAR WITH TOGGLE BUTTON INSIDE --- -->
+    <!-- --- SIDEBAR --- -->
     <aside class="sidebar">
         <div class="brand">
             <div class="brand-logo-container">
-                <img alt="Muthoot Finance Logo" class="brand-full-logo" src="../static/images/muthoot-logo.png" />
-                <img alt="Muthoot Finance Icon" class="brand-icon-logo" src="../static/images/muthoot-logo-toggle.png" />
+                <img alt="Muthoot Finance Logo" class="brand-full-logo" src="{{ url_for('static', filename='images/muthoot-logo.png') }}" />
+                <img alt="Muthoot Finance Icon" class="brand-icon-logo" src="{{ url_for('static', filename='images/muthoot-logo-toggle.png') }}" />
             </div>
             <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
                 <i class="bi bi-chevron-left"></i>
             </button>
         </div>
 
-                <ul class="menu" id="sidebarMenu">
+        <ul class="menu" id="sidebarMenu">
             <div class="menu-section-header">HR Administration</div>
-            <li class="" onclick="window.location.href='hr_dashboard.html'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
-            <li class="active" onclick="window.location.href='performance_results.html'"><i class="bi bi-award"></i> <span>Performance Results</span></li>
-            <li class="" onclick="window.location.href='manage_training.html'"><i class="bi bi-mortarboard-fill"></i> <span>Manage Training</span></li>
-            <li class="" onclick="window.location.href='kra_management.html'"><i class="bi bi-bullseye"></i> <span>KRA Management</span></li>
-            <li class="" onclick="window.location.href='kpi_management.html'"><i class="bi bi-speedometer2"></i> <span>KPI Management</span></li>
-            <li class="" onclick="window.location.href='assign_kra.html'"><i class="bi bi-person-check"></i> <span>Assign KRA</span></li>
-            <li class="" onclick="window.location.href='assign_kpi.html'"><i class="bi bi-person-lines-fill"></i> <span>Assign KPI</span></li>
-            <li class="" onclick="window.location.href='kra_kpi_report.html'"><i class="bi bi-file-earmark-bar-graph"></i> <span>KRA / KPI Report</span></li>
+            <li class="" onclick="window.location.href='/hr-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li class="active" onclick="window.location.href='/performance-results'"><i class="bi bi-award"></i> <span>Performance Results</span></li>
+            <li class="" onclick="window.location.href='/manage-training'"><i class="bi bi-mortarboard-fill"></i> <span>Manage Training</span></li>
+            <li class="" onclick="window.location.href='/feedback-360'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
+            <li class="" onclick="window.location.href='/approve-leaves'"><i class="bi bi-calendar-check"></i> <span>Approve Leaves</span></li>
+            <li class="" onclick="window.location.href='/kra-management'"><i class="bi bi-bullseye"></i> <span>KRA Management</span></li>
+            <li class="" onclick="window.location.href='/kpi-management'"><i class="bi bi-speedometer2"></i> <span>KPI Management</span></li>
+            <li class="" onclick="window.location.href='/assign-kra'"><i class="bi bi-person-check"></i> <span>Assign KRA</span></li>
+            <li class="" onclick="window.location.href='/assign-kpi'"><i class="bi bi-person-lines-fill"></i> <span>Assign KPI</span></li>
+            <li class="" onclick="window.location.href='/kpi-records'"><i class="bi bi-speedometer2"></i> <span>KPI Records</span></li>
+            <li class="" onclick="window.location.href='/appraisal-cycles'"><i class="bi bi-calendar-range"></i> <span>Appraisal Cycles</span></li>
+            <li class="" onclick="window.location.href='/kra-kpi-report'"><i class="bi bi-file-earmark-bar-graph"></i> <span>KRA / KPI Report</span></li>
+            <div class="menu-section-header">Organization & Staff</div>
+            <li class="" onclick="window.location.href='/admin/employees'"><i class="bi bi-people-fill"></i> <span>Employee Directory</span></li>
+            <li class="" onclick="window.location.href='/admin/hierarchy'"><i class="bi bi-diagram-3-fill"></i> <span>Employee Hierarchy</span></li>
+            <li class="" onclick="window.location.href='/admin/departments'"><i class="bi bi-building"></i> <span>Departments</span></li>
+            <li class="" onclick="window.location.href='/admin/branches'"><i class="bi bi-geo-alt-fill"></i> <span>Branches</span></li>
+            <li class="" onclick="window.location.href='/admin/designations'"><i class="bi bi-award-fill"></i> <span>Designations</span></li>
+            <li class="" onclick="window.location.href='/admin/users'"><i class="bi bi-person-badge-fill"></i> <span>User Accounts</span></li>
             <div class="menu-section-header">Account</div>
-            <li class="" onclick="window.location.href='profile.html'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
-            <li onclick="window.location.href='login.html'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
+            <li class="" onclick="window.location.href='/profile'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
+            <li onclick="window.location.href='/logout'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
         </ul>
+        <div class="sidebar-footer-badge">
+            <span>System Build v4.8.2</span>
+            <span class="status-pill">Stable</span>
+        </div>
     </aside>
 
     <!-- --- MAIN CONTENT WRAPPER --- -->
@@ -59,33 +73,30 @@
                 <button class="topbar-icon-btn d-lg-none" onclick="toggleSidebar()" title="Open Menu">
                     <i class="bi bi-list"></i>
                 </button>
-                <h4>
-                    Welcome, Sunitha Varma
-                    <span class="text-muted fs-6 font-normal">(Head of HR)</span>
-                </h4>
+                <h4>Performance Evaluation Results</h4>
             </div>
 
             <div class="topbar-right">
                 <div class="topbar-icons">
-                    <button class="topbar-icon-btn" data-bs-target="#notificationDrawer" data-bs-toggle="offcanvas"
-                        type="button">
+                    <button class="topbar-icon-btn" data-bs-target="#notificationDrawer" data-bs-toggle="offcanvas" type="button" title="Notifications">
                         <i class="bi bi-bell"></i>
-                        <span class="notification-badge">4</span>
+                        <span class="notification-badge" id="unreadBadge" style="display: none;">0</span>
                     </button>
-                    <button class="topbar-icon-btn" onclick="generatePDFReport('Organization Performance Summary')">
+                    <button class="topbar-icon-btn" onclick="generatePDFReport('Organization Performance Summary')" title="Export PDF">
                         <i class="bi bi-file-earmark-pdf"></i>
                     </button>
-                    <button class="topbar-icon-btn" onclick="generateExcelReport('HR_Promotion_Increments')">
+                    <button class="topbar-icon-btn" onclick="generateExcelReport('HR_Promotion_Increments')" title="Export Excel">
                         <i class="bi bi-file-earmark-excel"></i>
                     </button>
                 </div>
 
-                <div class="user-badge">
-                    <img alt="Sunitha Varma"
-                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&amp;fit=crop&amp;q=80&amp;w=100" />
+                <div class="user-badge" onclick="window.location.href='{{ url_for('dashboard.profile') }}'" style="cursor: pointer;">
+                    <div class="user-avatar-circle">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
                     <div class="user-badge-info">
-                        <span class="user-badge-name">Sunitha Varma</span>
-                        <span class="user-badge-role">Head Office</span>
+                        <span id="userBadgeName" class="user-badge-name">{{ session.get('username', 'HR Admin') }}</span>
+                        <span id="userBadgeRole" class="user-badge-role">{{ session.get('role_name', 'Human Resources') }}</span>
                     </div>
                 </div>
             </div>
@@ -93,19 +104,14 @@
 
         <!-- --- HR DASHBOARD CONTENT --- -->
         <div class="dashboard-view active" id="hr-view">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div>
-                    <h3 class="fw-bold">Employee Performance</h3>
-                    <p class="text-muted mb-2">View employee performance scores and recommendation results.</p>
-                </div>
-            </div>
+            <!-- STITCH QUICK METRICS BENTO BANNER -->
             <div class="row g-3 mb-4">
-                <div class="col-md-3">
+                <div class="col-sm-6 col-xl-3">
                     <div class="stat-card">
                         <div class="stat-info">
                             <h6>Employees Evaluated</h6>
-                            <h2>248</h2>
-                            <p class="text-muted mb-0">Employees Reviewed</p>
+                            <h2 id="employeesEvaluated">0</h2>
+                            <small class="text-muted"><i class="bi bi-people me-1"></i> Employees Reviewed</small>
                         </div>
                         <div class="stat-icon red-icon">
                             <i class="bi bi-people-fill"></i>
@@ -113,51 +119,165 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-sm-6 col-xl-3">
                     <div class="stat-card gold-border">
                         <div class="stat-info">
-                            <h6>Average Performance Score</h6>
-                            <h2>86%</h2>
-                            <p class="text-muted mb-0">Across All Evaluations</p>
+                            <h6>Average Performance</h6>
+                            <h2 id="averageScore">0%</h2>
+                            <small class="text-success"><i class="bi bi-graph-up-arrow me-1"></i> Across All Evaluations</small>
                         </div>
-                        <div class="stat-icon gold-icon">
+                        <div class="stat-icon amber-icon">
                             <i class="bi bi-bar-chart-fill"></i>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-sm-6 col-xl-3">
                     <div class="stat-card">
                         <div class="stat-info">
-                            <h6>Outstanding Employees</h6>
-                            <h2>42</h2>
-                            <p class="text-muted mb-0">Employees</p>
+                            <h6>Outstanding Tier</h6>
+                            <h2 id="outstandingEmployees">0</h2>
+                            <small class="text-primary"><i class="bi bi-star-fill me-1"></i> Score ≥ 90%</small>
                         </div>
-                        <div class="stat-icon red-icon">
+                        <div class="stat-icon green-icon">
                             <i class="bi bi-star-fill"></i>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-sm-6 col-xl-3">
                     <div class="stat-card gold-border">
                         <div class="stat-info">
                             <h6>Needs Improvement</h6>
-                            <h2>8</h2>
-                            <p class="text-muted mb-0">Need Attention</p>
+                            <h2 id="needsImprovement">0</h2>
+                            <small class="text-danger"><i class="bi bi-exclamation-triangle me-1"></i> Score &lt; 60%</small>
                         </div>
-                        <div class="stat-icon gold-icon">
+                        <div class="stat-icon red-icon">
                             <i class="bi bi-exclamation-triangle-fill"></i>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="card-muthoot">
+            <!-- DYNAMIC CALCULATION METHODOLOGY & PARAMETERS BANNER -->
+            <div class="card-muthoot mb-4">
                 <div class="card-title-muthoot d-flex justify-content-between align-items-center flex-wrap">
                     <span>
-                        <i class="bi bi-graph-up-arrow me-2"></i>
-                        Performance Reviews
+                        <i class="bi bi-calculator me-2 text-danger"></i>
+                        Performance Calculation Methodology & Dynamic Parameters
+                    </span>
+                    <button class="btn btn-sm btn-muthoot-outline" type="button" data-bs-toggle="collapse" data-bs-target="#methodologyDetails" aria-expanded="false" aria-controls="methodologyDetails">
+                        <i class="bi bi-info-circle me-1"></i> Toggle Formula & Weights
+                    </button>
+                </div>
+                <div class="collapse show" id="methodologyDetails">
+                    <div class="p-3 bg-light rounded-3 mt-2 border">
+                        <div class="row g-3">
+                            <div class="col-lg-6">
+                                <h6 class="fw-bold text-dark mb-2"><i class="bi bi-sliders me-1 text-danger"></i> Multi-Factor Weightage Allocation</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-bordered bg-white mb-2">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Parameter</th>
+                                                <th>Weight</th>
+                                                <th>Evaluation Basis</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="fw-semibold">KPI Score</td>
+                                                <td><span class="badge bg-danger">40%</span></td>
+                                                <td>Achievement against assigned KRAs & Target Metrics</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-semibold">Manager Appraisal</td>
+                                                <td><span class="badge bg-primary">30%</span></td>
+                                                <td>Productivity, Quality of Work, Teamwork, Communication</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-semibold">Attendance Record</td>
+                                                <td><span class="badge bg-success">10%</span></td>
+                                                <td>Monthly biometric logs & working days present</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-semibold">Behaviour & Core Values</td>
+                                                <td><span class="badge bg-info text-dark">10%</span></td>
+                                                <td>Customer focus, integrity, adherence to ethics</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-semibold">Self-Appraisal</td>
+                                                <td><span class="badge bg-secondary">5%</span></td>
+                                                <td>Employee self-rating submission</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-semibold">Training Completion</td>
+                                                <td><span class="badge bg-warning text-dark">5%*</span></td>
+                                                <td>Training attendance & skill development scores</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <small class="text-muted d-block">
+                                    <em>*Note: If an employee has no training assignments, the 5% training weight is dynamically excluded, and the final score is normalized over the remaining 95% total weight.</em>
+                                </small>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <h6 class="fw-bold text-dark mb-2"><i class="bi bi-check2-circle me-1 text-danger"></i> Rating Scale & Recommendation Criteria</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-bordered bg-white mb-2">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Score Range</th>
+                                                <th>Performance Rating</th>
+                                                <th>HR Recommendation</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="table-primary-subtle">
+                                                <td class="fw-bold">≥ 90.00%</td>
+                                                <td><span class="badge bg-primary">Outstanding</span></td>
+                                                <td class="small">Promotion Recommended and Salary Increment Recommended</td>
+                                            </tr>
+                                            <tr class="table-info-subtle">
+                                                <td class="fw-bold">80.00% – 89.99%</td>
+                                                <td><span class="badge bg-info text-dark">Excellent</span></td>
+                                                <td class="small">Salary Increment Recommended (if ≥ 85%) / No Immediate Action (75–84.99%)</td>
+                                            </tr>
+                                            <tr class="table-success-subtle">
+                                                <td class="fw-bold">70.00% – 79.99%</td>
+                                                <td><span class="badge bg-success">Good</span></td>
+                                                <td class="small">No Immediate Action (if ≥ 75%) / Training / Development Recommended (&lt; 75%)</td>
+                                            </tr>
+                                            <tr class="table-warning-subtle">
+                                                <td class="fw-bold">60.00% – 69.99%</td>
+                                                <td><span class="badge bg-warning text-dark">Needs Improvement</span></td>
+                                                <td class="small">Training / Development Recommended</td>
+                                            </tr>
+                                            <tr class="table-danger-subtle">
+                                                <td class="fw-bold">&lt; 60.00%</td>
+                                                <td><span class="badge bg-danger">Unsatisfactory</span></td>
+                                                <td class="small">Training / Development Recommended</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="p-2 border rounded bg-white small text-muted">
+                                    <strong>Formula:</strong> <code>Final Score = [ (KPI × 0.40) + (Manager × 0.30) + (Attendance × 0.10) + (Behaviour × 0.10) + (Self × 0.05) + (Training × 0.05) ] / Total Weight</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABLE CARD WITH SEARCH & FILTERS -->
+            <div class="card-muthoot">
+                <div class="card-title-muthoot d-flex justify-content-between align-items-center flex-wrap mb-3">
+                    <span>
+                        <i class="bi bi-graph-up-arrow me-2 text-danger"></i>
+                        Performance Reviews & Committee Recommendations
                     </span>
                 </div>
 
@@ -165,220 +285,80 @@
                     <div class="col-md-3">
                         <div class="input-group">
                             <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
-                            <input id="searchTraining" class="form-control" placeholder="Search Employee" type="text" />
+                            <input id="searchTraining" class="form-control border-start-0" placeholder="Search by name or code..." type="text" />
                         </div>
                     </div>
 
                     <div class="col-md-3">
-                        <select id="typeFilter" class="form-select">
-                            <option>All Departments</option>
-                            <option>Finance</option>
-                            <option>HR</option>
-                            <option>Operations</option>
-                            <option>Sales</option>
-                            <option>IT</option>
+                        <select id="cycleFilter" class="form-select">
+                            <option value="">All Appraisal Cycles</option>
                         </select>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-2">
+                        <select id="typeFilter" class="form-select">
+                            <option>All Departments</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
                         <select id="statusFilter" class="form-select">
                             <option>All Ratings</option>
                             <option>Outstanding</option>
                             <option>Excellent</option>
-                            <option>Very Good</option>
                             <option>Good</option>
-                            <option>Average</option>
                             <option>Needs Improvement</option>
+                            <option>Unsatisfactory</option>
                         </select>
                     </div>
 
-                    <div class="col-md-auto ms-auto d-flex gap-2">
-                        <button class="btn btn-muthoot-outline" onclick="resetFilters()">Reset</button>
+                    <div class="col-md-2 d-flex gap-2">
+                        <button class="btn btn-muthoot-outline w-100" onclick="resetFilters()">
+                            <i class="bi bi-arrow-counterclockwise me-1"></i> Reset
+                        </button>
                     </div>
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table table-muthoot align-middle">
+                    <table class="table table-muthoot align-middle mb-0">
                         <thead>
                             <tr>
-                                <th style="width: 8%;">EmployeeID</th>
-                                <th style="width: 28%;">Employee Name</th>
-                                <th style="width: 15%;">Department</th>
-                                <th style="width: 18%;">Score</th>
-                                <th style="width: 10%;">Rating</th>
-                                <th style="width: 10%;">Recommendation</th>
-                                <th style="width: 6%;">Status</th>
-                                <th class="text-center" style="width: 5%;">Actions</th>
+                                <th style="width: 10%;">Employee ID</th>
+                                <th style="width: 18%;">Employee Name</th>
+                                <th style="width: 13%;">Department</th>
+                                <th style="width: 10%;">Score</th>
+                                <th style="width: 12%;">Rating</th>
+                                <th style="width: 19%;">Recommendation</th>
+                                <th style="width: 8%;">Status</th>
+                                <th class="text-end" style="width: 10%;">Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="performanceTableBody">
                             <tr>
-                                <td>EMP001</td>
-                                <td>Rahul Nair</td>
-                                <td>Finance</td>
-                                <td>92</td>
-                                <td>Outstanding</td>
-                                <td>
-                                    <div class="d-flex flex-wrap gap-1">
-                                        <span class="badge bg-primary">Promotion Recommended</span>
-                                        <span class="badge bg-success">Salary Increment Recommended</span>
-                                    </div>
-                                </td>
-                                <td><span class="badge-muthoot completed">Completed</span></td>
-                                <td class="text-center">
-                                    <div class="dropdown text-center">
-                                        <button class="btn btn-sm btn-light rounded-circle" aria-expanded="false"
-                                            data-bs-toggle="dropdown" type="button">
-                                            <i class="bi bi-three-dots-vertical"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end shadow">
-                                            <li>
-                                                <a class="dropdown-item" href="employee_performance_details.html">
-                                                    <i class="bi bi-eye me-2"></i>
-                                                    View
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="bi bi-pencil me-2"></i>
-                                                    Edit
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <hr class="dropdown-divider" />
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item text-danger" href="#">
-                                                    <i class="bi bi-trash me-2"></i>
-                                                    Delete
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>EMP002</td>
-                                <td>Anjali Thomas</td>
-                                <td>HR</td>
-                                <td>85</td>
-                                <td>Excellent</td>
-                                <td><span class="badge bg-success">Salary Increment Recommended</span></td>
-                                <td><span class="badge-muthoot completed">Completed</span></td>
-                                <td class="text-center">
-                                    <div class="dropdown text-center">
-                                        <button class="btn btn-sm btn-light rounded-circle" aria-expanded="false"
-                                            data-bs-toggle="dropdown" type="button">
-                                            <i class="bi bi-three-dots-vertical"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end shadow">
-                                            <li>
-                                                <a class="dropdown-item" href="employee_performance_details.html">
-                                                    <i class="bi bi-eye me-2"></i>
-                                                    View
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="bi bi-pencil me-2"></i>
-                                                    Edit
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <hr class="dropdown-divider" />
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item text-danger" href="#">
-                                                    <i class="bi bi-trash me-2"></i>
-                                                    Delete
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>EMP003</td>
-                                <td>Arun Joseph</td>
-                                <td>Operations</td>
-                                <td>72</td>
-                                <td>Very Good</td>
-                                <td><span class="badge bg-warning text-dark">Training / Development Recommended</span></td>
-                                <td><span class="badge-muthoot review">Pending</span></td>
-                                <td class="text-center">
-                                    <div class="dropdown text-center">
-                                        <button class="btn btn-sm btn-light rounded-circle" aria-expanded="false"
-                                            data-bs-toggle="dropdown" type="button">
-                                            <i class="bi bi-three-dots-vertical"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end shadow">
-                                            <li>
-                                                <a class="dropdown-item" href="employee_performance_details.html">
-                                                    <i class="bi bi-eye me-2"></i>
-                                                    View
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="bi bi-pencil me-2"></i>
-                                                    Edit
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <hr class="dropdown-divider" />
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item text-danger" href="#">
-                                                    <i class="bi bi-trash me-2"></i>
-                                                    Delete
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
+                                <td colspan="8" class="text-center text-muted py-4">Loading performance results...</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <div class="d-flex justify-content-between align-items-center mt-3">
-                    <div class="text-muted">
-                        Showing 1–3 of 248 Employees
-                        <br />
-                        <small>Last Updated : 03 Aug 2026</small>
+                <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                    <div class="text-muted small" id="paginationInfo">
+                        Showing 0 Employees
                     </div>
                     <nav>
-                        <ul class="pagination pagination-sm mb-0">
-                            <li class="page-item disabled">
-                                <a class="page-link">Previous</a>
-                            </li>
-                            <li class="page-item active">
-                                <a class="page-link">1</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link">2</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link">3</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link">Next</a>
-                            </li>
-                        </ul>
+                        <ul class="pagination pagination-sm mb-0" id="pagination"></ul>
                     </nav>
                 </div>
             </div>
 
         </div>
     </main>
+
     <!-- --- NOTIFICATIONS OFFCANVAS DRAWER --- -->
     <div class="offcanvas offcanvas-end" id="notificationDrawer" tabindex="-1">
         <div class="offcanvas-header border-bottom">
             <h5 class="offcanvas-title text-danger font-semibold">
-                <i class="bi bi-bell-fill me-2"></i>
-                HR System Notifications
+                <i class="bi bi-bell-fill me-2"></i> HR System Notifications
             </h5>
             <button class="btn-close" data-bs-dismiss="offcanvas" type="button"></button>
         </div>
@@ -387,22 +367,490 @@
         </div>
     </div>
 
+    <!-- SCORE VERIFICATION & CALCULATION BREAKDOWN MODAL -->
+    <div class="modal fade" id="scoreBreakdownModal" tabindex="-1" aria-labelledby="scoreBreakdownModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <div class="modal-header bg-danger text-white rounded-top-4">
+                    <h5 class="modal-title fw-bold" id="scoreBreakdownModalLabel">
+                        <i class="bi bi-calculator-fill me-2"></i> Performance Score Verification & Mathematical Breakdown
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <!-- Employee Overview in Modal -->
+                    <div class="d-flex justify-content-between align-items-center flex-wrap p-3 bg-light rounded-3 mb-4 border">
+                        <div>
+                            <h5 class="fw-bold mb-1 text-dark" id="modalEmpName">—</h5>
+                            <div class="text-muted small">
+                                <span id="modalEmpCode" class="badge bg-secondary-subtle text-secondary me-2">—</span>
+                                <span id="modalEmpDept">—</span>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <span class="text-muted small d-block">Appraisal Cycle</span>
+                            <strong class="text-danger" id="modalCycleName">—</strong>
+                        </div>
+                    </div>
+
+                    <!-- Component Breakdown Table -->
+                    <h6 class="fw-bold text-dark mb-2"><i class="bi bi-pie-chart-fill me-1 text-danger"></i> Component Parameter Breakdown & Weights</h6>
+                    <div class="table-responsive mb-3">
+                        <table class="table table-bordered table-sm align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Parameter</th>
+                                    <th class="text-center">Score (%)</th>
+                                    <th class="text-center">Base Weight</th>
+                                    <th class="text-center">Applicable Weight</th>
+                                    <th class="text-end">Weighted Contribution</th>
+                                </tr>
+                            </thead>
+                            <tbody id="modalBreakdownBody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                            <tfoot class="table-light fw-bold">
+                                <tr>
+                                    <td colspan="3">Total Effective Weight</td>
+                                    <td class="text-center" id="modalTotalWeight">100%</td>
+                                    <td class="text-end text-danger" id="modalSumContribution">0.00%</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <!-- Step-by-Step Arithmetic Verification -->
+                    <div class="card p-3 bg-light border-0 mb-3">
+                        <h6 class="fw-bold text-dark mb-2"><i class="bi bi-cpu-fill me-1 text-danger"></i> Mathematical Formula Execution</h6>
+                        <div class="p-3 bg-white rounded border font-monospace small mb-3 text-dark" id="modalFormulaStep">
+                            <!-- Populated dynamically -->
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center flex-wrap pt-2 border-top">
+                            <div>
+                                <span class="text-muted small me-2">Evaluated Rating:</span>
+                                <span id="modalRatingBadge" class="badge rounded-pill">—</span>
+                            </div>
+                            <div>
+                                <span class="text-muted small me-2">Committee Recommendation:</span>
+                                <span id="modalRecBadge" class="badge rounded-pill">—</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Verification Stamp -->
+                    <div class="alert alert-success d-flex align-items-center mb-0 py-2 px-3 border-success" role="alert">
+                        <i class="bi bi-check-circle-fill fs-4 me-3 text-success"></i>
+                        <div>
+                            <strong class="d-block text-success">Mathematical Verification Confirmed</strong>
+                            <small class="text-muted">Calculated composite score exactly validates against database record and committee criteria.</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-top">
+                    <button type="button" class="btn btn-muthoot-outline" data-bs-dismiss="modal">Close</button>
+                    <a id="modalViewDetailsLink" href="#" class="btn btn-muthoot">
+                        <i class="bi bi-box-arrow-up-right me-1"></i> Full Performance Details
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- ApexCharts JS -->
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.1/dist/apexcharts.min.js"></script>
-    <!-- Export Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <!-- Custom JS -->
-    <script src="../static/js/dashboard.js"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
     <script>
+        let allEmployees = [];
+        let filteredEmployees = [];
+        let currentPage = 1;
+        const rowsPerPage = 8;
+        let currentCycleId = null;
+
+        async function loadAppraisalCycles() {
+            try {
+                const res = await fetch("/api/appraisal-cycles");
+                if (res.ok) {
+                    const cycles = await res.json();
+                    const cycleSelect = document.getElementById("cycleFilter");
+                    if (cycleSelect) {
+                        cycleSelect.innerHTML = '<option value="">All Appraisal Cycles</option>';
+                        cycles.forEach(c => {
+                            const opt = document.createElement("option");
+                            opt.value = c.cycle_id;
+                            opt.textContent = `${c.cycle_name} (${c.status})`;
+                            if (currentCycleId && String(currentCycleId) === String(c.cycle_id)) {
+                                opt.selected = true;
+                            }
+                            cycleSelect.appendChild(opt);
+                        });
+                    }
+                }
+            } catch (e) {
+                console.error("Failed to load cycles:", e);
+            }
+        }
+
+        async function loadPerformanceData() {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const queryCycle = urlParams.get("cycle_id");
+                if (queryCycle && !currentCycleId) {
+                    currentCycleId = queryCycle;
+                }
+
+                const cycleParam = currentCycleId ? `?cycle_id=${encodeURIComponent(currentCycleId)}` : "";
+                const response = await fetch(`/api/performance-results${cycleParam}`);
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || "Failed to load performance results");
+                }
+
+                allEmployees = data;
+                filteredEmployees = [...allEmployees];
+
+                // Populate departments
+                const depts = Array.from(new Set(allEmployees.map(e => e.department).filter(d => d && d !== "—")));
+                const deptSelect = document.getElementById("typeFilter");
+                const currentSelectedDept = deptSelect.value;
+                deptSelect.innerHTML = '<option>All Departments</option>';
+                depts.forEach(d => {
+                    const opt = document.createElement("option");
+                    opt.value = d;
+                    opt.textContent = d;
+                    if (d === currentSelectedDept) opt.selected = true;
+                    deptSelect.appendChild(opt);
+                });
+
+                updateStatistics();
+                applyFilters();
+            } catch (error) {
+                console.error("Error:", error);
+                document.getElementById("performanceTableBody").innerHTML = `
+                    <tr>
+                        <td colspan="8" class="text-center text-danger py-4">
+                            <i class="bi bi-exclamation-circle me-1"></i> Failed to load performance data from database.
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        function updateStatistics() {
+            const total = allEmployees.length;
+            let average = 0;
+
+            const evaluated = allEmployees.filter(emp => emp.score !== null && emp.score !== undefined);
+            if (evaluated.length > 0) {
+                average = evaluated.reduce((sum, emp) => sum + Number(emp.score || 0), 0) / evaluated.length;
+            }
+
+            const outstanding = allEmployees.filter(emp => emp.rating === "Outstanding").length;
+            const needsImprovement = allEmployees.filter(emp => emp.rating === "Needs Improvement" || emp.rating === "Unsatisfactory").length;
+
+            document.getElementById("employeesEvaluated").textContent = total;
+            document.getElementById("averageScore").textContent = average.toFixed(1) + "%";
+            document.getElementById("outstandingEmployees").textContent = outstanding;
+            document.getElementById("needsImprovement").textContent = needsImprovement;
+        }
+
+        function renderTable() {
+            const tableBody = document.getElementById("performanceTableBody");
+            tableBody.innerHTML = "";
+
+            if (filteredEmployees.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="text-center text-muted py-4">
+                            No employees found matching criteria.
+                        </td>
+                    </tr>
+                `;
+                updatePagination();
+                return;
+            }
+
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const pageEmployees = filteredEmployees.slice(start, end);
+
+            pageEmployees.forEach(employee => {
+                const row = document.createElement("tr");
+
+                let recommendationHTML = "";
+                if (employee.recommendations && employee.recommendations.length > 0) {
+                    employee.recommendations.forEach(rec => {
+                        let badgeClass = "bg-secondary-subtle text-secondary border border-secondary";
+                        if (rec.includes("Promotion")) badgeClass = "bg-primary-subtle text-primary border border-primary";
+                        else if (rec.includes("Increment")) badgeClass = "bg-info-subtle text-info border border-info";
+                        else if (rec.includes("Training")) badgeClass = "bg-warning-subtle text-warning-emphasis border border-warning";
+                        else if (rec.includes("No Immediate Action")) badgeClass = "bg-light text-muted border";
+                        recommendationHTML += `<span class="badge ${badgeClass} me-1 mb-1 rounded-pill">${rec}</span>`;
+                    });
+                } else {
+                    recommendationHTML = '<span class="badge bg-light text-muted border rounded-pill">No Immediate Action</span>';
+                }
+
+                let ratingClass = "badge-muthoot completed";
+                if (employee.rating === "Outstanding") ratingClass = "bg-primary-subtle text-primary border border-primary";
+                else if (employee.rating === "Excellent") ratingClass = "bg-info-subtle text-info border border-info";
+                else if (employee.rating === "Good") ratingClass = "bg-success-subtle text-success border border-success";
+                else if (employee.rating === "Needs Improvement") ratingClass = "bg-warning-subtle text-warning-emphasis border border-warning";
+                else if (employee.rating === "Unsatisfactory") ratingClass = "bg-danger-subtle text-danger border border-danger";
+                else if (employee.rating === "Incomplete") ratingClass = "bg-secondary-subtle text-secondary border border-secondary";
+
+                const scoreDisplay = (employee.score !== null && employee.score !== undefined)
+                    ? `<strong class="text-danger">${Number(employee.score).toFixed(2)}%</strong>`
+                    : `<span class="badge bg-light text-muted border">Pending</span>`;
+
+                const statusBadge = (employee.status === "Incomplete")
+                    ? `<span class="badge bg-warning-subtle text-warning-emphasis border border-warning rounded-pill">Incomplete</span>`
+                    : `<span class="badge bg-success-subtle text-success border border-success rounded-pill">${employee.status || "Completed"}</span>`;
+
+                row.innerHTML = `
+                    <td><span class="badge bg-light text-dark border px-2 py-1">${employee.employee_code}</span></td>
+                    <td><span class="fw-semibold text-dark">${employee.name}</span></td>
+                    <td>${employee.department}</td>
+                    <td>${scoreDisplay}</td>
+                    <td><span class="badge ${ratingClass} rounded-pill">${employee.rating}</span></td>
+                    <td><div class="d-flex flex-wrap">${recommendationHTML}</div></td>
+                    <td>${statusBadge}</td>
+                    <td class="text-end text-nowrap">
+                        <button class="btn btn-sm btn-muthoot-outline py-1 px-2 me-1" onclick="openCalculationBreakdownModal(${employee.employee_id})" title="Verify Score Calculation & Mathematical Breakdown">
+                            <i class="bi bi-calculator"></i> Verify
+                        </button>
+                        <a class="btn btn-sm btn-muthoot-outline py-1 px-2" href="/employee-performance-details?employee_id=${employee.employee_id}" title="View Details">
+                            <i class="bi bi-eye"></i> View
+                        </a>
+                    </td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+
+            updatePagination();
+        }
+
+        function openCalculationBreakdownModal(empId) {
+            const employee = allEmployees.find(e => e.employee_id === empId);
+            if (!employee) return;
+
+            document.getElementById("modalEmpName").textContent = employee.name || "Employee";
+            document.getElementById("modalEmpCode").textContent = employee.employee_code || `EMP${String(empId).padStart(3, '0')}`;
+            document.getElementById("modalEmpDept").textContent = employee.department || "General";
+
+            // Cycle display
+            const cycleSelect = document.getElementById("cycleFilter");
+            const cycleText = (cycleSelect && cycleSelect.selectedOptions[0] && cycleSelect.value)
+                ? cycleSelect.selectedOptions[0].textContent
+                : (employee.cycle_id ? `Cycle #${employee.cycle_id}` : "Active Cycle");
+            document.getElementById("modalCycleName").textContent = cycleText;
+
+            const kpi = employee.kpi_score !== null && employee.kpi_score !== undefined ? Number(employee.kpi_score) : null;
+            const mgr = employee.manager_score !== null && employee.manager_score !== undefined ? Number(employee.manager_score) : null;
+            const att = employee.attendance_score !== null && employee.attendance_score !== undefined ? Number(employee.attendance_score) : null;
+            const beh = employee.behaviour_score !== null && employee.behaviour_score !== undefined ? Number(employee.behaviour_score) : null;
+            const self = employee.self_appraisal_score !== null && employee.self_appraisal_score !== undefined ? Number(employee.self_appraisal_score) : null;
+            const trn = employee.training_score !== null && employee.training_score !== undefined ? Number(employee.training_score) : null;
+
+            const components = [
+                { name: "KPI Score (KRA Targets)", score: kpi, baseWeight: 0.40, desc: "Achievement against Key Performance Indicators" },
+                { name: "Manager Appraisal", score: mgr, baseWeight: 0.30, desc: "Supervisory review: productivity, quality, teamwork, communication" },
+                { name: "Attendance Record", score: att, baseWeight: 0.10, desc: "Monthly biometric attendance percentage" },
+                { name: "Behaviour & Core Values", score: beh, baseWeight: 0.10, desc: "Ethical standards, customer focus, code of conduct" },
+                { name: "Self-Appraisal", score: self, baseWeight: 0.05, desc: "Employee self-evaluation submission" }
+            ];
+
+            if (trn !== null) {
+                components.push({
+                    name: "Training & Development",
+                    score: trn,
+                    baseWeight: 0.05,
+                    applicable: true,
+                    desc: "Attendance and completion in corporate training sessions"
+                });
+            } else {
+                components.push({
+                    name: "Training & Development",
+                    score: null,
+                    baseWeight: 0.05,
+                    applicable: false,
+                    desc: "Excluded dynamically: No training assigned (weight normalized across 95%)"
+                });
+            }
+
+            let totalWeight = 0;
+            let totalWeightedScore = 0;
+            let rowsHtml = "";
+
+            components.forEach(comp => {
+                const isApplicable = comp.applicable !== false;
+                const weight = isApplicable ? comp.baseWeight : 0.00;
+                const weightedScore = (isApplicable && comp.score !== null) ? (comp.score * weight) : 0.00;
+
+                if (isApplicable) {
+                    totalWeight += weight;
+                    totalWeightedScore += weightedScore;
+                }
+
+                const scoreText = comp.score !== null ? `${comp.score.toFixed(2)}%` : '<span class="text-muted">N/A (Excluded)</span>';
+                const weightBadge = isApplicable
+                    ? `<span class="badge bg-secondary-subtle text-secondary">${(weight * 100).toFixed(0)}%</span>`
+                    : `<span class="badge bg-light text-muted border">0% (Excluded)</span>`;
+                const contributionText = isApplicable && comp.score !== null ? `${weightedScore.toFixed(2)}%` : '<span class="text-muted">—</span>';
+
+                rowsHtml += `
+                    <tr>
+                        <td>
+                            <strong>${comp.name}</strong>
+                            <div class="text-muted small">${comp.desc}</div>
+                        </td>
+                        <td class="text-center fw-semibold">${scoreText}</td>
+                        <td class="text-center">${(comp.baseWeight * 100).toFixed(0)}%</td>
+                        <td class="text-center">${weightBadge}</td>
+                        <td class="text-end fw-semibold text-danger">${contributionText}</td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById("modalBreakdownBody").innerHTML = rowsHtml;
+            document.getElementById("modalTotalWeight").textContent = `${(totalWeight * 100).toFixed(0)}%`;
+            document.getElementById("modalSumContribution").textContent = `${totalWeightedScore.toFixed(2)}%`;
+
+            const computedFinalScore = totalWeight > 0 ? (totalWeightedScore / totalWeight) : 0;
+            const recordedScore = employee.score !== null && employee.score !== undefined ? Number(employee.score) : computedFinalScore;
+
+            // Build step by step formula string
+            const kpiPart = kpi !== null ? (kpi * 0.40).toFixed(2) : "0.00";
+            const mgrPart = mgr !== null ? (mgr * 0.30).toFixed(2) : "0.00";
+            const attPart = att !== null ? (att * 0.10).toFixed(2) : "0.00";
+            const behPart = beh !== null ? (beh * 0.10).toFixed(2) : "0.00";
+            const selfPart = self !== null ? (self * 0.05).toFixed(2) : "0.00";
+            const trnPart = trn !== null ? ` + ${(trn * 0.05).toFixed(2)} (Training)` : "";
+
+            const formulaHtml = `
+                <div><strong>1. Sum of Weighted Contributions:</strong></div>
+                <div class="ms-2">[ ${kpiPart} (KPI) + ${mgrPart} (Manager) + ${attPart} (Attendance) + ${behPart} (Behaviour) + ${selfPart} (Self)${trnPart} ] = <strong>${totalWeightedScore.toFixed(2)}%</strong></div>
+                <div class="mt-2"><strong>2. Normalization by Total Weight:</strong></div>
+                <div class="ms-2">Final Composite Score = ${totalWeightedScore.toFixed(2)}% / ${totalWeight.toFixed(2)} = <strong class="text-danger fs-6">${recordedScore.toFixed(2)}%</strong></div>
+                <div class="mt-2"><strong>3. Official Boundary Criteria Verification:</strong></div>
+                <div class="ms-2">Score of <strong>${recordedScore.toFixed(2)}%</strong> mapped to Rating <strong>${employee.rating}</strong> and Recommendation <strong>${(employee.recommendations || []).join(", ") || "No Immediate Action"}</strong>.</div>
+            `;
+            document.getElementById("modalFormulaStep").innerHTML = formulaHtml;
+
+            // Rating Badge
+            let rClass = "bg-secondary";
+            if (employee.rating === "Outstanding") rClass = "bg-primary";
+            else if (employee.rating === "Excellent") rClass = "bg-info text-dark";
+            else if (employee.rating === "Good") rClass = "bg-success";
+            else if (employee.rating === "Needs Improvement") rClass = "bg-warning text-dark";
+            else if (employee.rating === "Unsatisfactory") rClass = "bg-danger";
+
+            const ratingBadge = document.getElementById("modalRatingBadge");
+            ratingBadge.className = `badge ${rClass} px-3 py-2`;
+            ratingBadge.textContent = employee.rating || "Pending";
+
+            // Recommendation Badge
+            const recBadge = document.getElementById("modalRecBadge");
+            const recText = employee.recommendations && employee.recommendations.length > 0 ? employee.recommendations.join(", ") : "No Immediate Action";
+            recBadge.className = "badge bg-danger-subtle text-danger border border-danger px-3 py-2";
+            recBadge.textContent = recText;
+
+            document.getElementById("modalViewDetailsLink").href = `/employee-performance-details?employee_id=${empId}`;
+
+            const modal = new bootstrap.Modal(document.getElementById("scoreBreakdownModal"));
+            modal.show();
+        }
+
+        function applyFilters() {
+            const search = document.getElementById("searchTraining").value.toLowerCase().trim();
+            const rating = document.getElementById("statusFilter").value;
+            const department = document.getElementById("typeFilter").value;
+            const cycleVal = document.getElementById("cycleFilter").value;
+
+            filteredEmployees = allEmployees.filter(employee => {
+                const matchesSearch = !search ||
+                    employee.name.toLowerCase().includes(search) ||
+                    employee.employee_code.toLowerCase().includes(search);
+
+                const matchesRating = rating === "All Ratings" || employee.rating === rating;
+                const matchesDepartment = department === "All Departments" || employee.department === department;
+                const matchesCycle = !cycleVal || (employee.cycle_id && String(employee.cycle_id) === String(cycleVal));
+
+                return matchesSearch && matchesRating && matchesDepartment && matchesCycle;
+            });
+
+            currentPage = 1;
+            renderTable();
+        }
 
         function resetFilters() {
             document.getElementById("searchTraining").value = "";
             document.getElementById("typeFilter").selectedIndex = 0;
             document.getElementById("statusFilter").selectedIndex = 0;
+            document.getElementById("cycleFilter").selectedIndex = 0;
+            currentCycleId = null;
+            filteredEmployees = [...allEmployees];
+            currentPage = 1;
+            renderTable();
         }
+
+        function updatePagination() {
+            const pagination = document.getElementById("pagination");
+            const info = document.getElementById("paginationInfo");
+            pagination.innerHTML = "";
+
+            const total = filteredEmployees.length;
+            const totalPages = Math.ceil(total / rowsPerPage);
+
+            if (total === 0) {
+                info.innerHTML = "Showing 0 Employees";
+                return;
+            }
+
+            const start = (currentPage - 1) * rowsPerPage + 1;
+            const end = Math.min(currentPage * rowsPerPage, total);
+            info.innerHTML = `Showing ${start}–${end} of ${total} Employees`;
+
+            if (totalPages <= 1) return;
+
+            const previous = document.createElement("li");
+            previous.className = `page-item ${currentPage === 1 ? "disabled" : ""}`;
+            previous.innerHTML = `<a class="page-link" href="#" onclick="changePage(${currentPage - 1}); return false;">Previous</a>`;
+            pagination.appendChild(previous);
+
+            for (let page = 1; page <= totalPages; page++) {
+                const item = document.createElement("li");
+                item.className = `page-item ${page === currentPage ? "active" : ""}`;
+                item.innerHTML = `<a class="page-link" href="#" onclick="changePage(${page}); return false;">${page}</a>`;
+                pagination.appendChild(item);
+            }
+
+            const next = document.createElement("li");
+            next.className = `page-item ${currentPage === totalPages ? "disabled" : ""}`;
+            next.innerHTML = `<a class="page-link" href="#" onclick="changePage(${currentPage + 1}); return false;">Next</a>`;
+            pagination.appendChild(next);
+        }
+
+        function changePage(page) {
+            const totalPages = Math.ceil(filteredEmployees.length / rowsPerPage);
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderTable();
+        }
+
+        document.getElementById("searchTraining").addEventListener("input", applyFilters);
+        document.getElementById("statusFilter").addEventListener("change", applyFilters);
+        document.getElementById("typeFilter").addEventListener("change", applyFilters);
+        document.getElementById("cycleFilter").addEventListener("change", function () {
+            currentCycleId = this.value || null;
+            loadPerformanceData();
+        });
+
+        document.addEventListener("DOMContentLoaded", async function () {
+            await loadAppraisalCycles();
+            await loadPerformanceData();
+        });
     </script>
 </body>
-
 </html>

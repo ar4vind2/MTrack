@@ -3,7 +3,8 @@ import os
 import psycopg2
 from dotenv import load_dotenv
 
-load_dotenv()
+dotenv_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+load_dotenv(dotenv_path)
 
 
 def get_required_env(name):

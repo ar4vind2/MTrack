@@ -1,24 +1,22 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="user-role" content="{{ session.get('role_name', 'HR')|lower }}">
     <title>Training Details - Muthoot Appraisal System</title>
 
+    <!-- Google Fonts Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
-
-    <!-- Google Fonts Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet" />
-
-    <!-- Custom Muthoot CSS -->
-    <link href="../static/css/style.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom Muthoot Stitch CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
@@ -30,8 +28,8 @@
     <aside class="sidebar">
         <div class="brand">
             <div class="brand-logo-container">
-                <img alt="Muthoot Finance Logo" class="brand-full-logo" src="../static/images/muthoot-logo.png" />
-                <img alt="Muthoot Finance Icon" class="brand-icon-logo" src="../static/images/muthoot-logo-toggle.png" />
+                <img alt="Muthoot Finance Logo" class="brand-full-logo" src="{{ url_for('static', filename='images/muthoot-logo.png') }}" />
+                <img alt="Muthoot Finance Icon" class="brand-icon-logo" src="{{ url_for('static', filename='images/muthoot-logo-toggle.png') }}" />
             </div>
 
             <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
@@ -39,20 +37,35 @@
             </button>
         </div>
 
-                <ul class="menu" id="sidebarMenu">
+        <ul class="menu" id="sidebarMenu">
             <div class="menu-section-header">HR Administration</div>
-            <li class="" onclick="window.location.href='hr_dashboard.html'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
-            <li class="" onclick="window.location.href='performance_results.html'"><i class="bi bi-award"></i> <span>Performance Results</span></li>
-            <li class="active" onclick="window.location.href='manage_training.html'"><i class="bi bi-mortarboard-fill"></i> <span>Manage Training</span></li>
-            <li class="" onclick="window.location.href='kra_management.html'"><i class="bi bi-bullseye"></i> <span>KRA Management</span></li>
-            <li class="" onclick="window.location.href='kpi_management.html'"><i class="bi bi-speedometer2"></i> <span>KPI Management</span></li>
-            <li class="" onclick="window.location.href='assign_kra.html'"><i class="bi bi-person-check"></i> <span>Assign KRA</span></li>
-            <li class="" onclick="window.location.href='assign_kpi.html'"><i class="bi bi-person-lines-fill"></i> <span>Assign KPI</span></li>
-            <li class="" onclick="window.location.href='kra_kpi_report.html'"><i class="bi bi-file-earmark-bar-graph"></i> <span>KRA / KPI Report</span></li>
+            <li class="" onclick="window.location.href='/hr-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li class="" onclick="window.location.href='/performance-results'"><i class="bi bi-award"></i> <span>Performance Results</span></li>
+            <li class="active" onclick="window.location.href='/manage-training'"><i class="bi bi-mortarboard-fill"></i> <span>Manage Training</span></li>
+            <li class="" onclick="window.location.href='/feedback-360'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
+            <li class="" onclick="window.location.href='/approve-leaves'"><i class="bi bi-calendar-check"></i> <span>Approve Leaves</span></li>
+            <li class="" onclick="window.location.href='/kra-management'"><i class="bi bi-bullseye"></i> <span>KRA Management</span></li>
+            <li class="" onclick="window.location.href='/kpi-management'"><i class="bi bi-speedometer2"></i> <span>KPI Management</span></li>
+            <li class="" onclick="window.location.href='/assign-kra'"><i class="bi bi-person-check"></i> <span>Assign KRA</span></li>
+            <li class="" onclick="window.location.href='/assign-kpi'"><i class="bi bi-person-lines-fill"></i> <span>Assign KPI</span></li>
+            <li class="" onclick="window.location.href='/kpi-records'"><i class="bi bi-speedometer2"></i> <span>KPI Records</span></li>
+            <li class="" onclick="window.location.href='/appraisal-cycles'"><i class="bi bi-calendar-range"></i> <span>Appraisal Cycles</span></li>
+            <li class="" onclick="window.location.href='/kra-kpi-report'"><i class="bi bi-file-earmark-bar-graph"></i> <span>KRA / KPI Report</span></li>
+            <div class="menu-section-header">Organization & Staff</div>
+            <li class="" onclick="window.location.href='/admin/employees'"><i class="bi bi-people-fill"></i> <span>Employee Directory</span></li>
+            <li class="" onclick="window.location.href='/admin/hierarchy'"><i class="bi bi-diagram-3-fill"></i> <span>Employee Hierarchy</span></li>
+            <li class="" onclick="window.location.href='/admin/departments'"><i class="bi bi-building"></i> <span>Departments</span></li>
+            <li class="" onclick="window.location.href='/admin/branches'"><i class="bi bi-geo-alt-fill"></i> <span>Branches</span></li>
+            <li class="" onclick="window.location.href='/admin/designations'"><i class="bi bi-award-fill"></i> <span>Designations</span></li>
+            <li class="" onclick="window.location.href='/admin/users'"><i class="bi bi-person-badge-fill"></i> <span>User Accounts</span></li>
             <div class="menu-section-header">Account</div>
-            <li class="" onclick="window.location.href='profile.html'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
-            <li onclick="window.location.href='login.html'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
+            <li class="" onclick="window.location.href='/profile'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
+            <li onclick="window.location.href='/logout'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
         </ul>
+        <div class="sidebar-footer-badge">
+            <span>System Build v4.8.2</span>
+            <span class="status-pill">Stable</span>
+        </div>
     </aside>
 
     <!-- MAIN CONTENT -->
@@ -60,595 +73,219 @@
 
         <!-- TOPBAR -->
         <nav class="topbar">
-
             <div class="topbar-left">
-
                 <button class="topbar-icon-btn d-lg-none" onclick="toggleSidebar()" title="Open Menu">
                     <i class="bi bi-list"></i>
                 </button>
-
-                <h4>
-                    Welcome, Sunitha Varma
-                    <span class="text-muted fs-6 font-normal">(Head of HR)</span>
-                </h4>
-
+                <h4>Training Program Details</h4>
             </div>
 
             <div class="topbar-right">
-
                 <div class="topbar-icons">
-
-                    <button class="topbar-icon-btn" data-bs-target="#notificationDrawer" data-bs-toggle="offcanvas"
-                        type="button">
-
+                    <button class="topbar-icon-btn" data-bs-target="#notificationDrawer" data-bs-toggle="offcanvas" type="button">
                         <i class="bi bi-bell"></i>
-                        <span class="notification-badge">4</span>
-
+                        <span class="notification-badge" id="unreadBadge" style="display: none;">0</span>
                     </button>
-
                     <button class="topbar-icon-btn" onclick="generatePDFReport('Training Details')">
-
                         <i class="bi bi-file-earmark-pdf"></i>
-
                     </button>
-
                     <button class="topbar-icon-btn" onclick="generateExcelReport('Training_Details')">
-
                         <i class="bi bi-file-earmark-excel"></i>
-
                     </button>
-
                 </div>
 
-                <div class="user-badge">
-
-                    <img alt="Sunitha Varma"
-                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100" />
-
-                    <div class="user-badge-info">
-
-                        <span class="user-badge-name">
-                            Sunitha Varma
-                        </span>
-
-                        <span class="user-badge-role">
-                            Head Office
-                        </span>
-
+                <div class="user-badge" onclick="window.location.href='{{ url_for('dashboard.profile') }}'" style="cursor: pointer;">
+                    <div class="user-avatar-circle">
+                        <i class="bi bi-person-fill"></i>
                     </div>
-
+                    <div class="user-badge-info">
+                        <span class="user-badge-name">{{ session.get('username', 'HR Admin') }}</span>
+                        <span id="userBadgeRole" class="user-badge-role">{{ session.get('role_name', 'Human Resources') }}</span>
+                    </div>
                 </div>
-
             </div>
-
         </nav>
 
         <!-- PAGE CONTENT -->
-        <div class="dashboard-view active" id="training-details-view">
+        <div class="dashboard-view active" id="hr-view">
 
             <!-- PAGE HEADER -->
             <div class="d-flex justify-content-between align-items-center mb-4">
-
                 <div>
-
-                    <h3 class="fw-bold">
-                        Training Details
-                    </h3>
-
-                    <p class="text-muted mb-0">
-                        View training information and monitor assigned employee progress.
-                    </p>
-
+                    <h3 class="fw-bold">Training Details</h3>
+                    <p class="text-muted mb-0">View training information and monitor assigned employee progress.</p>
                 </div>
-
-                <a href="manage_training.html" class="btn btn-muthoot-outline">
-
-                    <i class="bi bi-arrow-left me-2"></i>
-                    Back to Training Management
-
-                </a>
-
+                <button class="btn btn-muthoot-outline" onclick="window.location.href='/manage-training'">
+                    <i class="bi bi-arrow-left me-1"></i> Back to Trainings
+                </button>
             </div>
 
-            <!-- TRAINING INFORMATION -->
+            <!-- TRAINING INFORMATION CARD -->
             <div class="card-muthoot mb-4">
-
-                <div class="card-title-muthoot">
-
-                    <span>
-                        <i class="bi bi-book me-2"></i>
-                        Training Information
-                    </span>
-
+                <div class="card-title-muthoot mb-3">
+                    <i class="bi bi-info-circle-fill me-2"></i> Training Information
                 </div>
 
-                <div class="row g-4">
-
-                    <div class="col-md-6">
-
-                        <label class="form-label text-muted">
-                            Training ID
-                        </label>
-
-                        <div class="fw-semibold">
-                            TR001
-                        </div>
-
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label text-muted small">Training ID</label>
+                        <div class="fw-semibold" id="trainingId">—</div>
                     </div>
 
-                    <div class="col-md-6">
-
-                        <label class="form-label text-muted">
-                            Training Name
-                        </label>
-
-                        <div class="fw-semibold">
-                            Python Basics
-                        </div>
-
+                    <div class="col-md-4">
+                        <label class="form-label text-muted small">Training Name</label>
+                        <div class="fw-semibold" id="trainingName">—</div>
                     </div>
 
-                    <div class="col-md-6">
-
-                        <label class="form-label text-muted">
-                            Training Type
-                        </label>
-
-                        <div class="fw-semibold">
-                            Technical
-                        </div>
-
+                    <div class="col-md-4">
+                        <label class="form-label text-muted small">Training Type</label>
+                        <div class="fw-semibold" id="trainingType">—</div>
                     </div>
 
-                    <div class="col-md-6">
-
-                        <label class="form-label text-muted">
-                            Trainer
-                        </label>
-
-                        <div class="fw-semibold">
-                            John Mathew
-                        </div>
-
+                    <div class="col-md-4">
+                        <label class="form-label text-muted small">Trainer</label>
+                        <div class="fw-semibold" id="trainerName">—</div>
                     </div>
 
-                    <div class="col-md-6">
-
-                        <label class="form-label text-muted">
-                            Start Date
-                        </label>
-
-                        <div class="fw-semibold">
-                            01 August 2026
-                        </div>
-
+                    <div class="col-md-4">
+                        <label class="form-label text-muted small">Start Date</label>
+                        <div class="fw-semibold" id="startDate">—</div>
                     </div>
 
-                    <div class="col-md-6">
-
-                        <label class="form-label text-muted">
-                            End Date
-                        </label>
-
-                        <div class="fw-semibold">
-                            03 August 2026
-                        </div>
-
+                    <div class="col-md-4">
+                        <label class="form-label text-muted small">End Date</label>
+                        <div class="fw-semibold" id="endDate">—</div>
                     </div>
 
                     <div class="col-12">
-
-                        <label class="form-label text-muted">
-                            Description
-                        </label>
-
-                        <div class="text-muted">
-                            Introduction to Python programming concepts,
-                            syntax, functions, and basic application development.
-                        </div>
-
+                        <label class="form-label text-muted small">Description / Remarks</label>
+                        <div class="text-muted" id="trainingDescription">—</div>
                     </div>
-
                 </div>
-
             </div>
 
             <!-- ASSIGNED EMPLOYEES -->
             <div class="card-muthoot">
-
-                <div class="card-title-muthoot d-flex justify-content-between align-items-center flex-wrap">
-
+                <div class="card-title-muthoot d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
                     <span>
-                        <i class="bi bi-people-fill me-2"></i>
-                        Assigned Employees
+                        <i class="bi bi-people-fill me-2"></i> Assigned Employees
                     </span>
 
-                    <span class="text-muted small">
-                        4 Employees Assigned
-                    </span>
-
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="text-muted small" id="assignedEmployeeCount">0 Employees Assigned</span>
+                        <button type="button" class="btn btn-sm btn-muthoot-outline" onclick="openAddSessionDirectly()">
+                            <i class="bi bi-plus-circle me-1"></i> Add Session
+                        </button>
+                        <button type="button" class="btn btn-sm btn-muthoot" onclick="openAttendanceModal()">
+                            <i class="bi bi-calendar-check me-1"></i> Training Attendance & Sessions
+                        </button>
+                    </div>
                 </div>
 
                 <!-- FILTERS -->
                 <div class="row g-2 mb-3">
-
-                    <!-- Search -->
                     <div class="col-md-4">
-
                         <div class="input-group">
-
-                            <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
-
+                            <span class="input-group-text"><i class="bi bi-search"></i></span>
                             <input id="employeeSearch" class="form-control" placeholder="Search Employee" type="text" />
-
                         </div>
-
                     </div>
 
-                    <!-- Department -->
                     <div class="col-md-3">
-
                         <select id="departmentFilter" class="form-select">
-
-                            <option value="all">
-                                All Departments
-                            </option>
-
-                            <option value="Finance">
-                                Finance
-                            </option>
-
-                            <option value="HR">
-                                HR
-                            </option>
-
-                            <option value="Operations">
-                                Operations
-                            </option>
-
-                            <option value="IT">
-                                IT
-                            </option>
-
+                            <option value="all">All Departments</option>
                         </select>
-
                     </div>
 
-                    <!-- Status -->
                     <div class="col-md-3">
-
                         <select id="employeeStatusFilter" class="form-select">
-
-                            <option value="all">
-                                All Status
-                            </option>
-
-                            <option value="Completed">
-                                Completed
-                            </option>
-
-                            <option value="In Progress">
-                                In Progress
-                            </option>
-
-                            <option value="Pending">
-                                Pending
-                            </option>
-
+                            <option value="all">All Status</option>
+                            <option value="Completed">Completed</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Pending">Pending</option>
                         </select>
-
                     </div>
 
-                    <!-- Reset -->
                     <div class="col-md-2">
-
-                        <button class="btn btn-muthoot-outline w-100" onclick="resetEmployeeFilters()">
-
-                            Reset
-
-                        </button>
-
+                        <button class="btn btn-muthoot-outline w-100" onclick="resetEmployeeFilters()">Reset</button>
                     </div>
-
                 </div>
 
                 <!-- EMPLOYEE TABLE -->
                 <div class="table-responsive">
-
                     <table class="table table-muthoot align-middle">
-
                         <thead>
-
                             <tr>
-
                                 <th>Employee ID</th>
-
-                                <th>Employee</th>
-
+                                <th>Employee Name</th>
                                 <th>Department</th>
-
                                 <th>Status</th>
-
                                 <th>Score</th>
-
                                 <th>Certificate</th>
-
                                 <th>History</th>
-
                             </tr>
-
                         </thead>
-
                         <tbody id="employeeTableBody">
-
-                            <!-- EMPLOYEE 1 -->
-                            <tr data-employee="Rahul Nair" data-department="Finance" data-status="Completed">
-
-                                <td>
-                                    EMP001
-                                </td>
-
-                                <td>
-                                    <span class="fw-semibold">
-                                        Rahul Nair
-                                    </span>
-                                </td>
-
-                                <td>
-                                    Finance
-                                </td>
-
-                                <td>
-
-                                    <span class="badge-muthoot completed">Completed</span>
-
-                                </td>
-
-                                <td>
-                                    <span class="fw-semibold">
-                                        92
-                                    </span>
-                                </td>
-
-                                <td>
-
-                                    <div class="d-flex gap-1">
-                                        <button class="btn btn-sm btn-outline-success"
-                                            onclick="viewCertificate('Rahul Nair')" title="View Certificate">
-                                            <i class="bi bi-eye"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger"
-                                            onclick="removeCertificate('Rahul Nair')" title="Remove Certificate">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </div>
-
-                                </td>
-
-                                <td>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary"
-                                        onclick="viewTrainingHistory('Rahul Nair', 'EMP001', 'Finance')"
-                                        title="View Training History">
-                                        <i class="bi bi-clock-history me-1"></i>
-                                        History
-                                    </button>
-                                </td>
-
+                            <tr>
+                                <td colspan="7" class="text-center text-muted py-4">Loading assigned employees...</td>
                             </tr>
-
-                            <!-- EMPLOYEE 2 -->
-                            <tr data-employee="Anjali Thomas" data-department="HR" data-status="Pending">
-
-                                <td>
-                                    EMP002
-                                </td>
-
-                                <td>
-                                    <span class="fw-semibold">
-                                        Anjali Thomas
-                                    </span>
-                                </td>
-
-                                <td>
-                                    HR
-                                </td>
-
-                                <td>
-
-                                    <span class="badge-muthoot review">Pending</span>
-
-                                </td>
-
-                                <td>
-                                    —
-                                </td>
-
-                                <td>
-
-                                    <span class="text-muted small">—</span>
-
-                                </td>
-
-                                <td>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary"
-                                        onclick="viewTrainingHistory('Anjali Thomas', 'EMP002', 'HR')"
-                                        title="View Training History">
-                                        <i class="bi bi-clock-history me-1"></i>
-                                        History
-                                    </button>
-                                </td>
-
-                            </tr>
-
-                            <!-- EMPLOYEE 3 -->
-                            <tr data-employee="Arun Joseph" data-department="Operations" data-status="Completed">
-
-                                <td>
-                                    EMP003
-                                </td>
-
-                                <td>
-                                    <span class="fw-semibold">
-                                        Arun Joseph
-                                    </span>
-                                </td>
-
-                                <td>
-                                    Operations
-                                </td>
-
-                                <td>
-
-                                    <span class="badge-muthoot completed">Completed</span>
-
-                                </td>
-
-                                <td>
-                                    <span class="fw-semibold">
-                                        88
-                                    </span>
-                                </td>
-
-                                <td>
-
-                                    <button class="btn btn-sm btn-outline-primary"
-                                        onclick="openCertificateUpload('Arun Joseph')">
-                                        <i class="bi bi-upload me-1"></i>
-                                        Upload
-                                    </button>
-
-                                </td>
-
-                                <td>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary"
-                                        onclick="viewTrainingHistory('Arun Joseph', 'EMP003', 'Operations')"
-                                        title="View Training History">
-                                        <i class="bi bi-clock-history me-1"></i>
-                                        History
-                                    </button>
-                                </td>
-
-                            </tr>
-
-                            <!-- EMPLOYEE 4 -->
-                            <tr data-employee="Priya Menon" data-department="IT" data-status="In Progress">
-
-                                <td>
-                                    EMP004
-                                </td>
-
-                                <td>
-                                    <span class="fw-semibold">
-                                        Priya Menon
-                                    </span>
-                                </td>
-
-                                <td>
-                                    IT
-                                </td>
-
-                                <td>
-
-                                    <span class="badge bg-primary">
-                                        In Progress
-                                    </span>
-
-                                </td>
-
-                                <td>
-                                    —
-                                </td>
-
-                                <td>
-
-                                    <span class="text-muted small">—</span>
-
-                                </td>
-
-                                <td>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary"
-                                        onclick="viewTrainingHistory('Priya Menon', 'EMP004', 'IT')"
-                                        title="View Training History">
-                                        <i class="bi bi-clock-history me-1"></i>
-                                        History
-                                    </button>
-                                </td>
-
-                            </tr>
-
                         </tbody>
-
                     </table>
-
                 </div>
 
-                <!-- EMPTY RESULT MESSAGE -->
                 <div id="noEmployeesMessage" class="text-center text-muted py-4 d-none">
-
                     <i class="bi bi-search fs-4 d-block mb-2"></i>
-
                     No employees found matching the selected filters.
-
                 </div>
-
             </div>
 
         </div>
 
     </main>
 
-    <!-- CERTIFICATE MODAL -->
+    <!-- CERTIFICATE UPLOAD / VIEW MODAL -->
     <div class="modal fade" id="certificateModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-danger text-white rounded-top-4">
                     <h5 class="modal-title" id="certificateModalTitle">
-                        <i class="bi bi-file-earmark-text me-2"></i>
-                        Certificate
+                        <i class="bi bi-file-earmark-text me-2"></i> Certificate
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <div id="viewCertificateSection" class="text-center py-3">
-                        <i class="bi bi-file-earmark-pdf text-danger fs-1"></i>
-                        <h6 class="mt-3 mb-1" id="certificateEmployee">Rahul Nair</h6>
-                        <p class="text-muted mb-3">Python Basics Certificate</p>
-                        <div class="d-flex justify-content-center gap-2">
-                            <button type="button" class="btn btn-muthoot-outline">
-                                <i class="bi bi-eye me-2"></i>
-                                View Certificate
-                            </button>
-                            <button type="button" class="btn btn-outline-danger"
-                                onclick="removeCertificate(document.getElementById('certificateEmployee').textContent); bootstrap.Modal.getInstance(document.getElementById('certificateModal')).hide();">
-                                <i class="bi bi-trash me-2"></i>
-                                Remove
-                            </button>
+                    <div id="uploadCertificateSection">
+                        <div class="mb-2">
+                            <label class="form-label text-muted small mb-0">Employee</label>
+                            <div class="fw-semibold" id="uploadEmployeeName">—</div>
                         </div>
-                    </div>
-                    <div id="uploadCertificateSection" class="d-none">
-                        <div class="mb-3">
-                            <label class="form-label">Employee</label>
-                            <div class="fw-semibold" id="uploadEmployeeName">Arun Joseph</div>
+
+                        <div class="mb-2">
+                            <label class="form-label text-muted small mb-0">Employee Code</label>
+                            <div class="fw-semibold" id="uploadEmployeeId">—</div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Training</label>
-                            <div class="fw-semibold">Python Basics</div>
+
+                        <div class="mb-2">
+                            <label class="form-label text-muted small mb-0">Department</label>
+                            <div class="fw-semibold" id="uploadEmployeeDepartment">—</div>
                         </div>
+
+                        <div class="mb-2">
+                            <label class="form-label text-muted small mb-0">Training Program</label>
+                            <div class="fw-semibold" id="uploadTrainingName">—</div>
+                        </div>
+
                         <div class="mb-3">
-                            <label class="form-label">Certificate File</label>
+                            <label class="form-label font-medium">Select Certificate File</label>
                             <input type="file" class="form-control" id="certificateFile" accept=".pdf,.jpg,.jpeg,.png">
-                            <small class="text-muted">Accepted formats: PDF, JPG, JPEG, PNG</small>
+                            <small class="text-muted">Accepted formats: PDF, JPG, JPEG, PNG (Max 10MB)</small>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-muthoot-outline px-4" data-bs-dismiss="modal">
-                        Cancel
-                    </button>
-                    <button type="button" id="uploadCertificateButton" class="btn btn-muthoot px-4 d-none"
-                        onclick="uploadCertificate()">
-                        <i class="bi bi-upload me-2"></i>
-                        Upload Certificate
+                    <button type="button" class="btn btn-muthoot-outline px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="uploadCertificateButton" class="btn btn-muthoot px-4" onclick="uploadCertificate()">
+                        <i class="bi bi-upload me-2"></i> Upload Certificate
                     </button>
                 </div>
             </div>
@@ -661,13 +298,12 @@
             <div class="modal-content">
                 <div class="modal-header bg-danger text-white rounded-top-4">
                     <div>
-                        <h5 class="modal-title">
-                            <i class="bi bi-clock-history me-2"></i>
-                            Employee Training History
+                        <h5 class="modal-title mb-0">
+                            <i class="bi bi-clock-history me-2"></i> Employee Training History
                         </h5>
-                        <small class="text-muted" id="historyEmployeeInfo"></small>
+                        <small class="text-white-50" id="historyEmployeeInfo"></small>
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
 
                 <div class="modal-body">
@@ -683,15 +319,106 @@
                                     <th>Certificate</th>
                                 </tr>
                             </thead>
-                            <tbody id="trainingHistoryTableBody"></tbody>
+                            <tbody id="trainingHistoryTableBody">
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted py-4">No records found.</td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-muthoot-outline px-4" data-bs-dismiss="modal">
-                        Close
-                    </button>
+                    <button type="button" class="btn btn-muthoot-outline px-4" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TRAINING ATTENDANCE & SESSIONS MODAL -->
+    <div class="modal fade" id="attendanceModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white rounded-top-4">
+                    <div>
+                        <h5 class="modal-title mb-0">
+                            <i class="bi bi-calendar-check me-2"></i> Training Attendance & Sessions
+                        </h5>
+                        <small class="text-white-50" id="attendanceTrainingInfo">—</small>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <!-- SESSION SELECTION & ADD -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-8">
+                            <label class="form-label font-medium">Training Session</label>
+                            <select id="attendanceSessionSelect" class="form-select">
+                                <option value="">Select a session</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button type="button" class="btn btn-muthoot w-100" onclick="showAddSessionForm()">
+                                <i class="bi bi-plus-circle me-1"></i> Add New Session
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ADD SESSION FORM (COLLAPSIBLE) -->
+                    <div id="addSessionForm" class="card border mb-4 d-none">
+                        <div class="card-body">
+                            <h6 class="fw-semibold text-danger mb-3">Add New Training Session</h6>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label class="form-label small">Session Date <span class="text-danger">*</span></label>
+                                    <input type="date" id="sessionDate" class="form-control">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small">Session Name</label>
+                                    <input type="text" id="sessionName" class="form-control" placeholder="e.g. AML Session 1 - KYC Verification">
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label small">Start Time</label>
+                                    <input type="time" id="sessionStartTime" class="form-control">
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label small">End Time</label>
+                                    <input type="time" id="sessionEndTime" class="form-control">
+                                </div>
+                            </div>
+                            <div class="text-end mt-3">
+                                <button type="button" class="btn btn-sm btn-muthoot-outline me-2" onclick="hideAddSessionForm()">Cancel</button>
+                                <button type="button" class="btn btn-sm btn-muthoot" onclick="addTrainingSession()">
+                                    <i class="bi bi-check-circle me-1"></i> Save Session
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ATTENDANCE TABLE -->
+                    <div class="table-responsive">
+                        <table class="table table-muthoot align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Employee ID</th>
+                                    <th>Employee Name</th>
+                                    <th>Department</th>
+                                    <th>Attendance Status</th>
+                                    <th>Attendance Score</th>
+                                </tr>
+                            </thead>
+                            <tbody id="attendanceTableBody">
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted py-4">Select a training session to mark attendance.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-muthoot-outline px-4" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -699,60 +426,175 @@
 
     <!-- NOTIFICATIONS -->
     <div class="offcanvas offcanvas-end" id="notificationDrawer" tabindex="-1">
-
         <div class="offcanvas-header border-bottom">
-
             <h5 class="offcanvas-title text-danger font-semibold">
-
-                <i class="bi bi-bell-fill me-2"></i>
-                HR System Notifications
-
+                <i class="bi bi-bell-fill me-2"></i> HR System Notifications
             </h5>
-
-            <button class="btn-close" data-bs-dismiss="offcanvas" type="button">
-            </button>
-
+            <button class="btn-close" data-bs-dismiss="offcanvas" type="button"></button>
         </div>
-
         <div class="offcanvas-body">
-
             <div id="notificationList"></div>
-
         </div>
-
     </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
     <!-- Custom JS -->
-    <script src="../static/js/dashboard.js"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 
     <script>
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content || "{{ csrf_token() }}";
+        
+        function getTrainingId() {
+            const params = new URLSearchParams(window.location.search);
+            let id = params.get("training_id") || params.get("program_id");
+            if (!id) {
+                const parts = window.location.pathname.split("/").filter(Boolean);
+                const last = parts[parts.length - 1];
+                if (/^\d+$/.test(last)) {
+                    id = last;
+                }
+            }
+            return id;
+        }
+
+        const currentTrainingId = getTrainingId();
+        let assignedEmployeesList = [];
+
+        async function loadTrainingDetails() {
+            if (!currentTrainingId) {
+                alert("Training ID is required to view details.");
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/training/${currentTrainingId}`);
+                const training = await response.json();
+
+                if (!response.ok) {
+                    alert(training.error || "Failed to load training details.");
+                    return;
+                }
+
+                document.getElementById("trainingId").textContent = training.training_code || ("TR" + String(training.training_id).padStart(3, "0"));
+                document.getElementById("trainingName").textContent = training.training_name || "—";
+                document.getElementById("trainingType").textContent = training.training_type || "—";
+                document.getElementById("trainerName").textContent = training.trainer_name || "—";
+                document.getElementById("startDate").textContent = training.start_date || "—";
+                document.getElementById("endDate").textContent = training.end_date || "—";
+                document.getElementById("trainingDescription").textContent = training.remarks || "—";
+                document.getElementById("attendanceTrainingInfo").textContent = `${training.training_name} (${training.training_code})`;
+            } catch (error) {
+                console.error("Training Details Error:", error);
+            }
+        }
+        loadTrainingDetails();
+
+        async function loadAssignedEmployees() {
+            if (!currentTrainingId) return;
+
+            try {
+                const response = await fetch(`/api/training/${currentTrainingId}/employees`);
+                const employees = await response.json();
+
+                if (!response.ok) {
+                    console.error(employees.error || "Failed to load employees.");
+                    return;
+                }
+
+                assignedEmployeesList = employees;
+                document.getElementById("assignedEmployeeCount").textContent = `${employees.length} Employees Assigned`;
+
+                // Populate departments dropdown
+                const depts = Array.from(new Set(employees.map(e => e.department).filter(Boolean)));
+                const deptSelect = document.getElementById("departmentFilter");
+                deptSelect.innerHTML = '<option value="all">All Departments</option>';
+                depts.forEach(d => {
+                    deptSelect.innerHTML += `<option value="${d}">${d}</option>`;
+                });
+
+                renderAssignedEmployees(employees);
+            } catch (error) {
+                console.error("Assigned Employees Error:", error);
+            }
+        }
+        loadAssignedEmployees();
+
+        function renderAssignedEmployees(employees) {
+            const tableBody = document.querySelector("#employeeTableBody");
+            if (!tableBody) return;
+
+            if (employees.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="7" class="text-center text-muted py-4">No employees assigned to this training.</td></tr>';
+                return;
+            }
+
+            tableBody.innerHTML = "";
+            employees.forEach(employee => {
+                const statusClass = employee.status === "Completed"
+                    ? "bg-success text-white"
+                    : employee.status === "In Progress"
+                        ? "bg-primary text-white"
+                        : "bg-warning text-dark";
+
+                const score = employee.score !== null ? employee.score : "—";
+                const safeName = (employee.employee_name || "").replace(/'/g, "\\'");
+                const safeDept = (employee.department || "").replace(/'/g, "\\'");
+                const certificateHtml = employee.certificate
+                    ? `
+                    <div class="d-flex gap-1 flex-wrap">
+                        <button type="button" class="btn btn-sm btn-outline-success" onclick="viewCertificate(${employee.employee_id})" title="View Certificate">
+                            <i class="bi bi-eye"></i> View
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="openCertificateUpload('${safeName}', ${employee.employee_id}, '${employee.employee_code}', '${safeDept}')" title="Re-upload Certificate">
+                            <i class="bi bi-arrow-repeat"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeCertificate('${safeName}', ${employee.employee_id})" title="Remove Certificate">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>`
+                    : `
+                    <button type="button" class="btn btn-sm btn-muthoot" onclick="openCertificateUpload('${safeName}', ${employee.employee_id}, '${employee.employee_code}', '${safeDept}')" title="Upload and issue certificate">
+                        <i class="bi bi-upload me-1"></i> Issue Certificate
+                    </button>`;
+
+                const row = document.createElement("tr");
+                row.dataset.employee = employee.employee_name;
+                row.dataset.department = employee.department;
+                row.dataset.status = employee.status;
+
+                row.innerHTML = `
+                    <td><strong>${employee.employee_code}</strong></td>
+                    <td><span class="fw-semibold">${employee.employee_name}</span></td>
+                    <td>${employee.department}</td>
+                    <td><span class="badge ${statusClass}">${employee.status}</span></td>
+                    <td>${score}</td>
+                    <td>${certificateHtml}</td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="viewTrainingHistory('${employee.employee_name}', ${employee.employee_id}, '${employee.employee_code}', '${employee.department}')" title="View History">
+                            <i class="bi bi-clock-history me-1"></i> History
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
         function filterEmployees() {
             const searchValue = document.getElementById("employeeSearch").value.toLowerCase().trim();
             const department = document.getElementById("departmentFilter").value;
             const status = document.getElementById("employeeStatusFilter").value;
-            const rows = document.querySelectorAll("#employeeTableBody tr");
-            let visibleCount = 0;
 
-            rows.forEach(row => {
-                const employee = row.dataset.employee.toLowerCase();
-                const rowDepartment = row.dataset.department;
-                const rowStatus = row.dataset.status;
-                const matchesSearch = employee.includes(searchValue);
-                const matchesDepartment = department === "all" || rowDepartment === department;
-                const matchesStatus = status === "all" || rowStatus === status;
-
-                if (matchesSearch && matchesDepartment && matchesStatus) {
-                    row.style.display = "";
-                    visibleCount++;
-                } else {
-                    row.style.display = "none";
-                }
+            const filtered = assignedEmployeesList.filter(employee => {
+                const matchesSearch = employee.employee_name.toLowerCase().includes(searchValue) ||
+                                      employee.employee_code.toLowerCase().includes(searchValue);
+                const matchesDept = department === "all" || employee.department === department;
+                const matchesStatus = status === "all" || employee.status === status;
+                return matchesSearch && matchesDept && matchesStatus;
             });
 
-            document.getElementById("noEmployeesMessage").classList.toggle("d-none", visibleCount !== 0);
+            renderAssignedEmployees(filtered);
+            document.getElementById("noEmployeesMessage").classList.toggle("d-none", filtered.length !== 0);
         }
 
         document.getElementById("employeeSearch").addEventListener("input", filterEmployees);
@@ -763,260 +605,339 @@
             document.getElementById("employeeSearch").value = "";
             document.getElementById("departmentFilter").value = "all";
             document.getElementById("employeeStatusFilter").value = "all";
-            filterEmployees();
+            renderAssignedEmployees(assignedEmployeesList);
+            document.getElementById("noEmployeesMessage").classList.add("d-none");
         }
 
-        const trainingHistory = {
-            "Rahul Nair": [
-                {
-                    training: "Python Basics",
-                    type: "Technical",
-                    dates: "01 Aug - 03 Aug 2026",
-                    status: "Completed",
-                    score: "92",
-                    certificate: true
-                },
-                {
-                    training: "Cyber Security",
-                    type: "Compliance",
-                    dates: "10 Jul - 12 Jul 2026",
-                    status: "Completed",
-                    score: "88",
-                    certificate: true
-                },
-                {
-                    training: "Customer Handling",
-                    type: "Soft Skills",
-                    dates: "15 Jun - 17 Jun 2026",
-                    status: "Completed",
-                    score: "85",
-                    certificate: true
-                }
-            ],
-            "Anjali Thomas": [
-                {
-                    training: "Python Basics",
-                    type: "Technical",
-                    dates: "01 Aug - 03 Aug 2026",
-                    status: "Pending",
-                    score: "—",
-                    certificate: false
-                },
-                {
-                    training: "Workplace Communication",
-                    type: "Soft Skills",
-                    dates: "05 Jul - 06 Jul 2026",
-                    status: "Completed",
-                    score: "90",
-                    certificate: true
-                }
-            ],
-            "Arun Joseph": [
-                {
-                    training: "Python Basics",
-                    type: "Technical",
-                    dates: "01 Aug - 03 Aug 2026",
-                    status: "Completed",
-                    score: "88",
-                    certificate: false
-                },
-                {
-                    training: "Leadership Skills",
-                    type: "Soft Skills",
-                    dates: "18 Jun - 20 Jun 2026",
-                    status: "Completed",
-                    score: "84",
-                    certificate: true
-                }
-            ],
-            "Priya Menon": [
-                {
-                    training: "Python Basics",
-                    type: "Technical",
-                    dates: "01 Aug - 03 Aug 2026",
-                    status: "In Progress",
-                    score: "—",
-                    certificate: false
-                },
-                {
-                    training: "Data Security Awareness",
-                    type: "Compliance",
-                    dates: "08 Jul - 09 Jul 2026",
-                    status: "Completed",
-                    score: "91",
-                    certificate: true
-                }
-            ]
-        };
-
-        function viewTrainingHistory(employeeName, employeeId, department) {
-            const history = trainingHistory[employeeName] || [];
+        async function viewTrainingHistory(employeeName, employeeId, employeeCode, department) {
+            document.getElementById("historyEmployeeInfo").textContent = `${employeeName} • ${employeeCode} • ${department}`;
             const tableBody = document.getElementById("trainingHistoryTableBody");
+            tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4"><div class="spinner-border spinner-border-sm me-2"></div> Loading training history...</td></tr>';
 
-            document.getElementById("historyEmployeeInfo").textContent =
-                `${employeeName} • ${employeeId} • ${department}`;
+            try {
+                const response = await fetch(`/api/training/employee/${employeeId}/history`);
+                const history = await response.json();
 
-            if (history.length === 0) {
-                tableBody.innerHTML = `
-                    <tr>
-                        <td colspan="6" class="text-center text-muted py-4">
-                            No training history available.
-                        </td>
-                    </tr>`;
-            } else {
-                tableBody.innerHTML = history.map(record => {
-                    const statusClass =
-                        record.status === "Completed"
-                            ? "bg-success"
+                if (!response.ok || history.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="6" class="text-center text-muted py-4">No training history available.</td></tr>';
+                } else {
+                    tableBody.innerHTML = history.map(record => {
+                        const statusClass = record.status === "Completed"
+                            ? "bg-success text-white"
                             : record.status === "In Progress"
-                                ? "bg-primary"
+                                ? "bg-primary text-white"
                                 : "bg-warning text-dark";
 
-                    const certificate = record.certificate
-                        ? `<button type="button" class="btn btn-sm btn-outline-success"
-                            onclick="viewHistoryCertificate('${employeeName}')"
-                            title="View Certificate">
-                            <i class="bi bi-file-earmark-text me-1"></i>
-                            View
-                           </button>`
-                        : `<span class="text-muted small">—</span>`;
+                        const cert = record.certificate
+                            ? `<button type="button" class="btn btn-sm btn-outline-success" onclick="viewHistoryCertificate(${record.program_id}, ${employeeId})"><i class="bi bi-file-earmark-text me-1"></i> View</button>`
+                            : '<span class="text-muted small">—</span>';
 
-                    return `
-                        <tr>
-                            <td class="fw-semibold">${record.training}</td>
-                            <td>${record.type}</td>
-                            <td>${record.dates}</td>
-                            <td><span class="badge ${statusClass}">${record.status}</span></td>
-                            <td>${record.score}</td>
-                            <td>${certificate}</td>
-                        </tr>`;
-                }).join("");
-            }
-
-            new bootstrap.Modal(document.getElementById("trainingHistoryModal")).show();
-        }
-
-        function showCertificateModal() {
-            new bootstrap.Modal(document.getElementById("certificateModal")).show();
-        }
-
-        function showCertificateModal() {
-            const certificateModal = new bootstrap.Modal(
-                document.getElementById("certificateModal")
-            );
-            certificateModal.show();
-        }
-
-        function viewCertificate(employeeName) {
-            const historyModalElement = document.getElementById("trainingHistoryModal");
-            const historyModal = bootstrap.Modal.getInstance(historyModalElement);
-
-            document.getElementById("certificateModalTitle").innerHTML =
-                '<i class="bi bi-file-earmark-text me-2"></i>Certificate';
-            document.getElementById("certificateEmployee").textContent = employeeName;
-            document.getElementById("viewCertificateSection").classList.remove("d-none");
-            document.getElementById("uploadCertificateSection").classList.add("d-none");
-            document.getElementById("uploadCertificateButton").classList.add("d-none");
-
-            if (historyModalElement.classList.contains("show") && historyModal) {
-                historyModalElement.addEventListener("hidden.bs.modal", showCertificateModal, { once: true });
-                historyModal.hide();
-            } else {
-                showCertificateModal();
-            }
-        }
-
-        function viewHistoryCertificate(employeeName) {
-            viewCertificate(employeeName);
-        }
-
-        function openCertificateUpload(employeeName) {
-            document.getElementById("certificateModalTitle").innerHTML =
-                '<i class="bi bi-upload me-2"></i>Upload Certificate';
-            document.getElementById("uploadEmployeeName").textContent = employeeName;
-            document.getElementById("certificateFile").value = "";
-            document.getElementById("viewCertificateSection").classList.add("d-none");
-            document.getElementById("uploadCertificateSection").classList.remove("d-none");
-            document.getElementById("uploadCertificateButton").classList.remove("d-none");
-            document.getElementById("uploadCertificateButton").dataset.employee = employeeName;
-            showCertificateModal();
-        }
-
-        function removeCertificate(employeeName) {
-            const confirmed = confirm(
-                "Are you sure you want to remove the certificate for " + employeeName + "?"
-            );
-
-            if (!confirmed) {
-                return;
-            }
-
-            document.querySelectorAll("#employeeTableBody tr").forEach(row => {
-                if (row.dataset.employee === employeeName) {
-                    row.children[5].innerHTML = `
-                        <button class="btn btn-sm btn-outline-primary"
-                            onclick="openCertificateUpload('${employeeName}')"
-                            title="Upload Certificate">
-                            <i class="bi bi-upload me-1"></i>
-                            Upload
-                        </button>`;
-                    row.dataset.certificate = "false";
+                        return `
+                            <tr>
+                                <td class="fw-semibold">${record.training_name}</td>
+                                <td>${record.training_type || "—"}</td>
+                                <td>${record.start_date || "—"} to ${record.end_date || "—"}</td>
+                                <td><span class="badge ${statusClass}">${record.status || "Pending"}</span></td>
+                                <td>${record.score !== null ? record.score : "—"}</td>
+                                <td>${cert}</td>
+                            </tr>
+                        `;
+                    }).join("");
                 }
-            });
 
-            if (typeof trainingHistory !== "undefined" && trainingHistory[employeeName]) {
-                trainingHistory[employeeName].forEach(record => {
-                    if (record.certificate === true) {
-                        record.certificate = false;
-                    }
-                });
+                bootstrap.Modal.getOrCreateInstance(document.getElementById("trainingHistoryModal")).show();
+            } catch (err) {
+                console.error("Training History Error:", err);
             }
-
-            alert("Certificate removed successfully.");
         }
 
-        function uploadCertificate() {
+        function viewCertificate(employeeId) {
+            if (!currentTrainingId || !employeeId) return;
+            window.open(`/api/training/${currentTrainingId}/employees/${employeeId}/certificate`, "_blank");
+        }
+
+        function viewHistoryCertificate(programId, employeeId) {
+            if (!programId || !employeeId) return;
+            window.open(`/api/training/${programId}/employees/${employeeId}/certificate`, "_blank");
+        }
+
+        function openCertificateUpload(employeeName, employeeId, employeeCode, department) {
+            document.getElementById("uploadEmployeeName").textContent = employeeName;
+            document.getElementById("uploadEmployeeId").textContent = employeeCode || "—";
+            document.getElementById("uploadEmployeeDepartment").textContent = department || "—";
+            document.getElementById("uploadTrainingName").textContent = document.getElementById("trainingName").textContent || "—";
+            document.getElementById("certificateFile").value = "";
+            document.getElementById("uploadCertificateButton").dataset.employeeId = employeeId;
+            bootstrap.Modal.getOrCreateInstance(document.getElementById("certificateModal")).show();
+        }
+
+        async function uploadCertificate() {
             const fileInput = document.getElementById("certificateFile");
             const file = fileInput.files[0];
-
             if (!file) {
                 alert("Please select a certificate file.");
                 return;
             }
 
-            const allowedTypes = ["application/pdf", "image/jpeg", "image/png"];
+            const employeeId = document.getElementById("uploadCertificateButton").dataset.employeeId;
+            const formData = new FormData();
+            formData.append("certificate", file);
 
-            if (!allowedTypes.includes(file.type)) {
-                alert("Please select a PDF, JPG, JPEG, or PNG certificate file.");
+            try {
+                const response = await fetch(`/api/training/${currentTrainingId}/employees/${employeeId}/certificate`, {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-Token": csrfToken
+                    },
+                    body: formData
+                });
+
+                const result = await response.json();
+                if (!response.ok) {
+                    alert(result.error || "Certificate upload failed.");
+                    return;
+                }
+
+                alert("Certificate uploaded successfully.");
+                bootstrap.Modal.getInstance(document.getElementById("certificateModal")).hide();
+                loadAssignedEmployees();
+            } catch (err) {
+                console.error("Certificate Upload Error:", err);
+                alert("Unable to upload certificate.");
+            }
+        }
+
+        async function removeCertificate(employeeName, employeeId) {
+            if (!confirm(`Are you sure you want to remove the certificate for ${employeeName}?`)) return;
+
+            try {
+                const response = await fetch(`/api/training/${currentTrainingId}/employees/${employeeId}/certificate`, {
+                    method: "DELETE",
+                    headers: {
+                        "X-CSRF-Token": csrfToken
+                    }
+                });
+
+                const result = await response.json();
+                if (!response.ok) {
+                    alert(result.error || "Failed to delete certificate.");
+                    return;
+                }
+
+                alert("Certificate removed successfully.");
+                loadAssignedEmployees();
+            } catch (err) {
+                console.error("Certificate Delete Error:", err);
+            }
+        }
+
+        // --- ATTENDANCE & SESSIONS ---
+        async function refreshSessionsDropdown(selectSessionId = null) {
+            const sessionSelect = document.getElementById("attendanceSessionSelect");
+            sessionSelect.innerHTML = '<option value="">Loading sessions...</option>';
+
+            try {
+                const response = await fetch(`/api/training/${currentTrainingId}/sessions`);
+                const sessions = await response.json();
+
+                sessionSelect.innerHTML = '<option value="">Select a session</option>';
+                if (!response.ok || !Array.isArray(sessions) || sessions.length === 0) {
+                    sessionSelect.innerHTML = '<option value="">No sessions created yet. Add a session below.</option>';
+                } else {
+                    sessions.forEach(s => {
+                        const opt = document.createElement("option");
+                        opt.value = s.session_id;
+                        const statusSuffix = s.status ? ` [${s.status}]` : "";
+                        opt.textContent = `${s.session_name || "Session"} — ${s.session_date} (${s.start_time || ""} - ${s.end_time || ""})${statusSuffix}`;
+                        sessionSelect.appendChild(opt);
+                    });
+                }
+
+                if (selectSessionId) {
+                    sessionSelect.value = String(selectSessionId);
+                    sessionSelect.dispatchEvent(new Event("change"));
+                }
+            } catch (err) {
+                console.error("Error refreshing sessions:", err);
+            }
+        }
+
+        async function openAttendanceModal() {
+            if (!currentTrainingId) return;
+
+            hideAddSessionForm();
+            await refreshSessionsDropdown();
+
+            document.getElementById("attendanceTableBody").innerHTML = '<tr><td colspan="5" class="text-center text-muted py-4">Select a training session to view attendance.</td></tr>';
+            bootstrap.Modal.getOrCreateInstance(document.getElementById("attendanceModal")).show();
+        }
+
+        async function openAddSessionDirectly() {
+            await openAttendanceModal();
+            showAddSessionForm();
+        }
+
+        function showAddSessionForm() {
+            document.getElementById("addSessionForm").classList.remove("d-none");
+        }
+
+        function hideAddSessionForm() {
+            document.getElementById("addSessionForm").classList.add("d-none");
+            document.getElementById("sessionDate").value = "";
+            document.getElementById("sessionName").value = "";
+            document.getElementById("sessionStartTime").value = "";
+            document.getElementById("sessionEndTime").value = "";
+        }
+
+        async function addTrainingSession() {
+            const sessionDate = document.getElementById("sessionDate").value;
+            const sessionName = document.getElementById("sessionName").value.trim();
+            const startTime = document.getElementById("sessionStartTime").value;
+            const endTime = document.getElementById("sessionEndTime").value;
+
+            if (!sessionDate) {
+                alert("Session Date is required.");
                 return;
             }
 
-            const employeeName = document.getElementById("uploadCertificateButton").dataset.employee;
+            try {
+                const response = await fetch(`/api/training/${currentTrainingId}/sessions`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-Token": csrfToken
+                    },
+                    body: JSON.stringify({
+                        session_date: sessionDate,
+                        session_name: sessionName,
+                        start_time: startTime || null,
+                        end_time: endTime || null
+                    })
+                });
 
-            document.querySelectorAll("#employeeTableBody tr").forEach(row => {
-                if (row.dataset.employee === employeeName) {
-                    row.children[5].innerHTML = `
-                        <div class="d-flex gap-1">
-                            <button class="btn btn-sm btn-outline-success"
-                                onclick="viewCertificate('${employeeName}')"
-                                title="View Certificate">
-                                <i class="bi bi-eye"></i>
-                            </button>
-                            <button class="btn btn-sm btn-outline-danger"
-                                onclick="removeCertificate('${employeeName}')"
-                                title="Remove Certificate">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </div>`;
-                    row.dataset.certificate = "true";
+                const result = await response.json();
+                if (!response.ok) {
+                    alert(result.error || "Failed to add session.");
+                    return;
                 }
-            });
 
-            bootstrap.Modal.getInstance(document.getElementById("certificateModal")).hide();
-            alert("Certificate selected successfully: " + file.name);
+                alert("Training session added successfully!");
+                hideAddSessionForm();
+                // Refresh sessions and select the newly created session without triggering a new modal backdrop
+                await refreshSessionsDropdown(result.session_id);
+            } catch (err) {
+                console.error("Add Session Error:", err);
+            }
         }
-    </script>
 
+        document.getElementById("attendanceSessionSelect").addEventListener("change", async function () {
+            const sessionId = this.value;
+            const tableBody = document.getElementById("attendanceTableBody");
+
+            if (!sessionId) {
+                tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-4">Select a training session.</td></tr>';
+                return;
+            }
+
+            tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4"><div class="spinner-border spinner-border-sm me-2"></div> Loading attendance...</td></tr>';
+
+            try {
+                const response = await fetch(`/api/training/${currentTrainingId}/sessions/${sessionId}/attendance`);
+                const attendance = await response.json();
+
+                if (!response.ok || attendance.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-4">No employees assigned to this training.</td></tr>';
+                    return;
+                }
+
+                const rows = await Promise.all(attendance.map(async emp => {
+                    const scoreRes = await fetch(`/api/training/${currentTrainingId}/employees/${emp.employee_id}/attendance-score`);
+                    const scoreData = await scoreRes.json();
+                    const attScore = scoreData.attendance_score;
+                    const status = emp.attendance_status || "Not Marked";
+
+                    const scoreHtml = (attScore !== null && attScore !== undefined)
+                        ? `<strong>${Number(attScore).toFixed(2)}%</strong>`
+                        : `<span class="text-muted">Pending</span>`;
+
+                    return `
+                        <tr>
+                            <td><strong>${emp.employee_code}</strong></td>
+                            <td><span class="fw-semibold">${emp.employee_name}</span></td>
+                            <td>${emp.department}</td>
+                            <td>
+                                <select class="form-select form-select-sm" onchange="markAttendance(${currentTrainingId}, ${sessionId}, ${emp.employee_id}, this.value)">
+                                    <option value="Not Marked" ${status === "Not Marked" ? "selected" : ""}>Not Marked</option>
+                                    <option value="Attended" ${status === "Attended" ? "selected" : ""}>Attended</option>
+                                    <option value="Absent" ${status === "Absent" ? "selected" : ""}>Absent</option>
+                                    <option value="Approved Leave" ${status === "Approved Leave" ? "selected" : ""}>Approved Leave</option>
+                                </select>
+                            </td>
+                            <td id="att-score-${emp.employee_id}">${scoreHtml}</td>
+                        </tr>
+                    `;
+                }));
+
+                tableBody.innerHTML = rows.join("");
+            } catch (err) {
+                console.error("Attendance Load Error:", err);
+                tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger py-4">Failed to load attendance.</td></tr>';
+            }
+        });
+
+        async function markAttendance(trainingId, sessionId, employeeId, status) {
+            const scoreCell = document.getElementById(`att-score-${employeeId}`);
+            if (scoreCell) {
+                scoreCell.innerHTML = '<div class="spinner-border spinner-border-sm text-secondary" role="status"></div>';
+            }
+
+            try {
+                const response = await fetch(`/api/training/${trainingId}/sessions/${sessionId}/attendance`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-Token": csrfToken
+                    },
+                    body: JSON.stringify({
+                        employee_id: employeeId,
+                        attendance_status: status
+                    })
+                });
+
+                const result = await response.json();
+                if (!response.ok) {
+                    alert(result.error || "Failed to mark attendance.");
+                    if (scoreCell) scoreCell.innerHTML = '<span class="text-danger">Error</span>';
+                    return;
+                }
+
+                // Immediately display updated attendance score in real time
+                if (scoreCell) {
+                    if (result.attendance_score !== null && result.attendance_score !== undefined) {
+                        scoreCell.innerHTML = `<strong>${Number(result.attendance_score).toFixed(2)}%</strong>`;
+                    } else {
+                        scoreCell.innerHTML = `<span class="text-muted">Pending</span>`;
+                    }
+                }
+
+                // Refresh main employee table in the background
+                loadAssignedEmployees();
+            } catch (err) {
+                console.error("Attendance Mark Error:", err);
+                if (scoreCell) scoreCell.innerHTML = '<span class="text-danger">Error</span>';
+            }
+        }
+
+        // Global modal backdrop cleanup safety
+        document.addEventListener("hidden.bs.modal", function () {
+            if (!document.querySelector(".modal.show")) {
+                document.querySelectorAll(".modal-backdrop").forEach(el => el.remove());
+                document.body.classList.remove("modal-open");
+                document.body.style.removeProperty("overflow");
+                document.body.style.removeProperty("padding-right");
+            }
+        });
+    </script>
 </body>
 
 </html>

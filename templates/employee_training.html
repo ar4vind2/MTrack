@@ -3,27 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="user-role" content="{{ (session.get('role_name') or 'employee').lower() }}">
     <title>Training & Certification - Muthoot Employee Appraisal System</title>
+
+    <!-- Google Fonts Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Google Fonts Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Custom Muthoot Minimal CSS -->
-    <link rel="stylesheet" href="../static/css/style.css">
+    <!-- Custom Muthoot Stitch CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
     <!-- Mobile Backdrop Overlay -->
     <div class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
 
-    <!-- --- SIDEBAR WITH INSIDE TOGGLE BUTTON --- -->
+    <!-- --- SIDEBAR --- -->
     <aside class="sidebar">
         <div class="brand">
             <div class="brand-logo-container">
-                <img src="../static/images/muthoot-logo.png" alt="Muthoot Finance Logo" class="brand-full-logo">
-                <img src="../static/images/muthoot-logo-toggle.png" alt="Muthoot Finance Icon" class="brand-icon-logo">
+                <img src="{{ url_for('static', filename='images/muthoot-logo.png') }}" alt="Muthoot Finance Logo" class="brand-full-logo">
+                <img src="{{ url_for('static', filename='images/muthoot-logo-toggle.png') }}" alt="Muthoot Finance Icon" class="brand-icon-logo">
             </div>
             <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
                 <i class="bi bi-chevron-left"></i>
@@ -31,16 +35,51 @@
         </div>
         
         <ul class="menu" id="sidebarMenu">
+            {% set r_lower = (session.get('role_name') or 'employee').lower() %}
+            {% if 'manager' in r_lower or 'lead' in r_lower or 'supervisor' in r_lower %}
+            <div class="menu-section-header">Manager Overview</div>
+            <li onclick="window.location.href='/manager-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li onclick="window.location.href='/manager/appraisal'"><i class="bi bi-clipboard-check"></i> <span>Manager Appraisal</span></li>
+            <li onclick="window.location.href='/team-evaluation'"><i class="bi bi-people"></i> <span>Team Evaluation</span></li>
+            <li onclick="window.location.href='/review-appraisal'"><i class="bi bi-clipboard-data"></i> <span>Review Appraisal</span></li>
+            <li onclick="window.location.href='/review-attendance'"><i class="bi bi-calendar-range"></i> <span>Review Attendance</span></li>
+            <li onclick="window.location.href='/behaviour-rating'"><i class="bi bi-star-half"></i> <span>Behaviour Rating</span></li>
+            <li onclick="window.location.href='/feedback-360'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
+            <li onclick="window.location.href='/approve-leaves'"><i class="bi bi-calendar-check"></i> <span>Approve Leaves</span></li>
+            <div class="menu-section-header">Self Service</div>
+            <li onclick="window.location.href='/my-appraisals'"><i class="bi bi-award"></i> <span>My Appraisals</span></li>
+            <li onclick="window.location.href='/self-appraisal'"><i class="bi bi-person-badge"></i> <span>Self-Appraisal</span></li>
+            <li onclick="window.location.href='/employee-goals'"><i class="bi bi-bullseye"></i> <span>Goals & KRAs</span></li>
+            <li onclick="window.location.href='/employee-attendance'"><i class="bi bi-calendar-check"></i> <span>Attendance</span></li>
+            <li onclick="window.location.href='/leave-request'"><i class="bi bi-calendar-plus"></i> <span>Leave Request</span></li>
+            <li onclick="window.location.href='/requested-leaves'"><i class="bi bi-clock-history"></i> <span>My Leave Requests</span></li>
+            <li class="active" onclick="window.location.href='/employee-training'"><i class="bi bi-mortarboard"></i> <span>Training</span></li>
+            {% elif 'hr' in r_lower or 'admin' in r_lower or 'human' in r_lower %}
+            <div class="menu-section-header">HR Administration</div>
+            <li onclick="window.location.href='/hr-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li onclick="window.location.href='/performance-results'"><i class="bi bi-award"></i> <span>Performance Results</span></li>
+            <li onclick="window.location.href='/manage-training'"><i class="bi bi-mortarboard-fill"></i> <span>Manage Training</span></li>
+            <li onclick="window.location.href='/feedback-360'"><i class="bi bi-chat-square-text"></i> <span>360 Feedback</span></li>
+            <li onclick="window.location.href='/approve-leaves'"><i class="bi bi-calendar-check"></i> <span>Approve Leaves</span></li>
+            {% else %}
             <div class="menu-section-header">Main Menu</div>
-            <li onclick="window.location.href='employee_dashboard.html'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
-            <li onclick="window.location.href='my_appraisals.html'"><i class="bi bi-clipboard-check"></i> <span>My Appraisals</span></li>
-            <li onclick="window.location.href='employee_goals.html'"><i class="bi bi-bullseye"></i> <span>Goals & KRAs</span></li>
-            <li onclick="window.location.href='employee_attendance.html'"><i class="bi bi-calendar-check"></i> <span>Attendance</span></li>
-            <li class="active" onclick="window.location.href='employee_training.html'"><i class="bi bi-mortarboard"></i> <span>Training</span></li>
+            <li onclick="window.location.href='/employee-dashboard'"><i class="bi bi-grid-fill"></i> <span>Dashboard</span></li>
+            <li onclick="window.location.href='/my-appraisals'"><i class="bi bi-clipboard-check"></i> <span>My Appraisals</span></li>
+            <li onclick="window.location.href='/self-appraisal'"><i class="bi bi-person-badge"></i> <span>Self-Appraisal</span></li>
+            <li onclick="window.location.href='/employee-goals'"><i class="bi bi-bullseye"></i> <span>Goals & KRAs</span></li>
+            <li onclick="window.location.href='/employee-attendance'"><i class="bi bi-calendar-check"></i> <span>Attendance</span></li>
+            <li onclick="window.location.href='/leave-request'"><i class="bi bi-calendar-plus"></i> <span>Leave Request</span></li>
+            <li onclick="window.location.href='/requested-leaves'"><i class="bi bi-clock-history"></i> <span>My Leave Requests</span></li>
+            <li class="active" onclick="window.location.href='/employee-training'"><i class="bi bi-mortarboard"></i> <span>Training</span></li>
+            {% endif %}
             <div class="menu-section-header">Account</div>
-            <li onclick="window.location.href='profile.html'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
-            <li onclick="window.location.href='index.html'"><i class="bi bi-box-arrow-right"></i> <span>Portal Home</span></li>
+            <li onclick="window.location.href='/profile'"><i class="bi bi-person-circle"></i> <span>My Profile</span></li>
+            <li onclick="window.location.href='/logout'"><i class="bi bi-box-arrow-right"></i> <span>Sign Out</span></li>
         </ul>
+        <div class="sidebar-footer-badge">
+            <span>System Build v4.8.2</span>
+            <span class="status-pill">Stable</span>
+        </div>
     </aside>
 
     <!-- --- MAIN CONTENT WRAPPER --- -->
@@ -52,64 +91,281 @@
                 <button class="topbar-icon-btn d-lg-none" onclick="toggleSidebar()" title="Open Menu">
                     <i class="bi bi-list"></i>
                 </button>
-                <h4>Training & Skill Certifications <span class="text-muted fs-6 font-normal">(Arjun Kumar)</span></h4>
+                <h4>Training & Skill Certifications</h4>
             </div>
             <div class="topbar-right">
                 <div class="topbar-icons">
                     <button class="topbar-icon-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#notificationDrawer" title="Notifications">
                         <i class="bi bi-bell"></i>
-                        <span class="notification-badge" id="unreadBadge">2</span>
+                        <span class="notification-badge" id="unreadBadge" style="display: none;">0</span>
                     </button>
                 </div>
                 
-                <div class="user-badge" onclick="window.location.href='profile.html'" style="cursor: pointer;">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100" alt="Arjun Kumar">
+                <div class="user-badge" onclick="window.location.href='{{ url_for('dashboard.profile') }}'" style="cursor: pointer;">
+                    <div class="user-avatar-circle">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
                     <div class="user-badge-info">
-                        <span class="user-badge-name">Arjun Kumar</span>
-                        <span class="user-badge-role">Kochi Branch</span>
+                        <span class="user-badge-name">{{ session.get('username', 'Employee') }}</span>
+                        <span class="user-badge-role">{{ session.get('role_name', 'Employee') }}</span>
                     </div>
                 </div>
             </div>
         </nav>
 
-        <!-- --- TRAINING CARDS --- -->
-        <div class="card-muthoot mb-4">
-            <div class="card-title-muthoot">
-                <span><i class="bi bi-mortarboard-fill me-2"></i> Mandatory Corporate & Technical Training</span>
-            </div>
-
-            <div class="row g-4 mt-1">
-                <div class="col-md-6">
-                    <div class="p-3 border rounded-3 bg-light">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h6 class="fw-bold mb-0 text-danger">Anti-Money Laundering (AML) 2026</h6>
-                            <span class="badge bg-success">Completed</span>
-                        </div>
-                        <p class="text-muted fs-7 mb-3">Compliance & Financial Fraud Prevention Guidelines for Muthoot Finance branches.</p>
-                        <div class="d-flex justify-content-between align-items-center fs-7">
-                            <span class="text-muted">Completed Date: 15 Jun 2026</span>
-                            <button class="btn btn-sm btn-muthoot" onclick="alert('Downloading Certificate for AML 2026...')"><i class="bi bi-download me-1"></i> Certificate</button>
-                        </div>
+        <!-- --- STITCH QUICK METRICS BENTO BANNER --- -->
+        <div class="row g-3 mb-4">
+            <div class="col-sm-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h6>Assigned Programs</h6>
+                        <h2>{{ trainings|length if trainings else 0 }}</h2>
+                        <small class="text-muted"><i class="bi bi-book me-1"></i> Development Catalog</small>
+                    </div>
+                    <div class="stat-icon red-icon">
+                        <i class="bi bi-mortarboard-fill"></i>
                     </div>
                 </div>
-
-                <div class="col-md-6">
-                    <div class="p-3 border rounded-3 bg-light">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h6 class="fw-bold mb-0 text-dark">Gold Loan Audit & Verification Standard</h6>
-                            <span class="badge bg-success">Completed</span>
-                        </div>
-                        <p class="text-muted fs-7 mb-3">Security and valuation process standards for gold collateral handling.</p>
-                        <div class="d-flex justify-content-between align-items-center fs-7">
-                            <span class="text-muted">Completed Date: 10 May 2026</span>
-                            <button class="btn btn-sm btn-muthoot" onclick="alert('Downloading Certificate...')"><i class="bi bi-download me-1"></i> Certificate</button>
-                        </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h6>Completed Modules</h6>
+                        <h2>
+                            {% set comp_val = namespace(v=0) %}
+                            {% if trainings %}
+                                {% for t in trainings %}
+                                    {% if t.status == 'Completed' %}
+                                        {% set comp_val.v = comp_val.v + 1 %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            {{ comp_val.v }}
+                        </h2>
+                        <small class="text-success"><i class="bi bi-check-circle me-1"></i> Certified</small>
+                    </div>
+                    <div class="stat-icon green-icon">
+                        <i class="bi bi-award-fill"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h6>In Progress</h6>
+                        <h2>
+                            {% set inprog_val = namespace(v=0) %}
+                            {% if trainings %}
+                                {% for t in trainings %}
+                                    {% if t.status == 'In Progress' %}
+                                        {% set inprog_val.v = inprog_val.v + 1 %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            {{ inprog_val.v }}
+                        </h2>
+                        <small class="text-warning"><i class="bi bi-clock-history me-1"></i> Active Modules</small>
+                    </div>
+                    <div class="stat-icon amber-icon">
+                        <i class="bi bi-hourglass-split"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="stat-card gold-border">
+                    <div class="stat-info">
+                        <h6>Skill Index</h6>
+                        <h2>92.5%</h2>
+                        <small class="text-muted"><i class="bi bi-stars me-1"></i> Technical Proficiency</small>
+                    </div>
+                    <div class="stat-icon red-icon">
+                        <i class="bi bi-patch-check"></i>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- --- TRAINING CARDS --- -->
+        <div class="card-muthoot mb-4">
+            <div class="card-title-muthoot">
+                <span><i class="bi bi-mortarboard-fill me-2 text-danger"></i> Mandatory Corporate & Technical Training</span>
+                <span class="badge bg-light text-dark border px-3 py-1">
+                    {{ trainings|length if trainings else 0 }} Assigned
+                </span>
+            </div>
+
+            <div class="row g-4 mt-1">
+                {% if trainings and trainings|length > 0 %}
+                    {% for t in trainings %}
+                    <div class="col-md-6">
+                        <div class="p-3 border rounded-3 bg-light h-100 d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h6 class="fw-bold mb-0 text-dark">{{ t.training_name }}</h6>
+                                    <span class="badge {% if t.status == 'Completed' %}bg-success-subtle text-success border border-success{% elif t.status == 'In Progress' %}bg-primary-subtle text-primary border border-primary{% else %}bg-warning-subtle text-warning-emphasis border border-warning{% endif %} px-2 py-1 rounded-pill ms-2">
+                                        {{ t.status }}
+                                    </span>
+                                </div>
+                                <p class="text-muted fs-7 mb-2"><strong>Trainer:</strong> {{ t.trainer_name or 'Muthoot Training Division' }} | <strong>Type:</strong> {{ t.training_type }}</p>
+                                {% if t.remarks and t.remarks != 'No specific remarks or description provided.' %}
+                                <p class="text-secondary small mb-2 text-truncate" title="{{ t.remarks }}">
+                                    <i class="bi bi-info-circle me-1 text-danger"></i> {{ t.remarks }}
+                                </p>
+                                {% endif %}
+                                <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                                    <span class="badge bg-white text-secondary border fs-7">
+                                        <i class="bi bi-calendar3 me-1"></i> {{ t.sessions|length }} Session{% if t.sessions|length != 1 %}s{% endif %}
+                                    </span>
+                                    {% if t.sessions and t.sessions|length > 0 %}
+                                    <span class="badge bg-white text-success border fs-7">
+                                        <i class="bi bi-check2-circle me-1"></i> {{ t.attended_sessions }}/{{ t.sessions|length }} Attended
+                                    </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 fs-7 pt-2 border-top mt-2">
+                                <span class="text-muted">
+                                    {% if t.start_date and t.end_date %}
+                                        {{ t.start_date }} - {{ t.end_date }}
+                                    {% elif t.start_date %}
+                                        Started: {{ t.start_date }}
+                                    {% else %}
+                                        Scheduled
+                                    {% endif %}
+                                    {% if t.score is not none %} | Score: <strong class="text-success">{{ t.score }}%</strong>{% endif %}
+                                </span>
+                                <div class="d-flex align-items-center gap-2 flex-wrap">
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="viewTrainingDetailsModal({{ loop.index0 }})" title="View program details & session schedule">
+                                        <i class="bi bi-calendar-event me-1"></i> Details & Sessions
+                                    </button>
+                                    {% if t.certificate and t.program_id and employee_id %}
+                                        <a href="/api/training/{{ t.program_id }}/employees/{{ employee_id }}/certificate" target="_blank" class="btn btn-sm btn-muthoot">
+                                            <i class="bi bi-download me-1"></i> Certificate
+                                        </a>
+                                    {% else %}
+                                        <span class="badge bg-light text-muted border py-1 px-2" title="Certificates are issued directly by HR upon completion">
+                                            <i class="bi bi-clock me-1"></i> Certificate Pending HR Issuance
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-12">
+                        <div class="text-center py-5 text-muted">
+                            <i class="bi bi-mortarboard fs-1 d-block mb-3 text-secondary"></i>
+                            <h6 class="fw-bold">No Training Programs Assigned</h6>
+                            <p class="mb-0 fs-7">No corporate training programs are currently assigned to your profile.</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
     </main>
+
+    <!-- --- TRAINING DETAILS & SESSIONS MODAL FOR EMPLOYEES --- -->
+    <div class="modal fade" id="trainingDetailsModal" tabindex="-1" aria-labelledby="trainingDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-danger text-white rounded-top-4">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-mortarboard-fill fs-5"></i>
+                        <div>
+                            <h5 class="modal-title fw-bold text-white mb-0" id="modalTrainingName">Training Program Details</h5>
+                            <span class="badge bg-white text-danger mt-1 fs-7" id="modalTrainingCode">—</span>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <!-- PROGRAM OVERVIEW -->
+                    <div class="card bg-light border-0 rounded-3 p-3 mb-4">
+                        <h6 class="fw-bold text-dark mb-3"><i class="bi bi-info-circle text-danger me-2"></i> Program Information</h6>
+                        <div class="row g-3 fs-7">
+                            <div class="col-sm-6 col-md-3">
+                                <span class="text-muted d-block small">Training Type</span>
+                                <strong id="modalTrainingType" class="text-dark">—</strong>
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <span class="text-muted d-block small">Trainer / Division</span>
+                                <strong id="modalTrainer" class="text-dark">—</strong>
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <span class="text-muted d-block small">Timeline</span>
+                                <strong id="modalDateRange" class="text-dark">—</strong>
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <span class="text-muted d-block small">Overall Status</span>
+                                <div><span id="modalStatusBadge" class="badge bg-secondary">—</span></div>
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <span class="text-muted d-block small">Evaluation Score</span>
+                                <strong id="modalScore" class="text-dark">—</strong>
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <span class="text-muted d-block small">Attendance Rate</span>
+                                <strong id="modalAttendanceRate" class="text-dark">—</strong>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <span class="text-muted d-block small">Certificate</span>
+                                <div id="modalCertContainer" class="mt-1">—</div>
+                            </div>
+                            <div class="col-12 mt-2 pt-2 border-top">
+                                <span class="text-muted d-block small mb-1">Description / Remarks:</span>
+                                <div id="modalRemarks" class="text-secondary bg-white p-2 rounded border small">—</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SESSIONS SCHEDULE -->
+                    <div class="mb-2">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="fw-bold text-dark mb-0">
+                                <i class="bi bi-calendar-week text-danger me-2"></i> Sessions Schedule & Attendance
+                            </h6>
+                            <span class="badge bg-danger-subtle text-danger border border-danger" id="modalSessionCountBadge">0 Sessions</span>
+                        </div>
+
+                        <!-- Session Summary Stats -->
+                        <div class="d-flex flex-wrap gap-2 mb-3" id="modalSessionSummaryPills">
+                            <span class="badge bg-light text-dark border px-2 py-1" id="pillAttended">Attended: 0</span>
+                            <span class="badge bg-light text-dark border px-2 py-1" id="pillAbsent">Absent: 0</span>
+                            <span class="badge bg-light text-dark border px-2 py-1" id="pillLeave">Leave: 0</span>
+                            <span class="badge bg-light text-dark border px-2 py-1" id="pillPending">Scheduled: 0</span>
+                        </div>
+
+                        <div class="table-responsive border rounded-3" id="modalSessionsTableContainer">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr class="fs-7 text-muted">
+                                        <th style="width: 50px;">#</th>
+                                        <th>Session Name</th>
+                                        <th>Date</th>
+                                        <th>Timing</th>
+                                        <th>Session Status</th>
+                                        <th>My Attendance</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="modalSessionsTableBody" class="fs-7">
+                                    <!-- Rendered dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="noSessionsAlert" class="alert alert-light border text-center text-muted mt-3 d-none">
+                            <i class="bi bi-calendar-x fs-4 d-block mb-1 text-secondary"></i>
+                            No sessions scheduled for this training program yet.
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- --- NOTIFICATIONS OFFCANVAS DRAWER --- -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="notificationDrawer">
@@ -124,6 +380,155 @@
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../static/js/dashboard.js"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script>
+        const trainingsData = {{ trainings|tojson }};
+        const currentEmployeeId = {{ employee_id|tojson }};
+
+        function viewTrainingDetailsModal(index) {
+            const t = trainingsData[index];
+            if (!t) return;
+            populateModalData(t);
+        }
+
+        function openTrainingById(programId) {
+            const t = trainingsData.find(item => String(item.program_id) === String(programId) || String(item.training_id) === String(programId));
+            if (t) {
+                populateModalData(t);
+            }
+        }
+
+        function populateModalData(t) {
+            document.getElementById("modalTrainingName").textContent = t.training_name || "Training Details";
+            document.getElementById("modalTrainingCode").textContent = t.program_code || ("TR" + String(t.program_id || t.training_id).padStart(3, "0"));
+            document.getElementById("modalTrainingType").textContent = t.training_type || "—";
+            document.getElementById("modalTrainer").textContent = t.trainer_name || "Muthoot Training Division";
+
+            let dates = "Scheduled";
+            if (t.start_date && t.end_date) {
+                dates = `${t.start_date} - ${t.end_date}`;
+            } else if (t.start_date) {
+                dates = `Started: ${t.start_date}`;
+            }
+            document.getElementById("modalDateRange").textContent = dates;
+
+            const statusBadge = document.getElementById("modalStatusBadge");
+            statusBadge.textContent = t.status || "Pending";
+            if (t.status === "Completed") {
+                statusBadge.className = "badge bg-success-subtle text-success border border-success";
+            } else if (t.status === "In Progress") {
+                statusBadge.className = "badge bg-primary-subtle text-primary border border-primary";
+            } else {
+                statusBadge.className = "badge bg-warning-subtle text-warning-emphasis border border-warning";
+            }
+
+            document.getElementById("modalScore").textContent = t.score !== null && t.score !== undefined ? `${t.score}%` : "Not evaluated yet";
+            document.getElementById("modalRemarks").textContent = t.remarks || "No specific remarks or description provided.";
+
+            const certContainer = document.getElementById("modalCertContainer");
+            if (t.certificate && t.program_id && currentEmployeeId) {
+                certContainer.innerHTML = `
+                    <a href="/api/training/${t.program_id}/employees/${currentEmployeeId}/certificate" target="_blank" class="btn btn-sm btn-muthoot">
+                        <i class="bi bi-download me-1"></i> Download Certificate
+                    </a>
+                `;
+            } else {
+                certContainer.innerHTML = `
+                    <span class="badge bg-light text-muted border py-1 px-2" title="Certificates are issued directly by HR upon completion">
+                        <i class="bi bi-clock me-1"></i> Certificate Pending HR Issuance
+                    </span>
+                `;
+            }
+
+            const sessions = t.sessions || [];
+            document.getElementById("modalSessionCountBadge").textContent = `${sessions.length} Session${sessions.length !== 1 ? 's' : ''}`;
+
+            let attended = 0, absent = 0, leave = 0, pending = 0;
+            const tbody = document.getElementById("modalSessionsTableBody");
+            tbody.innerHTML = "";
+
+            if (sessions.length === 0) {
+                document.getElementById("noSessionsAlert").classList.remove("d-none");
+                document.getElementById("modalSessionsTableContainer").classList.add("d-none");
+            } else {
+                document.getElementById("noSessionsAlert").classList.add("d-none");
+                document.getElementById("modalSessionsTableContainer").classList.remove("d-none");
+
+                sessions.forEach((s, idx) => {
+                    const att = s.attendance_status || "Not Marked";
+                    let attBadge = '<span class="badge bg-secondary-subtle text-secondary border">Not Marked</span>';
+                    if (att === "Attended") {
+                        attended++;
+                        attBadge = '<span class="badge bg-success-subtle text-success border border-success"><i class="bi bi-check-circle me-1"></i> Attended</span>';
+                    } else if (att === "Absent") {
+                        absent++;
+                        attBadge = '<span class="badge bg-danger-subtle text-danger border border-danger"><i class="bi bi-x-circle me-1"></i> Absent</span>';
+                    } else if (att === "Approved Leave") {
+                        leave++;
+                        attBadge = '<span class="badge bg-info-subtle text-info-emphasis border border-info"><i class="bi bi-file-earmark-check me-1"></i> Approved Leave</span>';
+                    } else {
+                        pending++;
+                    }
+
+                    const sStatus = s.status || "Pending";
+                    let sessStatusBadge = '<span class="badge bg-light text-secondary border">Pending</span>';
+                    if (sStatus === "Completed") {
+                        sessStatusBadge = '<span class="badge bg-light text-success border border-success-subtle">Completed</span>';
+                    } else if (sStatus === "In Progress") {
+                        sessStatusBadge = '<span class="badge bg-primary-subtle text-primary border border-primary-subtle">In Progress</span>';
+                    }
+
+                    const timeStr = (s.start_time && s.end_time)
+                        ? `${s.start_time} - ${s.end_time}`
+                        : (s.start_time || "—");
+
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td class="text-muted">${idx + 1}</td>
+                        <td class="fw-semibold text-dark">${s.session_name || 'Session ' + (idx + 1)}</td>
+                        <td><i class="bi bi-calendar3 me-1 text-muted"></i> ${s.session_date || '—'}</td>
+                        <td><i class="bi bi-clock me-1 text-muted"></i> ${timeStr}</td>
+                        <td>${sessStatusBadge}</td>
+                        <td>${attBadge}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            document.getElementById("pillAttended").innerHTML = `<i class="bi bi-check-circle-fill text-success me-1"></i> Attended: <strong>${attended}</strong>`;
+            document.getElementById("pillAbsent").innerHTML = `<i class="bi bi-x-circle-fill text-danger me-1"></i> Absent: <strong>${absent}</strong>`;
+            document.getElementById("pillLeave").innerHTML = `<i class="bi bi-info-circle-fill text-info me-1"></i> Leave: <strong>${leave}</strong>`;
+            document.getElementById("pillPending").innerHTML = `<i class="bi bi-clock text-secondary me-1"></i> Scheduled: <strong>${pending}</strong>`;
+
+            const evaluated = attended + absent;
+            if (evaluated > 0) {
+                const rate = ((attended / evaluated) * 100).toFixed(1);
+                document.getElementById("modalAttendanceRate").textContent = `${rate}% (${attended}/${evaluated})`;
+            } else {
+                document.getElementById("modalAttendanceRate").textContent = "No sessions evaluated yet";
+            }
+
+            const modalEl = document.getElementById("trainingDetailsModal");
+            const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+            modal.show();
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            const progId = params.get("program_id");
+            if (progId) {
+                openTrainingById(progId);
+            }
+        });
+
+        document.addEventListener("hidden.bs.modal", function () {
+            if (!document.querySelector(".modal.show")) {
+                document.querySelectorAll(".modal-backdrop").forEach(el => el.remove());
+                document.body.classList.remove("modal-open");
+                document.body.style.removeProperty("overflow");
+                document.body.style.removeProperty("padding-right");
+            }
+        });
+    </script>
 </body>
 </html>

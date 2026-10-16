@@ -40,10 +40,13 @@ def login():
                 u.username,
                 u.password,
                 u.role_id,
-                r.role_name
+                r.role_name,
+                e.employee_id
             FROM users u
             INNER JOIN roles r
                 ON u.role_id = r.role_id
+            LEFT JOIN employees e
+                ON u.user_id = e.user_id
             WHERE LOWER(u.username) = LOWER(%s)
         """, (username,))
 
@@ -63,7 +66,8 @@ def login():
             username,
             password_hash,
             role_id,
-            role_name
+            role_name,
+            employee_id
         ) = user
 
         # Verify hashed password
@@ -84,6 +88,8 @@ def login():
         session["username"] = username
         session["role_id"] = role_id
         session["role_name"] = role_name
+        if employee_id:
+            session["employee_id"] = employee_id
 
         return jsonify({
 
@@ -95,7 +101,8 @@ def login():
                 "user_id": user_id,
                 "username": username,
                 "role_id": role_id,
-                "role": role_name
+                "role": role_name,
+                "employee_id": employee_id
             }
 
         }), 200
@@ -115,7 +122,7 @@ def login():
             connection.close()
 
 
-@auth_bp.route("/logout", methods=["POST"])
+@auth_bp.route("/logout", methods=["GET", "POST"])
 def logout():
 
     session.clear()
